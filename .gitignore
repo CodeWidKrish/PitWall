@@ -1,0 +1,45 @@
+# Internal notes and working files (kept local)
+docs/PLAN.md
+prototype/pitwall-prototype.html
+
+# Licensed 3D assets: never commit, they are loaded from private storage
+*.glb
+*.gltf
+*.fbx
+*.blend
+*.blend1
+assets-private/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Data caches (FastF1 can be several GB)
+cache/
+fastf1_cache/
+data/raw/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
