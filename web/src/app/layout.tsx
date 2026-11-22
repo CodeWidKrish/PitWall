@@ -51,6 +51,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${archivo.variable} ${instrumentSerif.variable} ${plexMono.variable} h-full antialiased`}
+      // Browser extensions often add attributes to <html> before React loads.
+      // This only ignores attribute differences on this one element.
+      suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col">{children}</body>
     </html>
