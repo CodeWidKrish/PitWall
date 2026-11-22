@@ -7,12 +7,12 @@ requires-python = ">=3.12,<3.13"
 license = "MIT"
 authors = [{ name = "Krish Hingu" }]
 dependencies = [
-    "fastf1>=3.6",
     "pandas>=2.2",
     "numpy>=2.0",
     "scikit-learn>=1.5",
     "lightgbm>=4.5",
     "requests>=2.32",
+    "pyarrow>=17",
 ]
 
 [project.scripts]
@@ -48,7 +48,7 @@ mypy_path = "src"
 packages = ["pitwall"]
 
 [[tool.mypy.overrides]]
-module = ["fastf1.*", "lightgbm.*", "sklearn.*"]
+module = ["lightgbm.*", "sklearn.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

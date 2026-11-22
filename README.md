@@ -4,7 +4,7 @@
 
 PitWall is an AI/ML Formula 1 forecaster. It predicts win odds for every driver at every race of the 2027 season, simulates the championship 10,000 times, publishes each forecast before the race and scores itself in public afterwards.
 
-> Status: in development, phase 1 of 7 (setup) done. The interactive design prototype is in [`prototype/`](prototype/). Open `prototype/index.html` in a browser.
+> Status: in development. Phases 1 (setup) and 2 (data) are done. The interactive design prototype is in [`prototype/`](prototype/). Open `prototype/index.html` in a browser.
 
 ![PitWall prototype hero](prototype/screen-hero-v3.png)
 
@@ -21,7 +21,7 @@ PitWall is an AI/ML Formula 1 forecaster. It predicts win odds for every driver 
 
 | Layer | Tools |
 |---|---|
-| Data | FastF1 (timing, qualifying, practice pace, weather) and the Jolpica API (results since 1950) |
+| Data | Jolpica API (results, qualifying, sprints) and the Open-Meteo archive (race-day weather), 2018–2026 |
 | Model | Elo and grid baselines, a LightGBM ranking model, Monte Carlo season simulation |
 | Evaluation | Rolling backtest, Brier score, calibration, winner hit rate |
 | Pipeline | GitHub Actions runs after each race weekend and publishes JSON |

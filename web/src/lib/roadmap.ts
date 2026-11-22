@@ -26,9 +26,9 @@ export const PHASES: readonly Phase[] = [
   {
     id: 2,
     title: "Data",
-    summary: "Timing, results and weather for 2018–2026 from FastF1 and Jolpica.",
-    window: "23–25 Nov",
-    status: "next",
+    summary: "Every race from 2018 to 2026: results, qualifying, sprints and race-day weather.",
+    window: "22 Nov",
+    status: "done",
   },
   {
     id: 3,

@@ -43,3 +43,6 @@ Thumbs.db
 desktop.ini
 .vscode/
 .idea/
+
+# Built model data (rebuild with: uv run pitwall data build)
+model/data/
