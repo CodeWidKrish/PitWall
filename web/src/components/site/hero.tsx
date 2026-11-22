@@ -1,5 +1,4 @@
 import { Eyebrow } from "@/components/ui/eyebrow";
-import { StartLights } from "@/components/ui/start-lights";
 import { REPO_URL } from "@/lib/roadmap";
 
 /** Opening statement. A racing line draws across the screen behind the headline. */
@@ -52,21 +51,15 @@ export function Hero() {
             PitWall predicts every Formula 1 race winner and the championship, publishes its odds before lights out
             and scores itself in public afterwards. The forecast for the 2027 season is being built now.
           </p>
-          <div className="flex flex-wrap items-center gap-5">
-            <a
-              href={REPO_URL}
-              className="group inline-flex items-center gap-3 rounded-full bg-accent px-6 py-4 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-white transition-colors duration-500 hover:bg-ink hover:text-paper"
-            >
-              Follow the build
-              <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
-                →
-              </span>
-            </a>
-            <span className="inline-flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.14em] text-sub">
-              <StartLights lit={1} />
-              Phase 1 of 7
+          <a
+            href={REPO_URL}
+            className="group inline-flex items-center gap-3 justify-self-start rounded-full bg-accent px-6 py-4 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-white transition-colors duration-500 hover:bg-ink hover:text-paper"
+          >
+            View the source
+            <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
+              →
             </span>
-          </div>
+          </a>
         </div>
       </div>
     </section>
