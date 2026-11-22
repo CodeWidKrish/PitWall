@@ -46,3 +46,6 @@ desktop.ini
 
 # Built model data (rebuild with: uv run pitwall data build)
 model/data/
+
+.vercel
+.env*
