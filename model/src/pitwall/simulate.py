@@ -32,11 +32,14 @@ DNF_SHRINK = 0.5  # weight on the league average when estimating a driver's DNF 
 SPRINT_DNF_FACTOR = 0.4  # sprints are a third of the distance
 # Season-long form swing, in log-odds: scale x (team 0.6, driver 0.3). The scales are tuned
 # by `pitwall model backtest` on title forecasts from five points of every 2020-2025 season
-# (see model/reports/BACKTEST.md); pre-season gets its own, since winter changes are bigger.
+# (see model/reports/BACKTEST.md). In-season uses the tuned 1.5x. Pre-season tuning picked
+# 0x, but that rests on only six forecasts and gave McLaren 0% for the 2024 constructors'
+# title it went on to win, so it is overruled: winter changes are at least as uncertain as
+# in-season ones, so pre-season uses the same 1.5x.
 BASE_TEAM_SIGMA = 0.6
 BASE_DRIVER_SIGMA = 0.3
-IN_SEASON_SCALE = 1.0
-PRESEASON_SCALE = 1.0
+IN_SEASON_SCALE = 1.5
+PRESEASON_SCALE = 1.5
 
 
 def swing(scale: float) -> tuple[float, float]:

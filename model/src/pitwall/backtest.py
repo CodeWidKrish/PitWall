@@ -22,6 +22,7 @@ from pitwall.baselines import elo_baseline, grid_baseline
 from pitwall.features import POST_QUALI, PRE_QUALI
 from pitwall.metrics import calibration, classification, confidence_bands, race_scores, summarise
 from pitwall.model import fit, select_kind
+from pitwall.simulate import IN_SEASON_SCALE, PRESEASON_SCALE
 
 MODES = {"pre_quali": PRE_QUALI, "post_quali": POST_QUALI}
 # Default kinds for quick use. The backtest itself does not use these: it selects the
@@ -305,10 +306,19 @@ def title_calibration_markdown(cal: dict[str, Any]) -> str:
         lines.append(f"| {s}x | {pre['log_loss_by_scale'][s]} | {ins['log_loss_by_scale'][s]} |")
     lines += [
         "",
-        f"Chosen: {pre['best_scale']}x before the season, {ins['best_scale']}x during it "
+        f"Lowest log loss: {pre['best_scale']}x before the season, {ins['best_scale']}x during it "
         "(1x = team 0.6, driver 0.3 in log-odds).",
         "",
-        "Chance given to the eventual champions with the chosen swing:",
+        f"In use: {PRESEASON_SCALE}x before the season, {IN_SEASON_SCALE}x during it. "
+        + (
+            "The pre-season value is overruled: it rests on six forecasts, and with no swing the "
+            "model gave an eventual champion 0% (McLaren, 2024). Winter changes are at least as "
+            "uncertain as in-season ones, so pre-season uses the in-season value."
+            if pre["best_scale"] != PRESEASON_SCALE
+            else ""
+        ),
+        "",
+        "Chance given to the eventual champions with the lowest-loss swing:",
         "",
         "| Season | From | Drivers' champion | Chance | Constructors' champion | Chance |",
         "|---|---|---|---|---|---|",

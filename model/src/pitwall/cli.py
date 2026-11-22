@@ -204,6 +204,11 @@ def build_parser() -> argparse.ArgumentParser:
     sim = model_sub.add_parser("simulate", help="title odds for both championships")
     sim.add_argument("--season", type=int, default=None, help="season to simulate (default: latest)")
     sim.add_argument("--sims", type=int, default=10_000)
+
+    site = sub.add_parser("site", help="build the data the website shows")
+    site_sub = site.add_subparsers(dest="site_command", required=True)
+    site_sub.add_parser("export", help="write web/src/data/site.json from the data and reports")
+    site_sub.add_parser("photos", help="download freely licensed driver photos from Wikimedia Commons")
     return parser
 
 
@@ -225,6 +230,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             )
         if args.model_command == "simulate":
             return _model_simulate(settings, args.season, args.sims)
+    if args.command == "site":
+        from pitwall import site as site_mod
+
+        if args.site_command == "export":
+            print(f"Wrote {site_mod.export(settings)}")
+            return 0
+        if args.site_command == "photos":
+            credits = site_mod.photos()
+            print(f"{len(credits)} driver photos with credits in {site_mod.CREDITS_JSON}")
+            return 0
     return 1
 
 

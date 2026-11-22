@@ -16,8 +16,9 @@
       "code": "ANT",
       "name": "Andrea Kimi Antonelli",
       "team": "mercedes",
+      "seat_status": "raced",
       "points_now": 390.0,
-      "expected_points": 435.6,
+      "expected_points": 434.4,
       "p_title": 1.0
     },
     {
@@ -25,8 +26,9 @@
       "code": "VER",
       "name": "Max Verstappen",
       "team": "red_bull",
+      "seat_status": "raced",
       "points_now": 279.0,
-      "expected_points": 326.8,
+      "expected_points": 325.4,
       "p_title": 0.0
     },
     {
@@ -34,8 +36,9 @@
       "code": "RUS",
       "name": "George Russell",
       "team": "mercedes",
+      "seat_status": "raced",
       "points_now": 262.0,
-      "expected_points": 295.5,
+      "expected_points": 294.9,
       "p_title": 0.0
     },
     {
@@ -43,8 +46,9 @@
       "code": "HAM",
       "name": "Lewis Hamilton",
       "team": "ferrari",
+      "seat_status": "raced",
       "points_now": 261.0,
-      "expected_points": 291.4,
+      "expected_points": 291.1,
       "p_title": 0.0
     },
     {
@@ -52,8 +56,9 @@
       "code": "NOR",
       "name": "Lando Norris",
       "team": "mclaren",
+      "seat_status": "raced",
       "points_now": 246.0,
-      "expected_points": 283.1,
+      "expected_points": 282.6,
       "p_title": 0.0
     },
     {
@@ -61,8 +66,9 @@
       "code": "LEC",
       "name": "Charles Leclerc",
       "team": "ferrari",
+      "seat_status": "raced",
       "points_now": 249.0,
-      "expected_points": 280.4,
+      "expected_points": 280.2,
       "p_title": 0.0
     },
     {
@@ -70,8 +76,9 @@
       "code": "PIA",
       "name": "Oscar Piastri",
       "team": "mclaren",
+      "seat_status": "raced",
       "points_now": 152.0,
-      "expected_points": 169.6,
+      "expected_points": 169.9,
       "p_title": 0.0
     },
     {
@@ -79,8 +86,9 @@
       "code": "HAD",
       "name": "Isack Hadjar",
       "team": "red_bull",
+      "seat_status": "raced",
       "points_now": 122.0,
-      "expected_points": 144.3,
+      "expected_points": 144.4,
       "p_title": 0.0
     },
     {
@@ -88,8 +96,9 @@
       "code": "LAW",
       "name": "Liam Lawson",
       "team": "rb",
+      "seat_status": "raced",
       "points_now": 89.0,
-      "expected_points": 101.5,
+      "expected_points": 102.1,
       "p_title": 0.0
     },
     {
@@ -97,8 +106,9 @@
       "code": "LIN",
       "name": "Arvid Lindblad",
       "team": "rb",
+      "seat_status": "raced",
       "points_now": 38.0,
-      "expected_points": 47.6,
+      "expected_points": 48.2,
       "p_title": 0.0
     },
     {
@@ -106,8 +116,9 @@
       "code": "GAS",
       "name": "Pierre Gasly",
       "team": "alpine",
+      "seat_status": "raced",
       "points_now": 42.0,
-      "expected_points": 44.0,
+      "expected_points": 44.3,
       "p_title": 0.0
     },
     {
@@ -115,8 +126,9 @@
       "code": "COL",
       "name": "Franco Colapinto",
       "team": "alpine",
+      "seat_status": "raced",
       "points_now": 27.0,
-      "expected_points": 29.0,
+      "expected_points": 29.3,
       "p_title": 0.0
     },
     {
@@ -124,8 +136,9 @@
       "code": "BEA",
       "name": "Oliver Bearman",
       "team": "haas",
+      "seat_status": "raced",
       "points_now": 23.0,
-      "expected_points": 24.5,
+      "expected_points": 24.8,
       "p_title": 0.0
     },
     {
@@ -133,8 +146,9 @@
       "code": "HUL",
       "name": "Nico H\u00fclkenberg",
       "team": "audi",
+      "seat_status": "raced",
       "points_now": 14.0,
-      "expected_points": 18.7,
+      "expected_points": 19.2,
       "p_title": 0.0
     },
     {
@@ -142,8 +156,9 @@
       "code": "BOR",
       "name": "Gabriel Bortoleto",
       "team": "audi",
+      "seat_status": "raced",
       "points_now": 14.0,
-      "expected_points": 17.1,
+      "expected_points": 17.5,
       "p_title": 0.0
     },
     {
@@ -151,8 +166,9 @@
       "code": "ALO",
       "name": "Fernando Alonso",
       "team": "aston_martin",
+      "seat_status": "raced",
       "points_now": 7.0,
-      "expected_points": 7.4,
+      "expected_points": 7.6,
       "p_title": 0.0
     },
     {
@@ -160,8 +176,9 @@
       "code": "SAI",
       "name": "Carlos Sainz",
       "team": "williams",
+      "seat_status": "raced",
       "points_now": 7.0,
-      "expected_points": 7.3,
+      "expected_points": 7.4,
       "p_title": 0.0
     },
     {
@@ -169,8 +186,9 @@
       "code": "ALB",
       "name": "Alexander Albon",
       "team": "williams",
+      "seat_status": "raced",
       "points_now": 5.0,
-      "expected_points": 5.5,
+      "expected_points": 5.7,
       "p_title": 0.0
     },
     {
@@ -178,8 +196,9 @@
       "code": "CAM",
       "name": "Rafael Camara",
       "team": "haas",
+      "seat_status": "raced",
       "points_now": 0.0,
-      "expected_points": 0.3,
+      "expected_points": 0.4,
       "p_title": 0.0
     },
     {
@@ -187,8 +206,9 @@
       "code": "STR",
       "name": "Lance Stroll",
       "team": "aston_martin",
+      "seat_status": "raced",
       "points_now": 0.0,
-      "expected_points": 0.3,
+      "expected_points": 0.4,
       "p_title": 0.0
     },
     {
@@ -196,6 +216,7 @@
       "code": "PER",
       "name": "Sergio P\u00e9rez",
       "team": "cadillac",
+      "seat_status": "raced",
       "points_now": 0.0,
       "expected_points": 0.1,
       "p_title": 0.0
@@ -205,6 +226,7 @@
       "code": "BOT",
       "name": "Valtteri Bottas",
       "team": "cadillac",
+      "seat_status": "raced",
       "points_now": 0.0,
       "expected_points": 0.1,
       "p_title": 0.0
@@ -215,78 +237,79 @@
       "constructor_id": "mercedes",
       "name": "Mercedes",
       "points_now": 652.0,
-      "expected_points": 731.1,
+      "expected_points": 729.3,
       "p_title": 1.0
     },
     {
       "constructor_id": "ferrari",
       "name": "Ferrari",
       "points_now": 510.0,
-      "expected_points": 571.8,
+      "expected_points": 571.3,
       "p_title": 0.0
     },
     {
       "constructor_id": "red_bull",
       "name": "Red Bull",
       "points_now": 415.0,
-      "expected_points": 485.1,
+      "expected_points": 483.8,
       "p_title": 0.0
     },
     {
       "constructor_id": "mclaren",
       "name": "McLaren",
       "points_now": 398.0,
-      "expected_points": 452.7,
+      "expected_points": 452.5,
       "p_title": 0.0
     },
     {
       "constructor_id": "rb",
       "name": "RB F1 Team",
       "points_now": 114.0,
-      "expected_points": 136.1,
+      "expected_points": 137.3,
       "p_title": 0.0
     },
     {
       "constructor_id": "alpine",
       "name": "Alpine F1 Team",
       "points_now": 69.0,
-      "expected_points": 72.9,
+      "expected_points": 73.7,
       "p_title": 0.0
     },
     {
       "constructor_id": "audi",
       "name": "Audi",
       "points_now": 28.0,
-      "expected_points": 35.7,
+      "expected_points": 36.7,
       "p_title": 0.0
     },
     {
       "constructor_id": "haas",
       "name": "Haas F1 Team",
       "points_now": 31.0,
-      "expected_points": 32.8,
+      "expected_points": 33.2,
       "p_title": 0.0
     },
     {
       "constructor_id": "williams",
       "name": "Williams",
       "points_now": 12.0,
-      "expected_points": 12.9,
+      "expected_points": 13.1,
       "p_title": 0.0
     },
     {
       "constructor_id": "aston_martin",
       "name": "Aston Martin",
       "points_now": 7.0,
-      "expected_points": 7.7,
+      "expected_points": 8.0,
       "p_title": 0.0
     },
     {
       "constructor_id": "cadillac",
       "name": "Cadillac F1 Team",
       "points_now": 0.0,
-      "expected_points": 0.1,
+      "expected_points": 0.2,
       "p_title": 0.0
     }
-  ]
+  ],
+  "model_kind": "pl"
 }

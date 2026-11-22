@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-11-22T03:57:30+00:00",
+  "built_at": "2026-11-22T09:59:44+00:00",
   "model_version": "0.1.0",
   "test_seasons": [
     2020,
@@ -10,13 +10,18 @@
     2025,
     2026
   ],
-  "model_kinds": {
-    "pre_quali": "pl",
-    "post_quali": "blend"
-  },
+  "model_selection": "walk-forward: for each test season, the kind with the lowest winner log loss on the two previous seasons",
   "modes": {
     "pre_quali": {
-      "model_kind": "pl",
+      "kinds_used": {
+        "2020": "lgbm",
+        "2021": "lgbm",
+        "2022": "blend",
+        "2023": "pl",
+        "2024": "pl",
+        "2025": "pl",
+        "2026": "pl"
+      },
       "features": [
         "elo",
         "elo_rank",
@@ -45,12 +50,13 @@
       "overall": {
         "model": {
           "races": 151,
-          "winner_hit": 0.4967,
-          "winner_in_top3": 0.8079,
-          "podium_overlap": 0.5717,
-          "brier": 0.6874,
-          "log_loss": 1.5388,
-          "winner_prob": 0.307
+          "winner_hit": 0.4768,
+          "winner_in_top3": 0.7881,
+          "podium_overlap": 0.5607,
+          "brier": 0.6925,
+          "log_loss": 1.5702,
+          "winner_prob": 0.3169,
+          "favourite_prob": 0.4802
         },
         "elo": {
           "races": 151,
@@ -59,20 +65,28 @@
           "podium_overlap": 0.5453,
           "brier": 0.7411,
           "log_loss": 1.871,
-          "winner_prob": 0.3501
+          "winner_prob": 0.3501,
+          "favourite_prob": 0.6029
         }
       },
       "per_season": [
         {
           "season": 2020,
+          "kind": "lgbm",
+          "validation_log_loss": {
+            "lgbm": 7.8667,
+            "pl": NaN,
+            "blend": NaN
+          },
           "model": {
             "races": 17,
             "winner_hit": 0.6471,
             "winner_in_top3": 0.8235,
             "podium_overlap": 0.6667,
-            "brier": 0.6261,
-            "log_loss": 1.5038,
-            "winner_prob": 0.3253
+            "brier": 0.5809,
+            "log_loss": 1.4611,
+            "winner_prob": 0.4179,
+            "favourite_prob": 0.5747
           },
           "elo": {
             "races": 17,
@@ -81,20 +95,27 @@
             "podium_overlap": 0.7059,
             "brier": 0.5761,
             "log_loss": 1.6256,
-            "winner_prob": 0.4614
-          },
-          "temperature": 1.0
+            "winner_prob": 0.4614,
+            "favourite_prob": 0.6601
+          }
         },
         {
           "season": 2021,
+          "kind": "lgbm",
+          "validation_log_loss": {
+            "lgbm": 4.6639,
+            "pl": NaN,
+            "blend": NaN
+          },
           "model": {
             "races": 22,
-            "winner_hit": 0.4091,
-            "winner_in_top3": 0.8636,
-            "podium_overlap": 0.6667,
-            "brier": 0.7263,
-            "log_loss": 1.6787,
-            "winner_prob": 0.2331
+            "winner_hit": 0.3182,
+            "winner_in_top3": 0.7727,
+            "podium_overlap": 0.5758,
+            "brier": 0.815,
+            "log_loss": 1.9568,
+            "winner_prob": 0.202,
+            "favourite_prob": 0.3575
           },
           "elo": {
             "races": 22,
@@ -103,20 +124,27 @@
             "podium_overlap": 0.697,
             "brier": 0.7233,
             "log_loss": 1.7025,
-            "winner_prob": 0.3559
-          },
-          "temperature": 1.0
+            "winner_prob": 0.3559,
+            "favourite_prob": 0.5689
+          }
         },
         {
           "season": 2022,
+          "kind": "blend",
+          "validation_log_loss": {
+            "lgbm": 1.7089,
+            "pl": 1.5912,
+            "blend": 1.5892
+          },
           "model": {
             "races": 22,
-            "winner_hit": 0.6364,
-            "winner_in_top3": 0.8636,
-            "podium_overlap": 0.5303,
-            "brier": 0.6655,
-            "log_loss": 1.4706,
-            "winner_prob": 0.2779
+            "winner_hit": 0.5909,
+            "winner_in_top3": 0.8182,
+            "podium_overlap": 0.5455,
+            "brier": 0.6467,
+            "log_loss": 1.4407,
+            "winner_prob": 0.3056,
+            "favourite_prob": 0.4198
           },
           "elo": {
             "races": 22,
@@ -125,12 +153,18 @@
             "podium_overlap": 0.4697,
             "brier": 0.6693,
             "log_loss": 1.7084,
-            "winner_prob": 0.3606
-          },
-          "temperature": 1.0
+            "winner_prob": 0.3606,
+            "favourite_prob": 0.5464
+          }
         },
         {
           "season": 2023,
+          "kind": "pl",
+          "validation_log_loss": {
+            "lgbm": 1.7409,
+            "pl": 1.5746,
+            "blend": 1.5968
+          },
           "model": {
             "races": 22,
             "winner_hit": 0.8636,
@@ -138,7 +172,8 @@
             "podium_overlap": 0.4848,
             "brier": 0.2983,
             "log_loss": 0.6926,
-            "winner_prob": 0.5871
+            "winner_prob": 0.5871,
+            "favourite_prob": 0.6526
           },
           "elo": {
             "races": 22,
@@ -147,12 +182,18 @@
             "podium_overlap": 0.5152,
             "brier": 0.2779,
             "log_loss": 0.6964,
-            "winner_prob": 0.6206
-          },
-          "temperature": 1.0
+            "winner_prob": 0.6206,
+            "favourite_prob": 0.6972
+          }
         },
         {
           "season": 2024,
+          "kind": "pl",
+          "validation_log_loss": {
+            "lgbm": 1.3233,
+            "pl": 1.0816,
+            "blend": 1.1378
+          },
           "model": {
             "races": 24,
             "winner_hit": 0.375,
@@ -160,7 +201,8 @@
             "podium_overlap": 0.5278,
             "brier": 0.8967,
             "log_loss": 2.0736,
-            "winner_prob": 0.2733
+            "winner_prob": 0.2733,
+            "favourite_prob": 0.6128
           },
           "elo": {
             "races": 24,
@@ -169,12 +211,18 @@
             "podium_overlap": 0.4583,
             "brier": 1.0425,
             "log_loss": 2.6003,
-            "winner_prob": 0.3181
-          },
-          "temperature": 1.0
+            "winner_prob": 0.3181,
+            "favourite_prob": 0.8194
+          }
         },
         {
           "season": 2025,
+          "kind": "pl",
+          "validation_log_loss": {
+            "lgbm": 1.6914,
+            "pl": 1.3831,
+            "blend": 1.4771
+          },
           "model": {
             "races": 24,
             "winner_hit": 0.3333,
@@ -182,7 +230,8 @@
             "podium_overlap": 0.6528,
             "brier": 0.7501,
             "log_loss": 1.5128,
-            "winner_prob": 0.2616
+            "winner_prob": 0.2616,
+            "favourite_prob": 0.409
           },
           "elo": {
             "races": 24,
@@ -191,12 +240,18 @@
             "podium_overlap": 0.5833,
             "brier": 0.8598,
             "log_loss": 1.9331,
-            "winner_prob": 0.2369
-          },
-          "temperature": 1.0
+            "winner_prob": 0.2369,
+            "favourite_prob": 0.5361
+          }
         },
         {
           "season": 2026,
+          "kind": "pl",
+          "validation_log_loss": {
+            "lgbm": 2.0759,
+            "pl": 1.7932,
+            "blend": 1.8661
+          },
           "model": {
             "races": 20,
             "winner_hit": 0.25,
@@ -204,7 +259,8 @@
             "podium_overlap": 0.4833,
             "brier": 0.8226,
             "log_loss": 1.81,
-            "winner_prob": 0.1913
+            "winner_prob": 0.1913,
+            "favourite_prob": 0.3376
           },
           "elo": {
             "races": 20,
@@ -213,168 +269,206 @@
             "podium_overlap": 0.4167,
             "brier": 0.985,
             "log_loss": 2.7863,
-            "winner_prob": 0.1146
-          },
-          "temperature": 1.0
+            "winner_prob": 0.1146,
+            "favourite_prob": 0.3706
+          }
         }
       ],
       "classification": {
         "win": {
-          "tp": 75,
-          "fp": 76,
-          "fn": 76,
-          "tn": 2831,
-          "accuracy": 0.9503,
-          "error_rate": 0.0497,
-          "precision": 0.4967,
-          "recall": 0.4967,
-          "f1": 0.4967,
+          "tp": 72,
+          "fp": 79,
+          "fn": 79,
+          "tn": 2828,
+          "accuracy": 0.9483,
+          "error_rate": 0.0517,
+          "precision": 0.4768,
+          "recall": 0.4768,
+          "f1": 0.4768,
           "always_no_accuracy": 0.9506,
-          "roc_auc": 0.937,
-          "calibration_error": 0.0056
+          "roc_auc": 0.9331,
+          "calibration_error": 0.0037
         },
         "podium": {
-          "tp": 259,
-          "fp": 194,
-          "fn": 194,
-          "tn": 2411,
-          "accuracy": 0.8731,
-          "error_rate": 0.1269,
-          "precision": 0.5717,
-          "recall": 0.5717,
-          "f1": 0.5717,
+          "tp": 254,
+          "fp": 199,
+          "fn": 199,
+          "tn": 2406,
+          "accuracy": 0.8698,
+          "error_rate": 0.1302,
+          "precision": 0.5607,
+          "recall": 0.5607,
+          "f1": 0.5607,
           "always_no_accuracy": 0.8519,
-          "roc_auc": 0.9049,
-          "calibration_error": 0.0226
+          "roc_auc": 0.9011,
+          "calibration_error": 0.0292
         }
       },
+      "confidence": [
+        {
+          "band": "0%-25%",
+          "races": 5,
+          "favourite_prob": 0.2315,
+          "favourite_won": 0.2,
+          "winner_in_top3": 0.6
+        },
+        {
+          "band": "25%-40%",
+          "races": 57,
+          "favourite_prob": 0.3348,
+          "favourite_won": 0.4035,
+          "winner_in_top3": 0.8246
+        },
+        {
+          "band": "40%-60%",
+          "races": 49,
+          "favourite_prob": 0.4787,
+          "favourite_won": 0.449,
+          "winner_in_top3": 0.7755
+        },
+        {
+          "band": "60%-100%",
+          "races": 40,
+          "favourite_prob": 0.7202,
+          "favourite_won": 0.65,
+          "winner_in_top3": 0.775
+        }
+      ],
       "calibration": [
         {
           "band": "0%-2%",
-          "n": 2038,
-          "predicted": 0.0033,
-          "actual": 0.0015
+          "n": 2092,
+          "predicted": 0.0029,
+          "actual": 0.0019
         },
         {
           "band": "2%-5%",
-          "n": 352,
-          "predicted": 0.0331,
-          "actual": 0.0341
+          "n": 315,
+          "predicted": 0.0337,
+          "actual": 0.0413
         },
         {
           "band": "5%-10%",
-          "n": 248,
-          "predicted": 0.0701,
-          "actual": 0.0605
+          "n": 243,
+          "predicted": 0.0719,
+          "actual": 0.0782
         },
         {
           "band": "10%-20%",
-          "n": 185,
-          "predicted": 0.1406,
-          "actual": 0.1405
+          "n": 188,
+          "predicted": 0.143,
+          "actual": 0.1436
         },
         {
           "band": "20%-35%",
-          "n": 132,
-          "predicted": 0.2711,
-          "actual": 0.3258
+          "n": 109,
+          "predicted": 0.2707,
+          "actual": 0.2752
         },
         {
           "band": "35%-50%",
-          "n": 59,
-          "predicted": 0.407,
-          "actual": 0.4237
+          "n": 51,
+          "predicted": 0.409,
+          "actual": 0.4314
         },
         {
           "band": "50%-70%",
-          "n": 21,
-          "predicted": 0.5733,
-          "actual": 0.5238
+          "n": 33,
+          "predicted": 0.582,
+          "actual": 0.5152
         },
         {
           "band": "70%-100%",
-          "n": 23,
-          "predicted": 0.7548,
-          "actual": 0.6957
+          "n": 27,
+          "predicted": 0.7549,
+          "actual": 0.7037
         }
       ],
       "podium_calibration": [
         {
           "band": "0%-2%",
-          "n": 1507,
-          "predicted": 0.005,
-          "actual": 0.0066
+          "n": 1623,
+          "predicted": 0.0051,
+          "actual": 0.0092
         },
         {
           "band": "2%-5%",
-          "n": 324,
-          "predicted": 0.0316,
-          "actual": 0.0494
+          "n": 246,
+          "predicted": 0.0323,
+          "actual": 0.0569
         },
         {
           "band": "5%-10%",
-          "n": 221,
-          "predicted": 0.0714,
-          "actual": 0.0905
+          "n": 203,
+          "predicted": 0.0692,
+          "actual": 0.0936
         },
         {
           "band": "10%-20%",
-          "n": 270,
-          "predicted": 0.1489,
-          "actual": 0.2148
+          "n": 241,
+          "predicted": 0.1482,
+          "actual": 0.2241
         },
         {
           "band": "20%-35%",
-          "n": 238,
-          "predicted": 0.2704,
-          "actual": 0.2731
+          "n": 243,
+          "predicted": 0.2735,
+          "actual": 0.3086
         },
         {
           "band": "35%-50%",
-          "n": 159,
-          "predicted": 0.4173,
-          "actual": 0.4403
+          "n": 156,
+          "predicted": 0.4101,
+          "actual": 0.4103
         },
         {
           "band": "50%-70%",
-          "n": 148,
-          "predicted": 0.5887,
-          "actual": 0.5068
+          "n": 149,
+          "predicted": 0.5868,
+          "actual": 0.4966
         },
         {
           "band": "70%-100%",
-          "n": 191,
-          "predicted": 0.8451,
-          "actual": 0.7277
+          "n": 197,
+          "predicted": 0.8586,
+          "actual": 0.7005
         }
       ],
       "feature_importance": {
-        "team_quali_avg5": 0.12138571428571426,
-        "drv_pole_gap_avg5": 0.10281428571428569,
-        "team_season_points_pre": 0.0805,
-        "season_points_pre": 0.07585714285714287,
-        "elo_rank": 0.0619,
-        "drv_points_avg5": 0.058985714285714294,
-        "drv_mate_gap_avg5": 0.05701428571428571,
-        "elo": 0.051528571428571424,
-        "season_rank_pre": 0.05117142857142856,
-        "drv_finish_ewm": 0.04364285714285714,
-        "team_points_avg5": 0.043114285714285716,
-        "drv_dnf_rate10": 0.04288571428571429,
-        "drv_finish_avg5": 0.03847142857142857,
-        "drv_quali_avg5": 0.03585714285714286,
-        "drv_wins_avg10": 0.031857142857142855,
-        "team_dnf_rate10": 0.022914285714285713,
-        "team_best_finish_avg5": 0.019542857142857143,
-        "drv_starts": 0.016642857142857143,
-        "team_circuit_finish": 0.01622857142857143,
-        "drv_podium_avg10": 0.015385714285714287,
-        "drv_circuit_finish": 0.012300000000000002,
-        "round_frac": 0.0
+        "drv_points_avg5": 0.11097142857142858,
+        "drv_pole_gap_avg5": 0.10985714285714283,
+        "team_quali_avg5": 0.10511428571428572,
+        "season_points_pre": 0.06738571428571428,
+        "team_season_points_pre": 0.06438571428571428,
+        "elo_rank": 0.05398571428571428,
+        "drv_quali_avg5": 0.05352857142857143,
+        "drv_mate_gap_avg5": 0.050057142857142856,
+        "team_points_avg5": 0.04874285714285714,
+        "drv_podium_avg10": 0.04649999999999999,
+        "drv_finish_ewm": 0.04357142857142857,
+        "elo": 0.04341428571428571,
+        "season_rank_pre": 0.03912857142857143,
+        "drv_dnf_rate10": 0.03352857142857143,
+        "drv_wins_avg10": 0.02608571428571429,
+        "drv_finish_avg5": 0.02482857142857143,
+        "team_dnf_rate10": 0.02337142857142857,
+        "team_best_finish_avg5": 0.016428571428571428,
+        "drv_starts": 0.012328571428571428,
+        "team_circuit_finish": 0.012142857142857144,
+        "drv_circuit_finish": 0.012085714285714286,
+        "round_frac": 0.0025285714285714286
       }
     },
     "post_quali": {
-      "model_kind": "blend",
+      "kinds_used": {
+        "2020": "lgbm",
+        "2021": "lgbm",
+        "2022": "blend",
+        "2023": "blend",
+        "2024": "blend",
+        "2025": "blend",
+        "2026": "blend"
+      },
       "features": [
         "elo",
         "elo_rank",
@@ -409,11 +503,12 @@
         "model": {
           "races": 151,
           "winner_hit": 0.5828,
-          "winner_in_top3": 0.9073,
-          "podium_overlap": 0.6578,
-          "brier": 0.5797,
-          "log_loss": 1.2343,
-          "winner_prob": 0.3973
+          "winner_in_top3": 0.894,
+          "podium_overlap": 0.6556,
+          "brier": 0.5859,
+          "log_loss": 1.2583,
+          "winner_prob": 0.398,
+          "favourite_prob": 0.5308
         },
         "grid": {
           "races": 151,
@@ -422,20 +517,28 @@
           "podium_overlap": 0.6689,
           "brier": 0.646,
           "log_loss": 1.5736,
-          "winner_prob": 0.3287
+          "winner_prob": 0.3287,
+          "favourite_prob": 0.4687
         }
       },
       "per_season": [
         {
           "season": 2020,
+          "kind": "lgbm",
+          "validation_log_loss": {
+            "lgbm": 1.9738,
+            "pl": NaN,
+            "blend": NaN
+          },
           "model": {
             "races": 17,
             "winner_hit": 0.7059,
             "winner_in_top3": 0.8824,
-            "podium_overlap": 0.7255,
-            "brier": 0.5802,
-            "log_loss": 1.411,
-            "winner_prob": 0.3999
+            "podium_overlap": 0.7451,
+            "brier": 0.5626,
+            "log_loss": 1.4324,
+            "winner_prob": 0.4375,
+            "favourite_prob": 0.5895
           },
           "grid": {
             "races": 17,
@@ -444,20 +547,27 @@
             "podium_overlap": 0.6863,
             "brier": 0.715,
             "log_loss": 1.9159,
-            "winner_prob": 0.2918
-          },
-          "temperature": 0.8384338887392597
+            "winner_prob": 0.2918,
+            "favourite_prob": 0.4105
+          }
         },
         {
           "season": 2021,
+          "kind": "lgbm",
+          "validation_log_loss": {
+            "lgbm": 1.7031,
+            "pl": NaN,
+            "blend": NaN
+          },
           "model": {
             "races": 22,
             "winner_hit": 0.3636,
-            "winner_in_top3": 0.8182,
-            "podium_overlap": 0.6515,
-            "brier": 0.7029,
-            "log_loss": 1.5721,
-            "winner_prob": 0.2553
+            "winner_in_top3": 0.7273,
+            "podium_overlap": 0.6212,
+            "brier": 0.7591,
+            "log_loss": 1.72,
+            "winner_prob": 0.2315,
+            "favourite_prob": 0.3666
           },
           "grid": {
             "races": 22,
@@ -466,12 +576,18 @@
             "podium_overlap": 0.697,
             "brier": 0.6905,
             "log_loss": 1.6558,
-            "winner_prob": 0.3057
-          },
-          "temperature": 0.9272587164264275
+            "winner_prob": 0.3057,
+            "favourite_prob": 0.4599
+          }
         },
         {
           "season": 2022,
+          "kind": "blend",
+          "validation_log_loss": {
+            "lgbm": 1.5762,
+            "pl": 1.4996,
+            "blend": 1.4916
+          },
           "model": {
             "races": 22,
             "winner_hit": 0.5,
@@ -479,7 +595,8 @@
             "podium_overlap": 0.6364,
             "brier": 0.6326,
             "log_loss": 1.2421,
-            "winner_prob": 0.3246
+            "winner_prob": 0.3246,
+            "favourite_prob": 0.4271
           },
           "grid": {
             "races": 22,
@@ -488,12 +605,18 @@
             "podium_overlap": 0.6364,
             "brier": 0.7218,
             "log_loss": 1.758,
-            "winner_prob": 0.2918
-          },
-          "temperature": 0.8817284907956554
+            "winner_prob": 0.2918,
+            "favourite_prob": 0.4711
+          }
         },
         {
           "season": 2023,
+          "kind": "blend",
+          "validation_log_loss": {
+            "lgbm": 1.4768,
+            "pl": 1.4226,
+            "blend": 1.4071
+          },
           "model": {
             "races": 22,
             "winner_hit": 0.9091,
@@ -501,7 +624,8 @@
             "podium_overlap": 0.6061,
             "brier": 0.264,
             "log_loss": 0.6142,
-            "winner_prob": 0.6063
+            "winner_prob": 0.6063,
+            "favourite_prob": 0.6406
           },
           "grid": {
             "races": 22,
@@ -510,12 +634,18 @@
             "podium_overlap": 0.6364,
             "brier": 0.6091,
             "log_loss": 1.5004,
-            "winner_prob": 0.3451
-          },
-          "temperature": 0.7972651367453139
+            "winner_prob": 0.3451,
+            "favourite_prob": 0.467
+          }
         },
         {
           "season": 2024,
+          "kind": "blend",
+          "validation_log_loss": {
+            "lgbm": 0.9702,
+            "pl": 0.9564,
+            "blend": 0.9282
+          },
           "model": {
             "races": 24,
             "winner_hit": 0.4167,
@@ -523,7 +653,8 @@
             "podium_overlap": 0.6111,
             "brier": 0.8248,
             "log_loss": 1.7359,
-            "winner_prob": 0.3788
+            "winner_prob": 0.3788,
+            "favourite_prob": 0.7074
           },
           "grid": {
             "races": 24,
@@ -532,12 +663,18 @@
             "podium_overlap": 0.6667,
             "brier": 0.7023,
             "log_loss": 1.7103,
-            "winner_prob": 0.3073
-          },
-          "temperature": 0.651836344868839
+            "winner_prob": 0.3073,
+            "favourite_prob": 0.4965
+          }
         },
         {
           "season": 2025,
+          "kind": "blend",
+          "validation_log_loss": {
+            "lgbm": 1.2373,
+            "pl": 1.1828,
+            "blend": 1.1751
+          },
           "model": {
             "races": 24,
             "winner_hit": 0.5833,
@@ -545,7 +682,8 @@
             "podium_overlap": 0.7639,
             "brier": 0.521,
             "log_loss": 1.0116,
-            "winner_prob": 0.4058
+            "winner_prob": 0.4058,
+            "favourite_prob": 0.4757
           },
           "grid": {
             "races": 24,
@@ -554,12 +692,18 @@
             "podium_overlap": 0.75,
             "brier": 0.549,
             "log_loss": 1.1196,
-            "winner_prob": 0.3826
-          },
-          "temperature": 0.7972651367453139
+            "winner_prob": 0.3826,
+            "favourite_prob": 0.4905
+          }
         },
         {
           "season": 2026,
+          "kind": "blend",
+          "validation_log_loss": {
+            "lgbm": 1.4403,
+            "pl": 1.4171,
+            "blend": 1.3737
+          },
           "model": {
             "races": 20,
             "winner_hit": 0.65,
@@ -567,7 +711,8 @@
             "podium_overlap": 0.6167,
             "brier": 0.5093,
             "log_loss": 1.0515,
-            "winner_prob": 0.413
+            "winner_prob": 0.413,
+            "favourite_prob": 0.5092
           },
           "grid": {
             "races": 20,
@@ -576,9 +721,9 @@
             "podium_overlap": 0.6,
             "brier": 0.5448,
             "log_loss": 1.4504,
-            "winner_prob": 0.3692
-          },
-          "temperature": 0.7972651367453139
+            "winner_prob": 0.3692,
+            "favourite_prob": 0.4672
+          }
         }
       ],
       "classification": {
@@ -593,221 +738,2551 @@
           "recall": 0.5828,
           "f1": 0.5828,
           "always_no_accuracy": 0.9506,
-          "roc_auc": 0.9607,
-          "calibration_error": 0.0093
+          "roc_auc": 0.9586,
+          "calibration_error": 0.0081
         },
         "podium": {
-          "tp": 298,
-          "fp": 155,
-          "fn": 155,
-          "tn": 2450,
-          "accuracy": 0.8986,
-          "error_rate": 0.1014,
-          "precision": 0.6578,
-          "recall": 0.6578,
-          "f1": 0.6578,
+          "tp": 297,
+          "fp": 156,
+          "fn": 156,
+          "tn": 2449,
+          "accuracy": 0.898,
+          "error_rate": 0.102,
+          "precision": 0.6556,
+          "recall": 0.6556,
+          "f1": 0.6556,
           "always_no_accuracy": 0.8519,
-          "roc_auc": 0.9348,
-          "calibration_error": 0.0217
+          "roc_auc": 0.933,
+          "calibration_error": 0.0252
         }
       },
+      "confidence": [
+        {
+          "band": "25%-40%",
+          "races": 43,
+          "favourite_prob": 0.3447,
+          "favourite_won": 0.3721,
+          "winner_in_top3": 0.814
+        },
+        {
+          "band": "40%-60%",
+          "races": 62,
+          "favourite_prob": 0.4934,
+          "favourite_won": 0.6129,
+          "winner_in_top3": 0.9516
+        },
+        {
+          "band": "60%-100%",
+          "races": 46,
+          "favourite_prob": 0.7552,
+          "favourite_won": 0.7391,
+          "winner_in_top3": 0.8913
+        }
+      ],
       "calibration": [
         {
           "band": "0%-2%",
-          "n": 2239,
-          "predicted": 0.0028,
-          "actual": 0.0022
+          "n": 2250,
+          "predicted": 0.0027,
+          "actual": 0.0027
         },
         {
           "band": "2%-5%",
-          "n": 253,
-          "predicted": 0.0328,
-          "actual": 0.0198
+          "n": 244,
+          "predicted": 0.0327,
+          "actual": 0.0205
         },
         {
           "band": "5%-10%",
-          "n": 165,
-          "predicted": 0.0699,
-          "actual": 0.0364
+          "n": 170,
+          "predicted": 0.0709,
+          "actual": 0.0353
         },
         {
           "band": "10%-20%",
-          "n": 167,
-          "predicted": 0.1439,
-          "actual": 0.1377
+          "n": 159,
+          "predicted": 0.1428,
+          "actual": 0.1572
         },
         {
           "band": "20%-35%",
-          "n": 97,
-          "predicted": 0.2658,
-          "actual": 0.299
+          "n": 100,
+          "predicted": 0.2668,
+          "actual": 0.28
         },
         {
           "band": "35%-50%",
-          "n": 66,
-          "predicted": 0.4168,
-          "actual": 0.4848
+          "n": 63,
+          "predicted": 0.4198,
+          "actual": 0.4603
         },
         {
           "band": "50%-70%",
-          "n": 45,
-          "predicted": 0.5886,
-          "actual": 0.7333
+          "n": 42,
+          "predicted": 0.59,
+          "actual": 0.7381
         },
         {
           "band": "70%-100%",
-          "n": 26,
-          "predicted": 0.8136,
-          "actual": 0.6923
+          "n": 30,
+          "predicted": 0.8083,
+          "actual": 0.7
         }
       ],
       "podium_calibration": [
         {
           "band": "0%-2%",
-          "n": 1690,
-          "predicted": 0.0041,
-          "actual": 0.0047
+          "n": 1714,
+          "predicted": 0.0043,
+          "actual": 0.007
         },
         {
           "band": "2%-5%",
-          "n": 274,
+          "n": 254,
           "predicted": 0.0325,
-          "actual": 0.0438
+          "actual": 0.0354
         },
         {
           "band": "5%-10%",
-          "n": 215,
+          "n": 220,
           "predicted": 0.0728,
-          "actual": 0.0837
+          "actual": 0.0864
         },
         {
           "band": "10%-20%",
-          "n": 226,
-          "predicted": 0.1462,
-          "actual": 0.1903
+          "n": 207,
+          "predicted": 0.1442,
+          "actual": 0.1884
         },
         {
           "band": "20%-35%",
-          "n": 147,
-          "predicted": 0.2627,
-          "actual": 0.2993
+          "n": 162,
+          "predicted": 0.2651,
+          "actual": 0.3025
         },
         {
           "band": "35%-50%",
-          "n": 114,
-          "predicted": 0.4187,
-          "actual": 0.5175
+          "n": 115,
+          "predicted": 0.4178,
+          "actual": 0.5478
         },
         {
           "band": "50%-70%",
-          "n": 142,
-          "predicted": 0.5984,
-          "actual": 0.5634
+          "n": 140,
+          "predicted": 0.607,
+          "actual": 0.5571
         },
         {
           "band": "70%-100%",
-          "n": 250,
-          "predicted": 0.8686,
-          "actual": 0.756
+          "n": 246,
+          "predicted": 0.8761,
+          "actual": 0.748
         }
       ],
       "feature_importance": {
-        "quali_position": 0.15625714285714287,
-        "grid": 0.13004285714285713,
-        "drv_points_avg5": 0.07254285714285715,
-        "team_quali_avg5": 0.06628571428571428,
-        "gap_to_pole_pct": 0.06525714285714286,
-        "drv_pole_gap_avg5": 0.052571428571428575,
-        "drv_quali_avg5": 0.043800000000000006,
-        "elo": 0.03622857142857142,
-        "season_points_pre": 0.034557142857142856,
-        "team_season_points_pre": 0.03412857142857143,
-        "drv_finish_avg5": 0.03207142857142857,
-        "team_points_avg5": 0.031599999999999996,
-        "drv_mate_gap_avg5": 0.030657142857142855,
-        "drv_finish_ewm": 0.022828571428571427,
-        "elo_rank": 0.022685714285714285,
-        "gap_to_teammate_pct": 0.02265714285714286,
-        "season_rank_pre": 0.020985714285714288,
-        "drv_dnf_rate10": 0.019542857142857143,
-        "drv_wins_avg10": 0.018585714285714285,
-        "drv_podium_avg10": 0.016185714285714286,
-        "team_dnf_rate10": 0.015,
-        "team_best_finish_avg5": 0.013857142857142858,
-        "drv_circuit_finish": 0.01247142857142857,
-        "team_circuit_finish": 0.011657142857142857,
-        "drv_starts": 0.010371428571428571,
-        "pit_lane_start": 0.0036428571428571426,
-        "round_frac": 0.0035
+        "grid": 0.1570142857142857,
+        "quali_position": 0.15152857142857143,
+        "drv_points_avg5": 0.0817857142857143,
+        "gap_to_pole_pct": 0.06735714285714287,
+        "team_quali_avg5": 0.06157142857142856,
+        "drv_quali_avg5": 0.05328571428571429,
+        "drv_pole_gap_avg5": 0.05297142857142857,
+        "team_points_avg5": 0.03301428571428571,
+        "season_points_pre": 0.03194285714285714,
+        "elo": 0.03125714285714285,
+        "drv_mate_gap_avg5": 0.0293,
+        "team_season_points_pre": 0.029071428571428574,
+        "drv_finish_ewm": 0.025928571428571426,
+        "drv_finish_avg5": 0.023114285714285716,
+        "gap_to_teammate_pct": 0.022942857142857143,
+        "elo_rank": 0.019142857142857145,
+        "season_rank_pre": 0.017442857142857142,
+        "drv_wins_avg10": 0.0171,
+        "team_dnf_rate10": 0.01632857142857143,
+        "drv_dnf_rate10": 0.015985714285714287,
+        "drv_podium_avg10": 0.01442857142857143,
+        "drv_circuit_finish": 0.011414285714285714,
+        "team_best_finish_avg5": 0.011171428571428572,
+        "team_circuit_finish": 0.009728571428571428,
+        "drv_starts": 0.0097,
+        "round_frac": 0.004414285714285714,
+        "pit_lane_start": 0.001042857142857143
       }
     }
   },
-  "titles": [
-    {
-      "season": 2020,
-      "after_round": 11,
-      "of_rounds": 17,
-      "driver_champion": "hamilton",
-      "p_driver_champion": 0.9988,
-      "driver_favourite_won": true,
-      "constructor_champion": "mercedes",
-      "p_constructor_champion": 1.0,
-      "constructor_favourite_won": true
-    },
-    {
-      "season": 2021,
-      "after_round": 15,
-      "of_rounds": 22,
-      "driver_champion": "max_verstappen",
-      "p_driver_champion": 0.516,
-      "driver_favourite_won": true,
-      "constructor_champion": "mercedes",
-      "p_constructor_champion": 0.8008,
-      "constructor_favourite_won": true
-    },
-    {
-      "season": 2022,
-      "after_round": 15,
-      "of_rounds": 22,
-      "driver_champion": "max_verstappen",
-      "p_driver_champion": 1.0,
-      "driver_favourite_won": true,
-      "constructor_champion": "red_bull",
-      "p_constructor_champion": 0.9928,
-      "constructor_favourite_won": true
-    },
-    {
-      "season": 2023,
-      "after_round": 15,
-      "of_rounds": 22,
-      "driver_champion": "max_verstappen",
-      "p_driver_champion": 1.0,
-      "driver_favourite_won": true,
-      "constructor_champion": "red_bull",
-      "p_constructor_champion": 1.0,
-      "constructor_favourite_won": true
-    },
-    {
-      "season": 2024,
-      "after_round": 16,
-      "of_rounds": 24,
-      "driver_champion": "max_verstappen",
-      "p_driver_champion": 0.9785,
-      "driver_favourite_won": true,
-      "constructor_champion": "mclaren",
-      "p_constructor_champion": 0.4125,
-      "constructor_favourite_won": false
-    },
-    {
-      "season": 2025,
-      "after_round": 16,
-      "of_rounds": 24,
-      "driver_champion": "norris",
-      "p_driver_champion": 0.1493,
-      "driver_favourite_won": false,
-      "constructor_champion": "mclaren",
-      "p_constructor_champion": 1.0,
-      "constructor_favourite_won": true
+  "title_calibration": {
+    "cuts": [
+      0.0,
+      0.25,
+      0.5,
+      0.6666666666666666,
+      0.8
+    ],
+    "rows": [
+      {
+        "season": 2020,
+        "after_round": 0,
+        "of_rounds": 17,
+        "preseason": true,
+        "scale": 0.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9343,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.9657,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 0,
+        "of_rounds": 17,
+        "preseason": true,
+        "scale": 0.5,
+        "driver_champion": "hamilton",
+        "p_driver": 0.8713,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.8817,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 0,
+        "of_rounds": 17,
+        "preseason": true,
+        "scale": 1.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.7207,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.7353,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 0,
+        "of_rounds": 17,
+        "preseason": true,
+        "scale": 1.5,
+        "driver_champion": "hamilton",
+        "p_driver": 0.5733,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.5987,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 0,
+        "of_rounds": 17,
+        "preseason": true,
+        "scale": 2.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.457,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.4957,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 0,
+        "of_rounds": 17,
+        "preseason": true,
+        "scale": 3.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.3173,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.3717,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 4,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9473,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 4,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9323,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.9993,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 4,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9053,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.9917,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 4,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "hamilton",
+        "p_driver": 0.8283,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.9447,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 4,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.7227,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.8587,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 4,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.541,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.673,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 8,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9933,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 8,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "hamilton",
+        "p_driver": 0.993,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 8,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9893,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 8,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9767,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.9997,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 8,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9577,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.9943,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 8,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.8847,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.9623,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 11,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9987,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 11,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9983,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 11,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9977,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 11,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9957,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 11,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9917,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.9997,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 11,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "hamilton",
+        "p_driver": 0.9733,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.9983,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 14,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "hamilton",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 14,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "hamilton",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 14,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "hamilton",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 14,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "hamilton",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 14,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "hamilton",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2020,
+        "after_round": 14,
+        "of_rounds": 17,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "hamilton",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.2357,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.7107,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.2227,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.5493,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.1707,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.3763,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.1377,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.2877,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.1237,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.233,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.1003,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.1843,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.1557,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.655,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.192,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.5583,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.212,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.4457,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.1903,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.381,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.172,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.3307,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.144,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.271,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.1953,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.8123,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.2453,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.7577,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.2963,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.6733,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.338,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.6117,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.3483,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.5643,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.343,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.5007,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.4483,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.9707,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.4503,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.9473,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.455,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.886,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.462,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.8233,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.4687,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.7687,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.4667,
+        "driver_fav_won": false,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.693,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.6117,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.708,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.6093,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.688,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.6033,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.6533,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.5997,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.62,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.5943,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.5913,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2021,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.5873,
+        "driver_fav_won": true,
+        "constructor_champion": "mercedes",
+        "p_constructor": 0.565,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.2937,
+        "driver_fav_won": false,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.7867,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.322,
+        "driver_fav_won": false,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.598,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.2697,
+        "driver_fav_won": false,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.3993,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.2233,
+        "driver_fav_won": false,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.309,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.1843,
+        "driver_fav_won": false,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.2583,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.1477,
+        "driver_fav_won": false,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.2033,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.904,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.9203,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.8343,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.8313,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.6947,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.683,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.5687,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.5793,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.475,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.5053,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.3407,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.4087,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9833,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.9663,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.962,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.926,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9097,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.8193,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.836,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.7327,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.7657,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.673,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.6473,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.599,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.9993,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9997,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.9927,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.999,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.972,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9943,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.937,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.973,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.8653,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2022,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.9987,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9247,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.9773,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.8313,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.8567,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.634,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.6667,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.498,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.5633,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.401,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.4837,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 0,
+        "of_rounds": 22,
+        "preseason": true,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.2757,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.372,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.998,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9973,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9757,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.983,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.8963,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.909,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.7933,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.816,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 6,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.6133,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.6673,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.9963,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9973,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.9807,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 11,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9687,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 0.9167,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 15,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2023,
+        "after_round": 18,
+        "of_rounds": 22,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "red_bull",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2024,
+        "after_round": 0,
+        "of_rounds": 24,
+        "preseason": true,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9943,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 0,
+        "of_rounds": 24,
+        "preseason": true,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9787,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 0,
+        "of_rounds": 24,
+        "preseason": true,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.8883,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0047,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 0,
+        "of_rounds": 24,
+        "preseason": true,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.7307,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.027,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 0,
+        "of_rounds": 24,
+        "preseason": true,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.5717,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0473,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 0,
+        "of_rounds": 24,
+        "preseason": true,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.383,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0747,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 6,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9903,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 6,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.982,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 6,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9257,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0013,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 6,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.83,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0177,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 6,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.7193,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0367,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 6,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.5543,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0837,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 12,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 1.0,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 12,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9993,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.004,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 12,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9987,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0377,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 12,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9827,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.0773,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 12,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9427,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.1167,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 12,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.831,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.159,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 16,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9983,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.4473,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 16,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.993,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.4257,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 16,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9693,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.4033,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 16,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9283,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.3867,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 16,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.8713,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.369,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 16,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.775,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.3547,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2024,
+        "after_round": 19,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.989,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.9783,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2024,
+        "after_round": 19,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.985,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.9687,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2024,
+        "after_round": 19,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9697,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.9063,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2024,
+        "after_round": 19,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9403,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.819,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2024,
+        "after_round": 19,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.9067,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.7503,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2024,
+        "after_round": 19,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "max_verstappen",
+        "p_driver": 0.8477,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.6403,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 0,
+        "of_rounds": 24,
+        "preseason": true,
+        "scale": 0.0,
+        "driver_champion": "norris",
+        "p_driver": 0.295,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.5093,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 0,
+        "of_rounds": 24,
+        "preseason": true,
+        "scale": 0.5,
+        "driver_champion": "norris",
+        "p_driver": 0.275,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.4617,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 0,
+        "of_rounds": 24,
+        "preseason": true,
+        "scale": 1.0,
+        "driver_champion": "norris",
+        "p_driver": 0.2347,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.3973,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 0,
+        "of_rounds": 24,
+        "preseason": true,
+        "scale": 1.5,
+        "driver_champion": "norris",
+        "p_driver": 0.2083,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.3487,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 0,
+        "of_rounds": 24,
+        "preseason": true,
+        "scale": 2.0,
+        "driver_champion": "norris",
+        "p_driver": 0.1803,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.302,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2025,
+        "after_round": 0,
+        "of_rounds": 24,
+        "preseason": true,
+        "scale": 3.0,
+        "driver_champion": "norris",
+        "p_driver": 0.1433,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.2427,
+        "constructor_fav_won": false
+      },
+      {
+        "season": 2025,
+        "after_round": 6,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "norris",
+        "p_driver": 0.0933,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 6,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "norris",
+        "p_driver": 0.0933,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.9973,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 6,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "norris",
+        "p_driver": 0.1057,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.9393,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 6,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "norris",
+        "p_driver": 0.1187,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.8263,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 6,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "norris",
+        "p_driver": 0.1267,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.725,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 6,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "norris",
+        "p_driver": 0.1333,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.5933,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 12,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "norris",
+        "p_driver": 0.6853,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 12,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "norris",
+        "p_driver": 0.68,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 12,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "norris",
+        "p_driver": 0.616,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.9997,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 12,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "norris",
+        "p_driver": 0.5567,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.991,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 12,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "norris",
+        "p_driver": 0.4937,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.9687,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 12,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "norris",
+        "p_driver": 0.4063,
+        "driver_fav_won": true,
+        "constructor_champion": "mclaren",
+        "p_constructor": 0.903,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 16,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "norris",
+        "p_driver": 0.146,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 16,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "norris",
+        "p_driver": 0.1517,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 16,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "norris",
+        "p_driver": 0.1617,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 16,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "norris",
+        "p_driver": 0.168,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 16,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "norris",
+        "p_driver": 0.1767,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 16,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "norris",
+        "p_driver": 0.1917,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 19,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.0,
+        "driver_champion": "norris",
+        "p_driver": 0.1023,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 19,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 0.5,
+        "driver_champion": "norris",
+        "p_driver": 0.1037,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 19,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.0,
+        "driver_champion": "norris",
+        "p_driver": 0.1153,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 19,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 1.5,
+        "driver_champion": "norris",
+        "p_driver": 0.1307,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 19,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 2.0,
+        "driver_champion": "norris",
+        "p_driver": 0.1447,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      },
+      {
+        "season": 2025,
+        "after_round": 19,
+        "of_rounds": 24,
+        "preseason": false,
+        "scale": 3.0,
+        "driver_champion": "norris",
+        "p_driver": 0.1697,
+        "driver_fav_won": false,
+        "constructor_champion": "mclaren",
+        "p_constructor": 1.0,
+        "constructor_fav_won": true
+      }
+    ],
+    "tuned": {
+      "preseason": {
+        "log_loss_by_scale": {
+          "0.0": 1.0221,
+          "0.5": 1.1121,
+          "1.0": 1.1934,
+          "1.5": 1.2325,
+          "2.0": 1.3531,
+          "3.0": 1.5687
+        },
+        "best_scale": 0.0
+      },
+      "in_season": {
+        "log_loss_by_scale": {
+          "0.0": 0.5773,
+          "0.5": 0.5515,
+          "1.0": 0.5181,
+          "1.5": 0.481,
+          "2.0": 0.4972,
+          "3.0": 0.5522
+        },
+        "best_scale": 1.5
+      }
     }
-  ]
+  }
 }
