@@ -47,6 +47,7 @@ export function RaceStage() {
   const camRef = useRef<CamMode>("tv");
   const bannerId = useRef(0);
   const launched = useRef(false);
+  const heroVisible = useRef(true);
 
   const grid: SceneCar[] = useMemo(() => {
     const odds = site.next_race?.odds ?? [];
@@ -62,7 +63,7 @@ export function RaceStage() {
   const showBanner = useCallback((b: Omit<Banner, "id">) => {
     const id = ++bannerId.current;
     setBanner({ ...b, id });
-    if (b.kind === "radio") sound?.radio();
+    if (b.kind === "radio") sound?.radio(b.text);
     setTimeout(() => setBanner((cur) => (cur?.id === id ? null : cur)), b.kind === "radio" ? 5200 : 3800);
   }, []);
 
@@ -81,7 +82,7 @@ export function RaceStage() {
         },
         onTelemetry: (t) => {
           setTel(t);
-          sound?.engineUpdate(camRef.current === "board", t.rpm, t.throttle);
+          sound?.engine(t.rpm, t.throttle);
         },
         onBanner: (kind, text, carId) => showBanner({ kind, text, carId }),
         onPassBy: (k) => sound?.passBy(k),
@@ -95,10 +96,30 @@ export function RaceStage() {
       disposed = true;
       c?.dispose();
       ctrl.current = null;
-      sound?.engineUpdate(false, 0, 0);
+      sound?.setView("off");
     };
     // The scene is built once; follow and camera changes go through the controller.
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Engine sound only while the race is on screen.
+  useEffect(() => {
+    if (!host.current) return;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        heroVisible.current = e.isIntersecting;
+        sound?.setView(e.isIntersecting ? (camRef.current === "board" ? "near" : "far") : "off");
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(host.current);
+    const unsub = sound?.subscribe((on) => {
+      if (on) sound?.setView(heroVisible.current ? (camRef.current === "board" ? "near" : "far") : "off");
+    });
+    return () => {
+      io.disconnect();
+      unsub?.();
+    };
   }, []);
 
   // Start lights: one red light a second, then lights out.
@@ -135,7 +156,7 @@ export function RaceStage() {
     camRef.current = m;
     ctrl.current?.setCam(m);
     host.current?.closest("section")?.setAttribute("data-cam", m);
-    if (m !== "board") sound?.engineUpdate(false, 0, 0);
+    if (heroVisible.current) sound?.setView(m === "board" ? "near" : "far");
     if (m === "board") {
       const d = driver(inGrid ? followId : grid[0]?.id);
       showBanner({ kind: "info", text: `Onboard with ${d.name}`, carId: d.id });
@@ -191,7 +212,7 @@ export function RaceStage() {
       {/* Timing tower */}
       {tower.length ? (
         <div
-          className={`absolute left-[max(20px,calc((100vw-1280px)/2+20px))] top-[92px] z-[3] w-[226px] overflow-hidden rounded-[10px] border border-white/10 bg-[rgb(10_11_13/0.8)] font-mono text-[11px] text-[#ecedef] backdrop-blur-md transition-opacity duration-500 max-xl:hidden ${
+          className={`absolute left-[max(20px,calc((100vw-1280px)/2+20px))] top-[92px] z-[3] w-[226px] overflow-hidden rounded-[10px] border border-white/10 bg-[rgb(10_11_13/0.8)] font-mono text-[11px] text-[#ecedef] backdrop-blur-md transition-opacity duration-500 max-xl:hidden [@media(max-height:820px)]:hidden ${
             cam === "board" ? "opacity-0" : "opacity-100"
           }`}
           aria-label="Live timing of the simulated race"
@@ -203,17 +224,21 @@ export function RaceStage() {
             </span>
             <b className="font-semibold text-[#ecedef]">Lap {lap}</b>
           </div>
-          <ol className="relative h-[230px]">
+          <ol className="relative h-[161px]">
             {tower.map((r, p) => {
               const d = driver(r.id);
               const c = team(d.team_now).colour;
               const mine = r.id === meId;
+              // Top six, plus your driver in the last slot if they are further back.
+              const myPos = tower.findIndex((x) => x.id === meId);
+              if (p > 5 && !(mine && myPos > 5)) return null;
+              const slot = p > 5 ? 6 : p;
               return (
                 <li
                   key={r.id}
                   className="absolute inset-x-0 top-0 grid h-[23px] grid-cols-[16px_3px_34px_minmax(0,1fr)_10px] items-center gap-[7px] px-2.5 transition-[transform,background] duration-700 ease-expo"
                   style={{
-                    transform: `translateY(${p * 23}px)`,
+                    transform: `translateY(${slot * 23}px)`,
                     background: mine
                       ? `color-mix(in srgb, ${c} 24%, transparent)`
                       : r.delta === 1

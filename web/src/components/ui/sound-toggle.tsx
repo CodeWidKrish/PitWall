@@ -11,9 +11,7 @@ export function SoundToggle() {
     <button
       type="button"
       onClick={() => {
-        void sound?.toggle().then(() => {
-          if (sound?.on) sound.ambience();
-        });
+        void sound?.toggle();
       }}
       aria-pressed={on}
       data-cursor={on ? "Mute" : "Sound"}

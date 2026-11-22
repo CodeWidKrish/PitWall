@@ -674,3 +674,12 @@ section[data-cam="board"] .hero-fav {
 section[data-cam="board"] .hero-ticker {
   transform: translateY(100%);
 }
+
+@keyframes redraw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}

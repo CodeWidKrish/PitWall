@@ -26,8 +26,7 @@ export default function Credits() {
             <p>
               Race results come from the Jolpica F1 API and race weather from Open-Meteo. Official race highlights are
               by FORMULA 1 and open on YouTube. The on-site footage and engine sounds are fan recordings shared under
-              free licences, listed below. Team names are used only to identify teams; no logos are used. The 3D cars
-              are a generic design drawn in code.
+              free licences, listed below. Team names are used only to identify teams; no logos are used.
             </p>
             <p>
               Driver photos are from Wikimedia Commons under the licences below. On the site they are cropped and shown
@@ -63,7 +62,31 @@ export default function Credits() {
             })}
           </ul>
 
-          <h2 className="mt-24 font-mono text-[11px] uppercase tracking-[0.16em] text-sub">Footage</h2>
+          <h2 className="mt-24 font-mono text-[11px] uppercase tracking-[0.16em] text-sub">3D car and circuits</h2>
+          <ul className="mt-6 grid gap-3 md:grid-cols-2">
+            <li className="panel grid gap-1 p-4 text-sm">
+              <strong className="type-voice text-xl font-normal">F1 car model</strong>
+              <span className="text-sub">
+                &ldquo;2026 Mercedes W17&rdquo; by Dave Love (Tyler_Dave) on Sketchfab, licensed{" "}
+                <a href="https://creativecommons.org/licenses/by/4.0/" className="text-ink underline underline-offset-2" rel="license noreferrer">
+                  CC BY 4.0
+                </a>
+                . Changed for PitWall: every sponsor and team logo, the race number and the tyre lettering removed,
+                repainted in each team&apos;s colours, and simplified for the web.
+              </span>
+            </li>
+            <li className="panel grid gap-1 p-4 text-sm">
+              <strong className="type-voice text-xl font-normal">Circuit layouts</strong>
+              <span className="text-sub">
+                <a href="https://github.com/bacinger/f1-circuits" className="text-ink underline underline-offset-2" rel="noreferrer">
+                  f1-circuits
+                </a>{" "}
+                by Tomislav Bacinger, MIT licence. Redrawn as outlines for the calendar.
+              </span>
+            </li>
+          </ul>
+
+          <h2 className="mt-16 font-mono text-[11px] uppercase tracking-[0.16em] text-sub">Footage</h2>
           <p className="mt-3 max-w-[70ch] text-sub">
             Trimmed to short clips and re-encoded for the web; these versions are shared under the same licence.
           </p>
@@ -89,8 +112,9 @@ export default function Credits() {
 
           <h2 className="mt-16 font-mono text-[11px] uppercase tracking-[0.16em] text-sub">Engine sounds</h2>
           <p className="mt-3 max-w-[70ch] text-sub">
-            Recorded at the Goodwood Festival of Speed and played as recorded, trimmed and faded. The onboard engine note
-            and the radio squelch are generated in the browser.
+            Recorded at the Goodwood Festival of Speed. Played as recorded for lights out and pass-bys; the onboard
+            engine is built from short slices of these recordings, pitched with the car&apos;s revs. Team radio is
+            spoken by your browser&apos;s speech voice over generated static; the messages are not real team radio.
           </p>
           <ul className="mt-6 grid gap-3 md:grid-cols-2">
             {Object.entries(audio).map(([slug, a]) => (

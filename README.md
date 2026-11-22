@@ -31,7 +31,10 @@ PitWall is an AI/ML Formula 1 forecaster. It predicts win odds for every driver 
 
 - Results: [Jolpica F1 API](https://github.com/jolpica/jolpica-f1). Weather: [Open-Meteo](https://open-meteo.com/).
 - Driver photos: Wikimedia Commons, each under its own free licence (CC BY, CC BY-SA, CC0 or UK OGL); authors and licences are listed on the site's `/credits` page and in [`web/src/data/photo-credits.json`](web/src/data/photo-credits.json).
-- Race highlights: by FORMULA 1, embedded from YouTube. PitWall does not host any footage.
+- Race highlights: by FORMULA 1, linked on YouTube.
+- On-site footage and engine recordings: fan recordings from Wikimedia Commons (CC BY-SA), trimmed and re-encoded; credited on `/credits`.
+- 3D car: "2026 Mercedes W17" by Dave Love (Tyler_Dave) on Sketchfab, CC BY 4.0. Logos, number and tyre lettering removed and repainted per team; the model file is not in this repository.
+- Circuit layouts: [f1-circuits](https://github.com/bacinger/f1-circuits) by Tomislav Bacinger, MIT.
 - Not affiliated with Formula 1, the FIA or any team. No team or F1 logos are used.
 
 ## Project structure

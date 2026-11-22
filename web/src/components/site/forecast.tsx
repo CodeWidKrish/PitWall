@@ -1,7 +1,15 @@
 import type { CSSProperties } from "react";
 import { D, SectionHead, V } from "@/components/ui/reveal";
+import circuits from "@/data/circuits.json";
 import { Portrait } from "@/components/ui/portrait";
 import { driver, pct, site, team } from "@/lib/data";
+
+interface Circuit {
+  name: string;
+  length_m: number | null;
+  path: string;
+  start: [number, number];
+}
 
 const STATUS_NOTE: Record<string, string> = {
   expected: "Seat reported, not announced",
@@ -139,31 +147,55 @@ export function Forecast() {
           <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-sub">Drag or scroll sideways →</span>
         </div>
         <ol className="rail pb-4" aria-label={`${f.season} calendar`}>
-          {f.calendar.map((r) => (
-            <li
-              key={r.round}
-              className="group relative flex h-[300px] w-[240px] flex-col justify-between overflow-hidden rounded-2xl border border-rule bg-panel p-[18px] transition-transform duration-500 ease-expo hover:-translate-y-1.5"
-            >
-              <span className="flex items-center justify-between font-mono text-[11px] tracking-[0.14em] text-sub">
-                <span>ROUND {String(r.round).padStart(2, "0")}</span>
-                {r.has_sprint ? (
-                  <span className="rounded border border-current px-1.5 py-1 text-[9px] font-semibold text-accent">
-                    SPRINT
-                  </span>
-                ) : null}
-              </span>
-              <span
-                aria-hidden="true"
-                className="font-display text-[92px] font-extrabold leading-[0.8] text-transparent opacity-35 transition-opacity duration-500 [-webkit-text-stroke:1.2px_var(--ink)] [font-stretch:70%] group-hover:opacity-80"
+          {f.calendar.map((r) => {
+            const c = (circuits.circuits as unknown as Record<string, Circuit>)[r.circuit_id];
+            return (
+              <li
+                key={r.round}
+                className="group relative flex h-[360px] w-[260px] flex-col justify-between overflow-hidden rounded-2xl border border-rule bg-panel p-[18px] transition-[transform,border-color] duration-500 ease-expo hover:-translate-y-1.5 hover:border-[var(--accent)]"
               >
-                {String(r.round).padStart(2, "0")}
-              </span>
-              <span>
-                <strong className="type-voice block text-[28px] font-normal leading-none">{r.country}</strong>
-                <span className="mt-2 block font-mono text-xs text-sub">{r.race_name}</span>
-              </span>
-            </li>
-          ))}
+                <span className="flex items-center justify-between font-mono text-[11px] tracking-[0.14em] text-sub">
+                  <span>ROUND {String(r.round).padStart(2, "0")}</span>
+                  {r.has_sprint ? (
+                    <span className="rounded border border-current px-1.5 py-1 text-[9px] font-semibold text-accent">
+                      SPRINT
+                    </span>
+                  ) : null}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute right-3 top-10 font-display text-[92px] font-extrabold leading-[0.8] text-transparent opacity-20 [-webkit-text-stroke:1.2px_var(--ink)] [font-stretch:70%]"
+                >
+                  {String(r.round).padStart(2, "0")}
+                </span>
+                {c ? (
+                  <svg viewBox="0 0 100 100" className="mx-auto mt-2 h-[150px] w-[150px] overflow-visible" role="img" aria-label={`${c.name} layout`}>
+                    <path d={c.path} fill="none" stroke="var(--rule)" strokeWidth="5" strokeLinejoin="round" strokeLinecap="round" />
+                    <path
+                      d={c.path}
+                      fill="none"
+                      stroke="var(--ink)"
+                      strokeWidth="1.6"
+                      strokeLinejoin="round"
+                      strokeLinecap="round"
+                      pathLength={1}
+                      className="[stroke-dasharray:1] [stroke-dashoffset:0] group-hover:animate-[redraw_1.6s_var(--ease-out-expo)]"
+                    />
+                    <circle cx={c.start[0]} cy={c.start[1]} r="2.6" fill="var(--accent)" />
+                  </svg>
+                ) : (
+                  <span className="h-[150px]" />
+                )}
+                <span>
+                  <strong className="type-voice block text-[28px] font-normal leading-none">{r.country}</strong>
+                  <span className="mt-2 block font-mono text-[11px] leading-snug text-sub">
+                    {c ? c.name : r.race_name}
+                    {c?.length_m ? ` · ${(c.length_m / 1000).toFixed(3)} km` : ""}
+                  </span>
+                </span>
+              </li>
+            );
+          })}
         </ol>
       </div>
     </section>

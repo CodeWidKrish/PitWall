@@ -13,6 +13,7 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
+import { loadCarModel } from "@/components/three/car-model";
 
 export type CamMode = "tv" | "board" | "orbit";
 
@@ -42,6 +43,7 @@ export interface SceneEvents {
   onShot?: (label: string) => void;
   onPassBy?: (closeness: number) => void; // a car went past a trackside camera
   onTags?: (tags: { id: string; x: number; y: number; visible: boolean }[]) => void;
+  onModel?: (realistic: boolean) => void;
 }
 
 export interface RaceController {
@@ -641,6 +643,7 @@ export function createRaceScene(
       if (!geo) return;
       const m = new T.Mesh(geo, mats[k]);
       m.castShadow = !small;
+      m.userData.code = true;
       g.add(m);
     });
     const blob = new T.Mesh(new T.PlaneGeometry(2.7, 6.6), new T.MeshBasicMaterial({ map: tex.blob, transparent: true, depthWrite: false, opacity: 0.75 }));
@@ -651,6 +654,19 @@ export function createRaceScene(
     g.scale.setScalar(SC);
     scene.add(g);
     return { d, i, g, u: 1 - i * 0.0105, lap: 0, lane: (i % 2 ? 1 : -1) * 0.17, spd: (1 / 15.5) * (0.9 + 0.1 * d.strength), lapStart: 0, ers: 0.7 };
+  });
+
+  // Swap in the realistic car once it has loaded; keep the code-built ones if it can't.
+  let disposed = false;
+  void loadCarModel(small).then((model) => {
+    if (!model || disposed) return;
+    cars.forEach((c) => {
+      c.g.children.forEach((ch) => {
+        if (ch.userData.code) ch.visible = false;
+      });
+      c.g.add(model.instance(c.d.colour, c.d.accent === "#0E1013" ? "#16181c" : "#f2f3f5"));
+    });
+    ev.onModel?.(true);
   });
 
   let follow = Math.max(0, cars.findIndex((c) => c.d.id === followId));
@@ -768,7 +784,7 @@ export function createRaceScene(
 
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  if (!small) composer.addPass(new UnrealBloomPass(new T.Vector2(512, 512), 0.28, 0.45, 0.94));
+  if (!small) composer.addPass(new UnrealBloomPass(new T.Vector2(512, 512), 0.2, 0.4, 0.97));
   composer.addPass(new OutputPass());
   function size() {
     const w = host.clientWidth,
@@ -980,6 +996,7 @@ export function createRaceScene(
       launching = true;
     },
     dispose() {
+      disposed = true;
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
