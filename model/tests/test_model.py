@@ -176,3 +176,63 @@ def test_confusion_matrix_counts_top_picks() -> None:
     assert w["precision"] == 0.5 and w["recall"] == 0.5
     assert w["accuracy"] == 0.75 and w["error_rate"] == 0.25
     assert 0.5 < w["roc_auc"] <= 1.0
+
+
+def test_select_kind_uses_only_training_seasons() -> None:
+    from pitwall.model import KINDS, select_kind
+
+    e, races = league(seasons=range(2018, 2022))
+    f = build_features(e, races)
+    train = f[f["season"] < 2021]
+    kind, losses = select_kind(train, PRE_QUALI)
+    assert kind in KINDS and set(losses) == set(KINDS)
+    # Poisoning a season outside `train` must not change the choice.
+    poisoned = f.copy()
+    poisoned.loc[poisoned["season"] == 2021, "won"] = False
+    assert select_kind(poisoned[poisoned["season"] < 2021], PRE_QUALI)[0] == kind
+
+
+def test_confidence_bands_group_races_by_favourite_odds() -> None:
+    from pitwall.metrics import confidence_bands
+
+    scores = pd.DataFrame(
+        {
+            "favourite_prob": [0.2, 0.22, 0.5, 0.8],
+            "winner_hit": [False, True, True, True],
+            "winner_in_top3": [True, True, True, True],
+        }
+    )
+    bands = {b["band"]: b for b in confidence_bands(scores)}
+    assert bands["0%-25%"]["races"] == 2 and bands["0%-25%"]["favourite_won"] == 0.5
+    assert bands["60%-100%"]["favourite_won"] == 1.0
+
+
+def test_preseason_state_from_config() -> None:
+    from pitwall.simulate import preseason_state
+
+    e, _ = league(seasons=range(2018, 2020))
+    config = {
+        "season": 2020,
+        "calendar": [
+            {"round": 1, "race_name": "A", "circuit_id": "c1", "country": "X", "has_sprint": True},
+            {"round": 2, "race_name": "B", "circuit_id": "c2", "country": "X", "has_sprint": False},
+        ],
+        "lineup": [
+            {"constructor_id": "t0", "driver_id": "d0", "status": "confirmed"},
+            {"constructor_id": "t0", "driver_id": "rookie", "status": "assumed"},
+        ],
+    }
+    state, race_rows = preseason_state(e, config)
+    assert state.after_round == 0 and list(state.future["round"]) == [1, 2]
+    lineup = state.lineup.set_index("driver_id")
+    assert lineup.at["d0", "driver_code"] == "D0"
+    assert lineup.at["rookie", "status"] == "assumed" and lineup.at["rookie", "driver_code"] == "ROO"
+    assert race_rows["date"].is_monotonic_increasing
+
+
+def test_top3_is_stable_with_a_dominant_driver() -> None:
+    w = np.exp(np.array([60.0, 0.0, -1.0, -2.0, -3.0]))
+    with np.errstate(all="raise"):
+        p = top3_probs(w)
+    assert np.isfinite(p).all()
+    assert p[0] == pytest.approx(1.0) and p.sum() == pytest.approx(3.0)

@@ -57,6 +57,7 @@ def summarise(scores: pd.DataFrame) -> dict[str, Any]:
         "brier": round(float(scores["brier"].mean()), 4),
         "log_loss": round(float(scores["log_loss"].mean()), 4),
         "winner_prob": round(float(scores["winner_prob"].mean()), 4),
+        "favourite_prob": round(float(scores["favourite_prob"].mean()), 4),
     }
 
 
@@ -143,3 +144,29 @@ def classification(df: pd.DataFrame, p_win: str, p_podium: str) -> dict[str, Any
             "calibration_error": round(ece(d[p_podium], pod), 4),
         },
     }
+
+
+CONFIDENCE_BANDS = [0.0, 0.25, 0.4, 0.6, 1.0]
+
+
+def confidence_bands(scores: pd.DataFrame) -> list[dict[str, Any]]:
+    """Races grouped by how sure the model was about its favourite.
+
+    If the model knows when it doesn't know, the favourite should win rarely in
+    low-confidence races and often in high-confidence ones.
+    """
+    if scores.empty:
+        return []
+    bands = pd.cut(scores["favourite_prob"], CONFIDENCE_BANDS, include_lowest=True)
+    out: list[dict[str, Any]] = []
+    for iv, g in scores.groupby(bands, observed=True):
+        out.append(
+            {
+                "band": f"{max(0.0, iv.left):.0%}-{iv.right:.0%}",
+                "races": len(g),
+                "favourite_prob": round(float(g["favourite_prob"].mean()), 4),
+                "favourite_won": round(float(g["winner_hit"].mean()), 4),
+                "winner_in_top3": round(float(g["winner_in_top3"].mean()), 4),
+            }
+        )
+    return out

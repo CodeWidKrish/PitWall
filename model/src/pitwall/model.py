@@ -90,25 +90,31 @@ def fit_temperature(df: pd.DataFrame, scores: np.ndarray, winner_col: str = "won
 def top3_probs(weights: np.ndarray) -> np.ndarray:
     """Exact Plackett-Luce probability that each driver finishes in the top three."""
     w = np.asarray(weights, dtype=float)
-    total = w.sum()
+    w = w / w.max()  # scale so the strongest driver is 1: avoids overflow
     n = len(w)
-    p1 = w / total
+    p1 = w / w.sum()
     p2 = np.zeros(n)
     p3 = np.zeros(n)
+    # Remaining-field sums are added up directly rather than by subtraction, which
+    # loses all precision when one driver is far stronger than the rest.
     for j in range(n):
-        rest_j = total - w[j]
-        pj = w[j] / total
+        if p1[j] == 0:
+            continue
         mask = np.ones(n, bool)
         mask[j] = False
-        p2[mask] += pj * w[mask] / rest_j
+        rest_j = w[mask].sum()
+        if rest_j <= 0:
+            continue
+        p2[mask] += p1[j] * w[mask] / rest_j
         for k in range(n):
-            if k == j:
+            if k == j or w[k] == 0:
                 continue
-            rest_jk = rest_j - w[k]
-            pjk = pj * w[k] / rest_j
             m2 = mask.copy()
             m2[k] = False
-            p3[m2] += pjk * w[m2] / rest_jk
+            rest_jk = w[m2].sum()
+            if rest_jk <= 0:
+                continue
+            p3[m2] += p1[j] * (w[k] / rest_j) * w[m2] / rest_jk
     out: np.ndarray = np.clip(p1 + p2 + p3, 0, 1)
     return out
 
@@ -214,3 +220,33 @@ def fit(train: pd.DataFrame, features: list[str], kind: str = "blend", seed: int
             imp[f] = imp.get(f, 0.0) + float(g) / total / (2 if kind == "blend" else 1)
     model.importance = {f: round(v, 4) for f, v in imp.items()}
     return model
+
+
+def winner_log_loss(df: pd.DataFrame, p_win: np.ndarray) -> float:
+    won = df["won"].to_numpy().astype(bool)
+    return float(-np.mean(np.log(np.clip(p_win[won], 1e-9, 1))))
+
+
+def select_kind(
+    train: pd.DataFrame, features: list[str], validation_seasons: int = 2
+) -> tuple[str, dict[str, float]]:
+    """Pick the model kind using only `train`: walk forward over its last seasons.
+
+    For each of the last `validation_seasons` seasons in `train`, every kind is fitted
+    on the seasons before it and scored on it (log loss of the winners). The kind
+    with the lowest average wins. Nothing outside `train` is looked at.
+    """
+    train = train[train["position"].notna()]
+    seasons = sorted(int(s) for s in train["season"].unique())
+    val = [s for s in seasons[-validation_seasons:] if any(x < s for x in seasons)]
+    if not val:
+        return "pl", {}
+    losses: dict[str, float] = {}
+    for kind in KINDS:
+        scores = []
+        for v in val:
+            m = fit(train[train["season"] < v], features, kind=kind)
+            held = train[train["season"] == v]
+            scores.append(winner_log_loss(held, m.predict(held)["p_win"].to_numpy()))
+        losses[kind] = round(float(np.mean(scores)), 4)
+    return min(losses, key=lambda k: losses[k]), losses

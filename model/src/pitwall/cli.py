@@ -8,6 +8,8 @@ import sys
 from collections.abc import Sequence
 from typing import Any
 
+import pandas as pd
+
 from pitwall import __version__
 from pitwall.config import Settings
 
@@ -87,7 +89,13 @@ def _model_backtest(settings: Settings, seasons: list[int]) -> int:
         f"Backtesting {seasons[0]}-{seasons[-1]} (each season uses a model trained on earlier seasons only)"
     )
     report = backtest.run(feats, seasons)
-    report["titles"] = backtest.title_backtest(t["entries"], t["races"], t["standings"], feats, seasons)
+    report["title_calibration"] = backtest.title_calibration(
+        t["entries"],
+        t["races"],
+        t["standings"],
+        feats,
+        [y for y in seasons if y < settings.last_completed_season],
+    )
     _, md_path = backtest.write(report, settings.reports_dir)
     for mode, r in report["modes"].items():
         m, b = r["overall"]["model"], r["overall"][r["baseline"]]
@@ -100,20 +108,45 @@ def _model_backtest(settings: Settings, seasons: list[int]) -> int:
 
 
 def _model_simulate(settings: Settings, season: int | None, sims: int) -> int:
-    from pitwall.backtest import MODE_KIND
     from pitwall.features import PRE_QUALI, build_features
-    from pitwall.model import fit
-    from pitwall.simulate import simulate
+    from pitwall.model import fit, select_kind
+    from pitwall.simulate import PRESEASON_SCALE, preseason_state, simulate, swing
 
     t = _load_tables(settings)
     if t is None:
         return 1
-    entries = t["entries"]
+    entries, races = t["entries"], t["races"]
     season = season or int(entries["season"].max())
-    feats = build_features(entries, t["races"])
+    feats = build_features(entries, races)
     done = feats[feats["position"].notna()]
-    model = fit(done, PRE_QUALI, kind=MODE_KIND["pre_quali"])
-    result = simulate(entries, t["races"], model, season, n_sims=sims)
+    kind, _ = select_kind(done, PRE_QUALI)
+    model = fit(done, PRE_QUALI, kind=kind)
+    config_path = settings.config_dir / f"season-{season}.json"
+    if season not in set(entries["season"]) and config_path.exists():
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+        state, race_rows = preseason_state(entries, config)
+        races = pd.concat([races, race_rows], ignore_index=True)
+        team_s, drv_s = swing(PRESEASON_SCALE)
+        result = simulate(
+            entries,
+            races,
+            model,
+            season,
+            n_sims=sims,
+            state=state,
+            team_form_sigma=team_s,
+            driver_form_sigma=drv_s,
+        )
+        result["preseason"] = True
+        result["sources"] = {
+            k: config[k] for k in ("calendar_source", "calendar_note", "lineup_source", "lineup_note")
+        }
+    elif season not in set(entries["season"]):
+        print(f"No data or config/season-{season}.json for {season}.")
+        return 1
+    else:
+        result = simulate(entries, races, model, season, n_sims=sims)
+    result["model_kind"] = kind
     settings.reports_dir.mkdir(parents=True, exist_ok=True)
     path = settings.reports_dir / f"titles-{season}.json"
     path.write_text(json.dumps(result, indent=2), encoding="utf-8")

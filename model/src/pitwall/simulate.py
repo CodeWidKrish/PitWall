@@ -16,6 +16,7 @@ Assumes the current line-ups stay the same for the rest of the season.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import timedelta
 from typing import Any
 
 import numpy as np
@@ -29,11 +30,20 @@ RACE_POINTS = np.array([25, 18, 15, 12, 10, 8, 6, 4, 2, 1], dtype=float)
 SPRINT_POINTS = np.array([8, 7, 6, 5, 4, 3, 2, 1], dtype=float)
 DNF_SHRINK = 0.5  # weight on the league average when estimating a driver's DNF chance
 SPRINT_DNF_FACTOR = 0.4  # sprints are a third of the distance
-# Spread of the per-season strength swing (log-odds). On the 2020-2025 title backtest no swing
-# scored marginally best (log loss 0.291 vs 0.307), but that rests on 12 outcomes and gives
-# 99-100% calls with a third of a season left; a moderate swing is the more honest default.
-TEAM_FORM_SIGMA = 0.6
-DRIVER_FORM_SIGMA = 0.3
+# Season-long form swing, in log-odds: scale x (team 0.6, driver 0.3). The scales are tuned
+# by `pitwall model backtest` on title forecasts from five points of every 2020-2025 season
+# (see model/reports/BACKTEST.md); pre-season gets its own, since winter changes are bigger.
+BASE_TEAM_SIGMA = 0.6
+BASE_DRIVER_SIGMA = 0.3
+IN_SEASON_SCALE = 1.0
+PRESEASON_SCALE = 1.0
+
+
+def swing(scale: float) -> tuple[float, float]:
+    return BASE_TEAM_SIGMA * scale, BASE_DRIVER_SIGMA * scale
+
+
+TEAM_FORM_SIGMA, DRIVER_FORM_SIGMA = swing(IN_SEASON_SCALE)
 
 
 @dataclass
@@ -60,7 +70,12 @@ def current_state(
     for a in KNOWN_ADJUSTMENTS:
         if a.season == season and a.kind == "constructor" and a.entity_id in team_points.index:
             team_points[a.entity_id] += a.points
-    last = e[e["round"] == after_round]
+    # Pre-season (after_round == 0): use the line-up from round 1 of that season.
+    last = (
+        e[e["round"] == after_round]
+        if after_round > 0
+        else entries[(entries["season"] == season) & (entries["round"] == 1)]
+    )
     lineup = last[
         ["driver_id", "driver_code", "driver_name", "constructor_id", "constructor_name"]
     ].reset_index(drop=True)
@@ -68,6 +83,48 @@ def current_state(
         ["season", "round", "race_name", "date", "circuit_id", "country", "has_sprint"]
     ]
     return SeasonState(season, after_round, lineup, driver_points, team_points, future.reset_index(drop=True))
+
+
+def preseason_state(entries: pd.DataFrame, config: dict[str, Any]) -> tuple[SeasonState, pd.DataFrame]:
+    """A season that hasn't started, from a config with its calendar and line-up.
+
+    Returns the state and the calendar as race rows (to append to the races table).
+    Driver codes and names come from each driver's latest entry in the data.
+    """
+    season = int(config["season"])
+    cal = pd.DataFrame(config["calendar"])
+    cal["season"] = season
+    # Placeholder dates two weeks apart from early March: only used to order races.
+    cal["date"] = [pd.Timestamp(f"{season}-03-07") + timedelta(days=14 * i) for i in range(len(cal))]
+    latest = (
+        entries.sort_values(["season", "round"])
+        .drop_duplicates("driver_id", keep="last")
+        .set_index("driver_id")
+    )
+    team_names = (
+        entries.sort_values(["season", "round"])
+        .drop_duplicates("constructor_id", keep="last")
+        .set_index("constructor_id")["constructor_name"]
+    )
+    rows = []
+    for seat in config["lineup"]:
+        d = seat["driver_id"]
+        rows.append(
+            {
+                "driver_id": d,
+                "driver_code": latest.at[d, "driver_code"] if d in latest.index else d[:3].upper(),
+                "driver_name": latest.at[d, "driver_name"] if d in latest.index else d,
+                "constructor_id": seat["constructor_id"],
+                "constructor_name": team_names.get(seat["constructor_id"], seat["constructor_id"]),
+                "status": seat.get("status", "confirmed"),
+            }
+        )
+    lineup = pd.DataFrame(rows)
+    future = cal[["season", "round", "race_name", "date", "circuit_id", "country", "has_sprint"]]
+    state = SeasonState(season, 0, lineup, pd.Series(dtype=float), pd.Series(dtype=float), future)
+    # Only the columns the features need; the rest stay missing for a season not yet run.
+    races_rows = cal.assign(circuit_name=cal["circuit_id"])
+    return state, races_rows
 
 
 def future_features(entries: pd.DataFrame, races: pd.DataFrame, state: SeasonState) -> pd.DataFrame:
@@ -159,8 +216,12 @@ def simulate(
     seed: int = 2027,
     team_form_sigma: float = TEAM_FORM_SIGMA,
     driver_form_sigma: float = DRIVER_FORM_SIGMA,
+    state: SeasonState | None = None,
+    feats: pd.DataFrame | None = None,
 ) -> dict[str, Any]:
-    state = current_state(entries, races, season, after_round)
+    """Title odds. Pass `state` for a season that hasn't started (see preseason_state),
+    and `feats` to reuse future features across repeated runs."""
+    state = state or current_state(entries, races, season, after_round)
     lineup = state.lineup
     drivers = list(lineup["driver_id"])
     teams = sorted(lineup["constructor_id"].unique())
@@ -170,7 +231,8 @@ def simulate(
     base_t = np.array([state.team_points.get(t, 0.0) for t in teams])
     sim_d = np.repeat(base_d[None, :], n_sims, axis=0)
 
-    feats = future_features(entries, races, state)
+    if feats is None:
+        feats = future_features(entries, races, state)
     recent = entries[(entries["season"] >= season - 1) & entries["position"].notna()]
     league_dnf = float(recent["dnf"].mean()) if len(recent) else 0.1
     rng = np.random.default_rng(seed)
@@ -208,6 +270,7 @@ def simulate(
                 "code": names.at[d, "driver_code"],
                 "name": names.at[d, "driver_name"],
                 "team": team_of[d],
+                "seat_status": str(names.at[d, "status"]) if "status" in names.columns else "raced",
                 "points_now": float(base_d[i]),
                 "expected_points": round(float(sim_d[:, i].mean()), 1),
                 "p_title": round(float(p_d[i]), 4),
