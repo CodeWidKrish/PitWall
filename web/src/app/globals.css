@@ -1,0 +1,144 @@
+@import "tailwindcss";
+
+/*
+  PitWall design tokens (from the approved prototype).
+  Day (concrete) and night (carbon) grounds, one brand accent (purple sector),
+  timing colours that carry meaning, and --you for the followed driver's team.
+*/
+:root {
+  --day-paper: #e4e6e8;
+  --day-ink: #0b0c0e;
+  --day-sub: #5b616a;
+  --day-rule: rgb(11 12 14 / 0.14);
+  --day-panel: rgb(255 255 255 / 0.62);
+
+  --night-paper: #0b0c0e;
+  --night-ink: #ecedef;
+  --night-sub: #8a9099;
+  --night-rule: rgb(236 237 239 / 0.12);
+  --night-panel: rgb(255 255 255 / 0.04);
+
+  --paper: var(--night-paper);
+  --ink: var(--night-ink);
+  --sub: var(--night-sub);
+  --rule: var(--night-rule);
+  --panel: var(--night-panel);
+
+  --accent: #8f45ff;
+  --you: #14b3a4;
+  --gain: #1dbf6b;
+  --drop: #e3a812;
+  --red: #ff2a2a;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  color-scheme: dark;
+}
+
+.theme-day {
+  --paper: var(--day-paper);
+  --ink: var(--day-ink);
+  --sub: var(--day-sub);
+  --rule: var(--day-rule);
+  --panel: var(--day-panel);
+  color-scheme: light;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-ink: var(--ink);
+  --color-sub: var(--sub);
+  --color-rule: var(--rule);
+  --color-panel: var(--panel);
+  --color-accent: var(--accent);
+  --color-you: var(--you);
+  --color-gain: var(--gain);
+  --color-drop: var(--drop);
+  --color-start-red: var(--red);
+
+  --font-sans: var(--font-archivo), "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-archivo), "Arial Narrow", sans-serif;
+  --font-serif: var(--font-instrument-serif), "Times New Roman", Georgia, serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, Consolas, monospace;
+
+  --ease-expo: var(--ease-out-expo);
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@layer components {
+  /* Condensed display caps */
+  .type-display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-stretch: 68%;
+    text-transform: uppercase;
+    letter-spacing: -0.012em;
+  }
+
+  /* Serif italic voice */
+  .type-voice {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+
+  /* Mono numbers that line up */
+  .type-data {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(110%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

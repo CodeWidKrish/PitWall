@@ -4,7 +4,7 @@
 
 PitWall is an AI/ML Formula 1 forecaster. It predicts win odds for every driver at every race of the 2027 season, simulates the championship 10,000 times, publishes each forecast before the race and scores itself in public afterwards.
 
-> Status: in development. The interactive design prototype is in [`prototype/`](prototype/). Open `prototype/index.html` in a browser.
+> Status: in development, phase 1 of 7 (setup) done. The interactive design prototype is in [`prototype/`](prototype/). Open `prototype/index.html` in a browser.
 
 ![PitWall prototype hero](prototype/screen-hero-v3.png)
 
@@ -27,12 +27,23 @@ PitWall is an AI/ML Formula 1 forecaster. It predicts win odds for every driver 
 | Pipeline | GitHub Actions runs after each race weekend and publishes JSON |
 | Web | Next.js, TypeScript, Tailwind, Three.js (React Three Fiber), GSAP, Lenis |
 
-## Project structure (planned)
+## Project structure
 
 ```
-model/       Python: data pipeline, features, training, backtest, simulation
-web/         Next.js app
+web/         Next.js website (TypeScript, Tailwind)
+model/       Python 3.12 model: data, features, training, backtest, simulation
 prototype/   Interactive design prototype (sample data)
+.github/     CI: lint, type checks, build and tests on every push
+```
+
+## Run it
+
+```bash
+# website
+cd web && npm install && npm run dev
+
+# model (needs uv: https://docs.astral.sh/uv/)
+cd model && uv sync && uv run pitwall info
 ```
 
 ## Notes
