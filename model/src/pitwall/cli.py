@@ -6,6 +6,7 @@ import argparse
 import json
 import sys
 from collections.abc import Sequence
+from typing import Any
 
 from pitwall import __version__
 from pitwall.config import Settings
@@ -65,6 +66,82 @@ def _data_check(settings: Settings) -> int:
     return _print_report(m["checks"]["errors"], m["checks"]["warnings"])
 
 
+def _load_tables(settings: Settings) -> dict[str, Any] | None:
+    from pitwall.data.build import load
+
+    if not (settings.data_dir / "entries.parquet").exists():
+        print("No data yet. Run `pitwall data build` first.")
+        return None
+    return {name: load(settings.data_dir, name) for name in ("entries", "races", "standings")}
+
+
+def _model_backtest(settings: Settings, seasons: list[int]) -> int:
+    from pitwall import backtest
+    from pitwall.features import build_features
+
+    t = _load_tables(settings)
+    if t is None:
+        return 1
+    feats = build_features(t["entries"], t["races"])
+    print(
+        f"Backtesting {seasons[0]}-{seasons[-1]} (each season uses a model trained on earlier seasons only)"
+    )
+    report = backtest.run(feats, seasons)
+    report["titles"] = backtest.title_backtest(t["entries"], t["races"], t["standings"], feats, seasons)
+    _, md_path = backtest.write(report, settings.reports_dir)
+    for mode, r in report["modes"].items():
+        m, b = r["overall"]["model"], r["overall"][r["baseline"]]
+        print(
+            f"{mode:<10} winner {m['winner_hit']:.1%} (baseline {b['winner_hit']:.1%}) | "
+            f"winner in top 3 {m['winner_in_top3']:.1%} | Brier {m['brier']:.3f} (baseline {b['brier']:.3f})"
+        )
+    print(f"Report: {md_path}")
+    return 0
+
+
+def _model_simulate(settings: Settings, season: int | None, sims: int) -> int:
+    from pitwall.backtest import MODE_KIND
+    from pitwall.features import PRE_QUALI, build_features
+    from pitwall.model import fit
+    from pitwall.simulate import simulate
+
+    t = _load_tables(settings)
+    if t is None:
+        return 1
+    entries = t["entries"]
+    season = season or int(entries["season"].max())
+    feats = build_features(entries, t["races"])
+    done = feats[feats["position"].notna()]
+    model = fit(done, PRE_QUALI, kind=MODE_KIND["pre_quali"])
+    result = simulate(entries, t["races"], model, season, n_sims=sims)
+    settings.reports_dir.mkdir(parents=True, exist_ok=True)
+    path = settings.reports_dir / f"titles-{season}.json"
+    path.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    left = result["remaining_rounds"]
+    print(
+        f"{season} after round {result['after_round']}: {len(left)} races left, "
+        f"{result['remaining_sprints']} sprints"
+    )
+    if result["drivers_clinched_by"]:
+        print(f"Drivers' title mathematically decided: {result['drivers_clinched_by']}")
+    if result["constructors_clinched_by"]:
+        print(f"Constructors' title mathematically decided: {result['constructors_clinched_by']}")
+    print("Drivers' championship")
+    for r in result["drivers"][:6]:
+        print(
+            f"  {r['code']:<4} {r['points_now']:>6g} pts  -> {r['expected_points']:>6.1f}  "
+            f"title {r['p_title']:>6.1%}"
+        )
+    print("Constructors' championship")
+    for r in result["constructors"][:5]:
+        print(
+            f"  {r['name']:<16} {r['points_now']:>6g} pts  -> {r['expected_points']:>6.1f}  "
+            f"title {r['p_title']:>6.1%}"
+        )
+    print(f"Saved {path}")
+    return 0
+
+
 def _print_report(errors: list[str], warnings: list[str]) -> int:
     for w in warnings:
         print(f"WARN  {w}")
@@ -86,6 +163,14 @@ def build_parser() -> argparse.ArgumentParser:
     b.add_argument("--seasons", type=parse_seasons, default=None, help="e.g. 2018-2026 (default: all)")
     b.add_argument("--no-weather", action="store_true", help="skip the weather download")
     data_sub.add_parser("check", help="show what was built and re-print the checks")
+
+    model = sub.add_parser("model", help="backtest the model and simulate championships")
+    model_sub = model.add_subparsers(dest="model_command", required=True)
+    bt = model_sub.add_parser("backtest", help="season-by-season backtest, written to model/reports/")
+    bt.add_argument("--seasons", type=parse_seasons, default=None, help="test seasons (default: 2020-2026)")
+    sim = model_sub.add_parser("simulate", help="title odds for both championships")
+    sim.add_argument("--season", type=int, default=None, help="season to simulate (default: latest)")
+    sim.add_argument("--sims", type=int, default=10_000)
     return parser
 
 
@@ -100,6 +185,13 @@ def main(argv: Sequence[str] | None = None) -> int:
             return _data_build(settings, seasons, weather=not args.no_weather)
         if args.data_command == "check":
             return _data_check(settings)
+    if args.command == "model":
+        if args.model_command == "backtest":
+            return _model_backtest(
+                settings, args.seasons or list(range(2020, settings.last_completed_season + 1))
+            )
+        if args.model_command == "simulate":
+            return _model_simulate(settings, args.season, args.sims)
     return 1
 
 

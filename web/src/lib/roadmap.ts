@@ -34,8 +34,8 @@ export const PHASES: readonly Phase[] = [
     id: 3,
     title: "Model",
     summary: "Race odds, a 2019–2026 backtest and title odds for drivers and teams.",
-    window: "26–29 Nov",
-    status: "next",
+    window: "22 Nov",
+    status: "done",
   },
   {
     id: 4,

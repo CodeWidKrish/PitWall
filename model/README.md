@@ -41,6 +41,36 @@ Tables are written as Parquet to `model/data/processed/`, which git ignores:
 
 **Qualifying gaps are session-aware.** Grip improves from Q1 to Q3, so a Q1 lap can be quicker than the pole time. Gaps are only measured within one session: the deepest session the driver reached, and the deepest session both teammates reached.
 
+## Model
+
+```bash
+uv run pitwall model backtest              # 2020-2026, writes model/reports/BACKTEST.md
+uv run pitwall model simulate --season 2026  # title odds for both championships
+```
+
+**Features** (`features.py`) describe each driver and team going into a race, using only earlier races: Elo rating, recent finishes, points, wins, podiums, retirements, qualifying pace and gap to teammate, record at the circuit, team form, and championship position. After qualifying, the grid and that weekend's qualifying gaps are added. A test proves that changing a race's result can't move that race's own features.
+
+**Race model** (`model.py`, `plackett_luce.py`):
+- *Plackett-Luce regression*: a linear model of the whole finishing order (top six places), fitted by maximum likelihood with an L2 penalty.
+- *LightGBM LambdaRank*: a gradient-boosted ranker.
+- Both are recalibrated with a softmax temperature fitted on out-of-sample scores from the last three training seasons.
+- Before qualifying PitWall uses Plackett-Luce; after qualifying, a 50/50 blend of the two.
+
+**Backtest** (`backtest.py`): each season from 2020 is predicted by a model trained only on earlier seasons, against two baselines: the Elo favourite (before qualifying) and win rate by grid slot (after qualifying).
+
+| 2020-2026, 151 races | Top pick wins | Winner in top 3 | Brier | Log loss |
+|---|---|---|---|---|
+| Before qualifying: PitWall | **49.7%** | **80.8%** | **0.687** | **1.539** |
+| Before qualifying: Elo baseline | 47.0% | 68.9% | 0.741 | 1.871 |
+| After qualifying: PitWall | **58.3%** | **90.7%** | **0.580** | **1.234** |
+| After qualifying: grid baseline | 57.0% | 85.4% | 0.646 | 1.574 |
+
+The full report, with per-season numbers, calibration tables and feature importance, is in [`reports/BACKTEST.md`](reports/BACKTEST.md). The model kind per mode was chosen on this backtest, which flatters it slightly; the live 2027 scorecard is the clean test.
+
+**Championships** (`simulate.py`): the remaining races and sprints are played 10,000 times. Each simulation draws retirements from team and driver reliability, finishing orders from the Plackett-Luce strengths, and a season-long form swing per team and driver, so upgrades and slumps are possible. It covers both titles, drivers' and constructors', and detects when a title is mathematically decided. Simulated from two-thirds distance in 2020-2025, the favourite went on to win 5 of 6 drivers' and 5 of 6 constructors' titles.
+
+**Honest limits:** F1 has a lot of luck (safety cars, crashes, strategy), so no model picks winners 90% of the time. About 50-60% is the realistic ceiling. What PitWall aims for instead is calibration: when it says 30%, that should happen about 30% of the time.
+
 ## Checks
 
 ```bash
@@ -55,7 +85,8 @@ uv run pytest
 |---|---|
 | pandas, numpy | Tables and numeric work for features |
 | scikit-learn | Calibration, metrics and baseline models |
-| lightgbm | The main ranking model for race finishing order |
+| lightgbm | Gradient-boosted ranker, blended with the Plackett-Luce model |
+| scipy | Optimiser for the Plackett-Luce regression (installed with scikit-learn) |
 | requests | Jolpica (Ergast-compatible) and Open-Meteo APIs |
 | pyarrow | Parquet storage for the built tables (fast, typed, compact) |
 | pytest, ruff, mypy | Tests, linting and strict type checking (development only) |

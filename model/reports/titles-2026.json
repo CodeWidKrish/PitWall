@@ -1,0 +1,292 @@
+{
+  "season": 2026,
+  "after_round": 20,
+  "drivers_clinched_by": "antonelli",
+  "constructors_clinched_by": "mercedes",
+  "remaining_rounds": [
+    21,
+    22,
+    23
+  ],
+  "remaining_sprints": 0,
+  "simulations": 10000,
+  "drivers": [
+    {
+      "driver_id": "antonelli",
+      "code": "ANT",
+      "name": "Andrea Kimi Antonelli",
+      "team": "mercedes",
+      "points_now": 390.0,
+      "expected_points": 435.6,
+      "p_title": 1.0
+    },
+    {
+      "driver_id": "max_verstappen",
+      "code": "VER",
+      "name": "Max Verstappen",
+      "team": "red_bull",
+      "points_now": 279.0,
+      "expected_points": 326.8,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "russell",
+      "code": "RUS",
+      "name": "George Russell",
+      "team": "mercedes",
+      "points_now": 262.0,
+      "expected_points": 295.5,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "hamilton",
+      "code": "HAM",
+      "name": "Lewis Hamilton",
+      "team": "ferrari",
+      "points_now": 261.0,
+      "expected_points": 291.4,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "norris",
+      "code": "NOR",
+      "name": "Lando Norris",
+      "team": "mclaren",
+      "points_now": 246.0,
+      "expected_points": 283.1,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "leclerc",
+      "code": "LEC",
+      "name": "Charles Leclerc",
+      "team": "ferrari",
+      "points_now": 249.0,
+      "expected_points": 280.4,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "piastri",
+      "code": "PIA",
+      "name": "Oscar Piastri",
+      "team": "mclaren",
+      "points_now": 152.0,
+      "expected_points": 169.6,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "hadjar",
+      "code": "HAD",
+      "name": "Isack Hadjar",
+      "team": "red_bull",
+      "points_now": 122.0,
+      "expected_points": 144.3,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "lawson",
+      "code": "LAW",
+      "name": "Liam Lawson",
+      "team": "rb",
+      "points_now": 89.0,
+      "expected_points": 101.5,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "arvid_lindblad",
+      "code": "LIN",
+      "name": "Arvid Lindblad",
+      "team": "rb",
+      "points_now": 38.0,
+      "expected_points": 47.6,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "gasly",
+      "code": "GAS",
+      "name": "Pierre Gasly",
+      "team": "alpine",
+      "points_now": 42.0,
+      "expected_points": 44.0,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "colapinto",
+      "code": "COL",
+      "name": "Franco Colapinto",
+      "team": "alpine",
+      "points_now": 27.0,
+      "expected_points": 29.0,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "bearman",
+      "code": "BEA",
+      "name": "Oliver Bearman",
+      "team": "haas",
+      "points_now": 23.0,
+      "expected_points": 24.5,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "hulkenberg",
+      "code": "HUL",
+      "name": "Nico H\u00fclkenberg",
+      "team": "audi",
+      "points_now": 14.0,
+      "expected_points": 18.7,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "bortoleto",
+      "code": "BOR",
+      "name": "Gabriel Bortoleto",
+      "team": "audi",
+      "points_now": 14.0,
+      "expected_points": 17.1,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "alonso",
+      "code": "ALO",
+      "name": "Fernando Alonso",
+      "team": "aston_martin",
+      "points_now": 7.0,
+      "expected_points": 7.4,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "sainz",
+      "code": "SAI",
+      "name": "Carlos Sainz",
+      "team": "williams",
+      "points_now": 7.0,
+      "expected_points": 7.3,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "albon",
+      "code": "ALB",
+      "name": "Alexander Albon",
+      "team": "williams",
+      "points_now": 5.0,
+      "expected_points": 5.5,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "rafael_camara",
+      "code": "CAM",
+      "name": "Rafael Camara",
+      "team": "haas",
+      "points_now": 0.0,
+      "expected_points": 0.3,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "stroll",
+      "code": "STR",
+      "name": "Lance Stroll",
+      "team": "aston_martin",
+      "points_now": 0.0,
+      "expected_points": 0.3,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "perez",
+      "code": "PER",
+      "name": "Sergio P\u00e9rez",
+      "team": "cadillac",
+      "points_now": 0.0,
+      "expected_points": 0.1,
+      "p_title": 0.0
+    },
+    {
+      "driver_id": "bottas",
+      "code": "BOT",
+      "name": "Valtteri Bottas",
+      "team": "cadillac",
+      "points_now": 0.0,
+      "expected_points": 0.1,
+      "p_title": 0.0
+    }
+  ],
+  "constructors": [
+    {
+      "constructor_id": "mercedes",
+      "name": "Mercedes",
+      "points_now": 652.0,
+      "expected_points": 731.1,
+      "p_title": 1.0
+    },
+    {
+      "constructor_id": "ferrari",
+      "name": "Ferrari",
+      "points_now": 510.0,
+      "expected_points": 571.8,
+      "p_title": 0.0
+    },
+    {
+      "constructor_id": "red_bull",
+      "name": "Red Bull",
+      "points_now": 415.0,
+      "expected_points": 485.1,
+      "p_title": 0.0
+    },
+    {
+      "constructor_id": "mclaren",
+      "name": "McLaren",
+      "points_now": 398.0,
+      "expected_points": 452.7,
+      "p_title": 0.0
+    },
+    {
+      "constructor_id": "rb",
+      "name": "RB F1 Team",
+      "points_now": 114.0,
+      "expected_points": 136.1,
+      "p_title": 0.0
+    },
+    {
+      "constructor_id": "alpine",
+      "name": "Alpine F1 Team",
+      "points_now": 69.0,
+      "expected_points": 72.9,
+      "p_title": 0.0
+    },
+    {
+      "constructor_id": "audi",
+      "name": "Audi",
+      "points_now": 28.0,
+      "expected_points": 35.7,
+      "p_title": 0.0
+    },
+    {
+      "constructor_id": "haas",
+      "name": "Haas F1 Team",
+      "points_now": 31.0,
+      "expected_points": 32.8,
+      "p_title": 0.0
+    },
+    {
+      "constructor_id": "williams",
+      "name": "Williams",
+      "points_now": 12.0,
+      "expected_points": 12.9,
+      "p_title": 0.0
+    },
+    {
+      "constructor_id": "aston_martin",
+      "name": "Aston Martin",
+      "points_now": 7.0,
+      "expected_points": 7.7,
+      "p_title": 0.0
+    },
+    {
+      "constructor_id": "cadillac",
+      "name": "Cadillac F1 Team",
+      "points_now": 0.0,
+      "expected_points": 0.1,
+      "p_title": 0.0
+    }
+  ]
+}

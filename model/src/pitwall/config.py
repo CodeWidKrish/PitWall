@@ -15,6 +15,9 @@ DEFAULT_CACHE_DIR = Path(os.environ.get("PITWALL_CACHE_DIR", Path.home() / ".cac
 # Clean tables built by the pipeline (gitignored, rebuilt with `pitwall data build`).
 DEFAULT_DATA_DIR = MODEL_ROOT / "data" / "processed"
 
+# Backtest and simulation reports (committed: they're the model's public record).
+DEFAULT_REPORTS_DIR = MODEL_ROOT / "reports"
+
 # Where the pipeline writes the JSON the website reads.
 DEFAULT_OUTPUT_DIR = REPO_ROOT / "web" / "public" / "data"
 
@@ -32,6 +35,7 @@ class Settings:
 
     cache_dir: Path = DEFAULT_CACHE_DIR
     data_dir: Path = DEFAULT_DATA_DIR
+    reports_dir: Path = DEFAULT_REPORTS_DIR
     output_dir: Path = DEFAULT_OUTPUT_DIR
     first_season: int = FIRST_SEASON
     last_completed_season: int = LAST_COMPLETED_SEASON

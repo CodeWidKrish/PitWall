@@ -1,0 +1,753 @@
+{
+  "built_at": "2026-11-22T03:53:06+00:00",
+  "model_version": "0.1.0",
+  "test_seasons": [
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026
+  ],
+  "model_kinds": {
+    "pre_quali": "pl",
+    "post_quali": "blend"
+  },
+  "modes": {
+    "pre_quali": {
+      "model_kind": "pl",
+      "features": [
+        "elo",
+        "elo_rank",
+        "drv_finish_ewm",
+        "drv_finish_avg5",
+        "drv_points_avg5",
+        "drv_wins_avg10",
+        "drv_podium_avg10",
+        "drv_dnf_rate10",
+        "drv_quali_avg5",
+        "drv_pole_gap_avg5",
+        "drv_mate_gap_avg5",
+        "drv_circuit_finish",
+        "drv_starts",
+        "team_points_avg5",
+        "team_best_finish_avg5",
+        "team_quali_avg5",
+        "team_dnf_rate10",
+        "team_circuit_finish",
+        "season_points_pre",
+        "season_rank_pre",
+        "team_season_points_pre",
+        "round_frac"
+      ],
+      "baseline": "elo",
+      "overall": {
+        "model": {
+          "races": 151,
+          "winner_hit": 0.4967,
+          "winner_in_top3": 0.8079,
+          "podium_overlap": 0.5717,
+          "brier": 0.6874,
+          "log_loss": 1.5388,
+          "winner_prob": 0.307
+        },
+        "elo": {
+          "races": 151,
+          "winner_hit": 0.4702,
+          "winner_in_top3": 0.6887,
+          "podium_overlap": 0.5453,
+          "brier": 0.7411,
+          "log_loss": 1.871,
+          "winner_prob": 0.3501
+        }
+      },
+      "per_season": [
+        {
+          "season": 2020,
+          "model": {
+            "races": 17,
+            "winner_hit": 0.6471,
+            "winner_in_top3": 0.8235,
+            "podium_overlap": 0.6667,
+            "brier": 0.6261,
+            "log_loss": 1.5038,
+            "winner_prob": 0.3253
+          },
+          "elo": {
+            "races": 17,
+            "winner_hit": 0.6471,
+            "winner_in_top3": 0.8824,
+            "podium_overlap": 0.7059,
+            "brier": 0.5761,
+            "log_loss": 1.6256,
+            "winner_prob": 0.4614
+          },
+          "temperature": 1.0
+        },
+        {
+          "season": 2021,
+          "model": {
+            "races": 22,
+            "winner_hit": 0.4091,
+            "winner_in_top3": 0.8636,
+            "podium_overlap": 0.6667,
+            "brier": 0.7263,
+            "log_loss": 1.6787,
+            "winner_prob": 0.2331
+          },
+          "elo": {
+            "races": 22,
+            "winner_hit": 0.3636,
+            "winner_in_top3": 0.8636,
+            "podium_overlap": 0.697,
+            "brier": 0.7233,
+            "log_loss": 1.7025,
+            "winner_prob": 0.3559
+          },
+          "temperature": 1.0
+        },
+        {
+          "season": 2022,
+          "model": {
+            "races": 22,
+            "winner_hit": 0.6364,
+            "winner_in_top3": 0.8636,
+            "podium_overlap": 0.5303,
+            "brier": 0.6655,
+            "log_loss": 1.4706,
+            "winner_prob": 0.2779
+          },
+          "elo": {
+            "races": 22,
+            "winner_hit": 0.5909,
+            "winner_in_top3": 0.6818,
+            "podium_overlap": 0.4697,
+            "brier": 0.6693,
+            "log_loss": 1.7084,
+            "winner_prob": 0.3606
+          },
+          "temperature": 1.0
+        },
+        {
+          "season": 2023,
+          "model": {
+            "races": 22,
+            "winner_hit": 0.8636,
+            "winner_in_top3": 0.9545,
+            "podium_overlap": 0.4848,
+            "brier": 0.2983,
+            "log_loss": 0.6926,
+            "winner_prob": 0.5871
+          },
+          "elo": {
+            "races": 22,
+            "winner_hit": 0.8636,
+            "winner_in_top3": 0.9091,
+            "podium_overlap": 0.5152,
+            "brier": 0.2779,
+            "log_loss": 0.6964,
+            "winner_prob": 0.6206
+          },
+          "temperature": 1.0
+        },
+        {
+          "season": 2024,
+          "model": {
+            "races": 24,
+            "winner_hit": 0.375,
+            "winner_in_top3": 0.625,
+            "podium_overlap": 0.5278,
+            "brier": 0.8967,
+            "log_loss": 2.0736,
+            "winner_prob": 0.2733
+          },
+          "elo": {
+            "races": 24,
+            "winner_hit": 0.375,
+            "winner_in_top3": 0.5417,
+            "podium_overlap": 0.4583,
+            "brier": 1.0425,
+            "log_loss": 2.6003,
+            "winner_prob": 0.3181
+          },
+          "temperature": 1.0
+        },
+        {
+          "season": 2025,
+          "model": {
+            "races": 24,
+            "winner_hit": 0.3333,
+            "winner_in_top3": 0.875,
+            "podium_overlap": 0.6528,
+            "brier": 0.7501,
+            "log_loss": 1.5128,
+            "winner_prob": 0.2616
+          },
+          "elo": {
+            "races": 24,
+            "winner_hit": 0.3333,
+            "winner_in_top3": 0.625,
+            "podium_overlap": 0.5833,
+            "brier": 0.8598,
+            "log_loss": 1.9331,
+            "winner_prob": 0.2369
+          },
+          "temperature": 1.0
+        },
+        {
+          "season": 2026,
+          "model": {
+            "races": 20,
+            "winner_hit": 0.25,
+            "winner_in_top3": 0.65,
+            "podium_overlap": 0.4833,
+            "brier": 0.8226,
+            "log_loss": 1.81,
+            "winner_prob": 0.1913
+          },
+          "elo": {
+            "races": 20,
+            "winner_hit": 0.15,
+            "winner_in_top3": 0.35,
+            "podium_overlap": 0.4167,
+            "brier": 0.985,
+            "log_loss": 2.7863,
+            "winner_prob": 0.1146
+          },
+          "temperature": 1.0
+        }
+      ],
+      "calibration": [
+        {
+          "band": "0%-2%",
+          "n": 2038,
+          "predicted": 0.0033,
+          "actual": 0.0015
+        },
+        {
+          "band": "2%-5%",
+          "n": 352,
+          "predicted": 0.0331,
+          "actual": 0.0341
+        },
+        {
+          "band": "5%-10%",
+          "n": 248,
+          "predicted": 0.0701,
+          "actual": 0.0605
+        },
+        {
+          "band": "10%-20%",
+          "n": 185,
+          "predicted": 0.1406,
+          "actual": 0.1405
+        },
+        {
+          "band": "20%-35%",
+          "n": 132,
+          "predicted": 0.2711,
+          "actual": 0.3258
+        },
+        {
+          "band": "35%-50%",
+          "n": 59,
+          "predicted": 0.407,
+          "actual": 0.4237
+        },
+        {
+          "band": "50%-70%",
+          "n": 21,
+          "predicted": 0.5733,
+          "actual": 0.5238
+        },
+        {
+          "band": "70%-100%",
+          "n": 23,
+          "predicted": 0.7548,
+          "actual": 0.6957
+        }
+      ],
+      "podium_calibration": [
+        {
+          "band": "0%-2%",
+          "n": 1507,
+          "predicted": 0.005,
+          "actual": 0.0066
+        },
+        {
+          "band": "2%-5%",
+          "n": 324,
+          "predicted": 0.0316,
+          "actual": 0.0494
+        },
+        {
+          "band": "5%-10%",
+          "n": 221,
+          "predicted": 0.0714,
+          "actual": 0.0905
+        },
+        {
+          "band": "10%-20%",
+          "n": 270,
+          "predicted": 0.1489,
+          "actual": 0.2148
+        },
+        {
+          "band": "20%-35%",
+          "n": 238,
+          "predicted": 0.2704,
+          "actual": 0.2731
+        },
+        {
+          "band": "35%-50%",
+          "n": 159,
+          "predicted": 0.4173,
+          "actual": 0.4403
+        },
+        {
+          "band": "50%-70%",
+          "n": 148,
+          "predicted": 0.5887,
+          "actual": 0.5068
+        },
+        {
+          "band": "70%-100%",
+          "n": 191,
+          "predicted": 0.8451,
+          "actual": 0.7277
+        }
+      ],
+      "feature_importance": {
+        "team_quali_avg5": 0.12138571428571426,
+        "drv_pole_gap_avg5": 0.10281428571428569,
+        "team_season_points_pre": 0.0805,
+        "season_points_pre": 0.07585714285714287,
+        "elo_rank": 0.0619,
+        "drv_points_avg5": 0.058985714285714294,
+        "drv_mate_gap_avg5": 0.05701428571428571,
+        "elo": 0.051528571428571424,
+        "season_rank_pre": 0.05117142857142856,
+        "drv_finish_ewm": 0.04364285714285714,
+        "team_points_avg5": 0.043114285714285716,
+        "drv_dnf_rate10": 0.04288571428571429,
+        "drv_finish_avg5": 0.03847142857142857,
+        "drv_quali_avg5": 0.03585714285714286,
+        "drv_wins_avg10": 0.031857142857142855,
+        "team_dnf_rate10": 0.022914285714285713,
+        "team_best_finish_avg5": 0.019542857142857143,
+        "drv_starts": 0.016642857142857143,
+        "team_circuit_finish": 0.01622857142857143,
+        "drv_podium_avg10": 0.015385714285714287,
+        "drv_circuit_finish": 0.012300000000000002,
+        "round_frac": 0.0
+      }
+    },
+    "post_quali": {
+      "model_kind": "blend",
+      "features": [
+        "elo",
+        "elo_rank",
+        "drv_finish_ewm",
+        "drv_finish_avg5",
+        "drv_points_avg5",
+        "drv_wins_avg10",
+        "drv_podium_avg10",
+        "drv_dnf_rate10",
+        "drv_quali_avg5",
+        "drv_pole_gap_avg5",
+        "drv_mate_gap_avg5",
+        "drv_circuit_finish",
+        "drv_starts",
+        "team_points_avg5",
+        "team_best_finish_avg5",
+        "team_quali_avg5",
+        "team_dnf_rate10",
+        "team_circuit_finish",
+        "season_points_pre",
+        "season_rank_pre",
+        "team_season_points_pre",
+        "round_frac",
+        "grid",
+        "quali_position",
+        "gap_to_pole_pct",
+        "gap_to_teammate_pct",
+        "pit_lane_start"
+      ],
+      "baseline": "grid",
+      "overall": {
+        "model": {
+          "races": 151,
+          "winner_hit": 0.5828,
+          "winner_in_top3": 0.9073,
+          "podium_overlap": 0.6578,
+          "brier": 0.5797,
+          "log_loss": 1.2343,
+          "winner_prob": 0.3973
+        },
+        "grid": {
+          "races": 151,
+          "winner_hit": 0.5695,
+          "winner_in_top3": 0.8543,
+          "podium_overlap": 0.6689,
+          "brier": 0.646,
+          "log_loss": 1.5736,
+          "winner_prob": 0.3287
+        }
+      },
+      "per_season": [
+        {
+          "season": 2020,
+          "model": {
+            "races": 17,
+            "winner_hit": 0.7059,
+            "winner_in_top3": 0.8824,
+            "podium_overlap": 0.7255,
+            "brier": 0.5802,
+            "log_loss": 1.411,
+            "winner_prob": 0.3999
+          },
+          "grid": {
+            "races": 17,
+            "winner_hit": 0.5882,
+            "winner_in_top3": 0.7647,
+            "podium_overlap": 0.6863,
+            "brier": 0.715,
+            "log_loss": 1.9159,
+            "winner_prob": 0.2918
+          },
+          "temperature": 0.8384338887392597
+        },
+        {
+          "season": 2021,
+          "model": {
+            "races": 22,
+            "winner_hit": 0.3636,
+            "winner_in_top3": 0.8182,
+            "podium_overlap": 0.6515,
+            "brier": 0.7029,
+            "log_loss": 1.5721,
+            "winner_prob": 0.2553
+          },
+          "grid": {
+            "races": 22,
+            "winner_hit": 0.5,
+            "winner_in_top3": 0.8182,
+            "podium_overlap": 0.697,
+            "brier": 0.6905,
+            "log_loss": 1.6558,
+            "winner_prob": 0.3057
+          },
+          "temperature": 0.9272587164264275
+        },
+        {
+          "season": 2022,
+          "model": {
+            "races": 22,
+            "winner_hit": 0.5,
+            "winner_in_top3": 0.9091,
+            "podium_overlap": 0.6364,
+            "brier": 0.6326,
+            "log_loss": 1.2421,
+            "winner_prob": 0.3246
+          },
+          "grid": {
+            "races": 22,
+            "winner_hit": 0.4545,
+            "winner_in_top3": 0.8182,
+            "podium_overlap": 0.6364,
+            "brier": 0.7218,
+            "log_loss": 1.758,
+            "winner_prob": 0.2918
+          },
+          "temperature": 0.8817284907956554
+        },
+        {
+          "season": 2023,
+          "model": {
+            "races": 22,
+            "winner_hit": 0.9091,
+            "winner_in_top3": 0.9545,
+            "podium_overlap": 0.6061,
+            "brier": 0.264,
+            "log_loss": 0.6142,
+            "winner_prob": 0.6063
+          },
+          "grid": {
+            "races": 22,
+            "winner_hit": 0.6364,
+            "winner_in_top3": 0.8636,
+            "podium_overlap": 0.6364,
+            "brier": 0.6091,
+            "log_loss": 1.5004,
+            "winner_prob": 0.3451
+          },
+          "temperature": 0.7972651367453139
+        },
+        {
+          "season": 2024,
+          "model": {
+            "races": 24,
+            "winner_hit": 0.4167,
+            "winner_in_top3": 0.8333,
+            "podium_overlap": 0.6111,
+            "brier": 0.8248,
+            "log_loss": 1.7359,
+            "winner_prob": 0.3788
+          },
+          "grid": {
+            "races": 24,
+            "winner_hit": 0.4583,
+            "winner_in_top3": 0.8333,
+            "podium_overlap": 0.6667,
+            "brier": 0.7023,
+            "log_loss": 1.7103,
+            "winner_prob": 0.3073
+          },
+          "temperature": 0.651836344868839
+        },
+        {
+          "season": 2025,
+          "model": {
+            "races": 24,
+            "winner_hit": 0.5833,
+            "winner_in_top3": 1.0,
+            "podium_overlap": 0.7639,
+            "brier": 0.521,
+            "log_loss": 1.0116,
+            "winner_prob": 0.4058
+          },
+          "grid": {
+            "races": 24,
+            "winner_hit": 0.6667,
+            "winner_in_top3": 0.9583,
+            "podium_overlap": 0.75,
+            "brier": 0.549,
+            "log_loss": 1.1196,
+            "winner_prob": 0.3826
+          },
+          "temperature": 0.7972651367453139
+        },
+        {
+          "season": 2026,
+          "model": {
+            "races": 20,
+            "winner_hit": 0.65,
+            "winner_in_top3": 0.95,
+            "podium_overlap": 0.6167,
+            "brier": 0.5093,
+            "log_loss": 1.0515,
+            "winner_prob": 0.413
+          },
+          "grid": {
+            "races": 20,
+            "winner_hit": 0.7,
+            "winner_in_top3": 0.9,
+            "podium_overlap": 0.6,
+            "brier": 0.5448,
+            "log_loss": 1.4504,
+            "winner_prob": 0.3692
+          },
+          "temperature": 0.7972651367453139
+        }
+      ],
+      "calibration": [
+        {
+          "band": "0%-2%",
+          "n": 2239,
+          "predicted": 0.0028,
+          "actual": 0.0022
+        },
+        {
+          "band": "2%-5%",
+          "n": 253,
+          "predicted": 0.0328,
+          "actual": 0.0198
+        },
+        {
+          "band": "5%-10%",
+          "n": 165,
+          "predicted": 0.0699,
+          "actual": 0.0364
+        },
+        {
+          "band": "10%-20%",
+          "n": 167,
+          "predicted": 0.1439,
+          "actual": 0.1377
+        },
+        {
+          "band": "20%-35%",
+          "n": 97,
+          "predicted": 0.2658,
+          "actual": 0.299
+        },
+        {
+          "band": "35%-50%",
+          "n": 66,
+          "predicted": 0.4168,
+          "actual": 0.4848
+        },
+        {
+          "band": "50%-70%",
+          "n": 45,
+          "predicted": 0.5886,
+          "actual": 0.7333
+        },
+        {
+          "band": "70%-100%",
+          "n": 26,
+          "predicted": 0.8136,
+          "actual": 0.6923
+        }
+      ],
+      "podium_calibration": [
+        {
+          "band": "0%-2%",
+          "n": 1690,
+          "predicted": 0.0041,
+          "actual": 0.0047
+        },
+        {
+          "band": "2%-5%",
+          "n": 274,
+          "predicted": 0.0325,
+          "actual": 0.0438
+        },
+        {
+          "band": "5%-10%",
+          "n": 215,
+          "predicted": 0.0728,
+          "actual": 0.0837
+        },
+        {
+          "band": "10%-20%",
+          "n": 226,
+          "predicted": 0.1462,
+          "actual": 0.1903
+        },
+        {
+          "band": "20%-35%",
+          "n": 147,
+          "predicted": 0.2627,
+          "actual": 0.2993
+        },
+        {
+          "band": "35%-50%",
+          "n": 114,
+          "predicted": 0.4187,
+          "actual": 0.5175
+        },
+        {
+          "band": "50%-70%",
+          "n": 142,
+          "predicted": 0.5984,
+          "actual": 0.5634
+        },
+        {
+          "band": "70%-100%",
+          "n": 250,
+          "predicted": 0.8686,
+          "actual": 0.756
+        }
+      ],
+      "feature_importance": {
+        "quali_position": 0.15625714285714287,
+        "grid": 0.13004285714285713,
+        "drv_points_avg5": 0.07254285714285715,
+        "team_quali_avg5": 0.06628571428571428,
+        "gap_to_pole_pct": 0.06525714285714286,
+        "drv_pole_gap_avg5": 0.052571428571428575,
+        "drv_quali_avg5": 0.043800000000000006,
+        "elo": 0.03622857142857142,
+        "season_points_pre": 0.034557142857142856,
+        "team_season_points_pre": 0.03412857142857143,
+        "drv_finish_avg5": 0.03207142857142857,
+        "team_points_avg5": 0.031599999999999996,
+        "drv_mate_gap_avg5": 0.030657142857142855,
+        "drv_finish_ewm": 0.022828571428571427,
+        "elo_rank": 0.022685714285714285,
+        "gap_to_teammate_pct": 0.02265714285714286,
+        "season_rank_pre": 0.020985714285714288,
+        "drv_dnf_rate10": 0.019542857142857143,
+        "drv_wins_avg10": 0.018585714285714285,
+        "drv_podium_avg10": 0.016185714285714286,
+        "team_dnf_rate10": 0.015,
+        "team_best_finish_avg5": 0.013857142857142858,
+        "drv_circuit_finish": 0.01247142857142857,
+        "team_circuit_finish": 0.011657142857142857,
+        "drv_starts": 0.010371428571428571,
+        "pit_lane_start": 0.0036428571428571426,
+        "round_frac": 0.0035
+      }
+    }
+  },
+  "titles": [
+    {
+      "season": 2020,
+      "after_round": 11,
+      "of_rounds": 17,
+      "driver_champion": "hamilton",
+      "p_driver_champion": 0.9988,
+      "driver_favourite_won": true,
+      "constructor_champion": "mercedes",
+      "p_constructor_champion": 1.0,
+      "constructor_favourite_won": true
+    },
+    {
+      "season": 2021,
+      "after_round": 15,
+      "of_rounds": 22,
+      "driver_champion": "max_verstappen",
+      "p_driver_champion": 0.516,
+      "driver_favourite_won": true,
+      "constructor_champion": "mercedes",
+      "p_constructor_champion": 0.8008,
+      "constructor_favourite_won": true
+    },
+    {
+      "season": 2022,
+      "after_round": 15,
+      "of_rounds": 22,
+      "driver_champion": "max_verstappen",
+      "p_driver_champion": 1.0,
+      "driver_favourite_won": true,
+      "constructor_champion": "red_bull",
+      "p_constructor_champion": 0.9928,
+      "constructor_favourite_won": true
+    },
+    {
+      "season": 2023,
+      "after_round": 15,
+      "of_rounds": 22,
+      "driver_champion": "max_verstappen",
+      "p_driver_champion": 1.0,
+      "driver_favourite_won": true,
+      "constructor_champion": "red_bull",
+      "p_constructor_champion": 1.0,
+      "constructor_favourite_won": true
+    },
+    {
+      "season": 2024,
+      "after_round": 16,
+      "of_rounds": 24,
+      "driver_champion": "max_verstappen",
+      "p_driver_champion": 0.9785,
+      "driver_favourite_won": true,
+      "constructor_champion": "mclaren",
+      "p_constructor_champion": 0.4125,
+      "constructor_favourite_won": false
+    },
+    {
+      "season": 2025,
+      "after_round": 16,
+      "of_rounds": 24,
+      "driver_champion": "norris",
+      "p_driver_champion": 0.1493,
+      "driver_favourite_won": false,
+      "constructor_champion": "mclaren",
+      "p_constructor_champion": 1.0,
+      "constructor_favourite_won": true
+    }
+  ]
+}
