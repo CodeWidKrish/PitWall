@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     template: "%s · PitWall",
   },
   description:
-    "PitWall predicts every Formula 1 race winner and the championship, publishes its odds before lights out and scores itself in public.",
+    "PitWall predicts every Formula 1 race winner and both championships, drivers and constructors, publishes its odds before lights out and scores itself in public.",
   applicationName: "PitWall",
   authors: [{ name: "Krish Hingu" }],
   openGraph: {

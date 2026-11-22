@@ -33,8 +33,11 @@ Tables are written as Parquet to `model/data/processed/`, which git ignores:
 | `sprints` | driver per sprint | sprint finish and points |
 | `weather` | race | air temperature, humidity, wind, rain in mm, share of rainy hours, wet race flag |
 | `entries` | driver per race | everything above joined, plus teammate and the targets (won, podium, points, DNF) |
+| `standings` | driver or team per season | official championship points, wins and position at the last completed round |
 
 `manifest.json` records counts, coverage and the result of every data check: unique keys, consecutive rounds, exactly one winner per race, no repeated positions, plausible grids, and qualifying, sprint and weather coverage. The grid is 20 cars until 2025 and 22 from 2026.
+
+**Points reconciliation.** Every season, each driver's and each team's race + sprint points and wins are summed from `results` and `sprints` and compared with the official standings at the same round. Any difference fails the build unless it's a documented, verified adjustment in `KNOWN_ADJUSTMENTS` (for example, Racing Point's 15-point constructors' deduction in 2020). On the 2018-2026 data, all 289 standings rows match, with that one explained adjustment, including the half points from the 2021 Belgian GP.
 
 **Qualifying gaps are session-aware.** Grip improves from Q1 to Q3, so a Q1 lap can be quicker than the pole time. Gaps are only measured within one session: the deepest session the driver reached, and the deepest session both teammates reached.
 

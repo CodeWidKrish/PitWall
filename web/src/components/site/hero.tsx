@@ -48,7 +48,7 @@ export function Hero() {
 
         <div className="mt-10 grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
           <p className="max-w-[46ch] text-[17px] leading-relaxed text-sub">
-            PitWall predicts every Formula 1 race winner and the championship, publishes its odds before lights out
+            PitWall predicts every Formula 1 race winner and both championships, publishes its odds before lights out
             and scores itself in public afterwards. The forecast for the 2027 season is being built now.
           </p>
           <a

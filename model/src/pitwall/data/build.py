@@ -7,6 +7,7 @@ Outputs (Parquet, in `Settings.data_dir`):
   sprints     one row per driver per sprint race
   weather     one row per race (Open-Meteo, race window)
   entries     one row per driver per race with everything joined: the modelling table
+  standings   official driver and constructor standings at the last completed round
   manifest    counts, coverage and the data-check report (JSON)
 """
 
@@ -25,12 +26,13 @@ from pitwall import __version__
 from pitwall.config import Settings
 from pitwall.data import parse
 from pitwall.data.jolpica import JolpicaClient
+from pitwall.data.standings import reconcile, standings_frame
 from pitwall.data.validate import Report, check
 from pitwall.data.weather import RaceSlot, WeatherLoader, weather_frame
 
 log = logging.getLogger(__name__)
 
-TABLES = ("races", "results", "qualifying", "sprints", "weather", "entries")
+TABLES = ("races", "results", "qualifying", "sprints", "weather", "entries", "standings")
 WEATHER_FEATURES = ("air_temp_c", "humidity_pct", "wind_speed_ms", "rain_mm", "rain_before_mm", "rain_share")
 
 
@@ -42,12 +44,13 @@ class Tables:
     sprints: pd.DataFrame
     weather: pd.DataFrame
     entries: pd.DataFrame
+    standings: pd.DataFrame
 
 
 def fetch_season(client: JolpicaClient, season: int, *, current: bool) -> dict[str, pd.DataFrame]:
     """Download and parse one season. Past seasons are cached permanently."""
     permanent = not current
-    return {
+    out = {
         "races": parse.races_frame(client.races(f"{season}", permanent=permanent)),
         "results": parse.results_frame(client.races(f"{season}/results", permanent=permanent)),
         "qualifying": parse.qualifying_frame(client.races(f"{season}/qualifying", permanent=permanent)),
@@ -55,6 +58,21 @@ def fetch_season(client: JolpicaClient, season: int, *, current: bool) -> dict[s
             client.races(f"{season}/sprint", permanent=permanent), key="SprintResults"
         ),
     }
+    # Standings as of the last round we have results for, so the two always line up.
+    if out["results"].empty:
+        out["standings"] = standings_frame(season, None, "driver")
+    else:
+        last = int(out["results"]["round"].max())
+        out["standings"] = pd.concat(
+            [
+                standings_frame(
+                    season, client.standings(f"{season}/{last}/{kind}standings", permanent=permanent), kind
+                )
+                for kind in ("driver", "constructor")
+            ],
+            ignore_index=True,
+        )
+    return out
 
 
 def build_entries(
@@ -136,7 +154,9 @@ def build(
     client = client or JolpicaClient(cache_dir=settings.jolpica_cache_dir)
     year_now = (today or datetime.now(UTC)).year
 
-    parts: dict[str, list[pd.DataFrame]] = {k: [] for k in ("races", "results", "qualifying", "sprints")}
+    parts: dict[str, list[pd.DataFrame]] = {
+        k: [] for k in ("races", "results", "qualifying", "sprints", "standings")
+    }
     for season in seasons:
         season_data = fetch_season(client, season, current=season >= year_now)
         for k, df in season_data.items():
@@ -150,6 +170,8 @@ def build(
     results = pd.concat(parts["results"], ignore_index=True)
     qualifying = pd.concat(parts["qualifying"], ignore_index=True)
     sprints = pd.concat(parts["sprints"], ignore_index=True) if parts["sprints"] else pd.DataFrame()
+    standings = pd.concat(parts["standings"], ignore_index=True) if parts["standings"] else pd.DataFrame()
+    mismatches = reconcile(results, sprints, standings)
 
     weather = pd.DataFrame()
     if weather_loader is not None:
@@ -165,13 +187,20 @@ def build(
             progress(f"  weather: missing for {len(missing)} races: {', '.join(missing[:6])}")
 
     entries = build_entries(races, results, qualifying, sprints, weather)
-    tables = Tables(races, results, qualifying, sprints, weather, entries)
-    report = check(races, results, qualifying, sprints, weather, entries)
-    write(settings.data_dir, tables, report, seasons, client.requests_made)
+    tables = Tables(races, results, qualifying, sprints, weather, entries, standings)
+    report = check(races, results, qualifying, sprints, weather, entries, mismatches)
+    write(settings.data_dir, tables, report, seasons, client.requests_made, mismatches)
     return tables, report
 
 
-def write(data_dir: Path, t: Tables, report: Report, seasons: Sequence[int], requests_made: int) -> None:
+def write(
+    data_dir: Path,
+    t: Tables,
+    report: Report,
+    seasons: Sequence[int],
+    requests_made: int,
+    mismatches: pd.DataFrame,
+) -> None:
     data_dir.mkdir(parents=True, exist_ok=True)
     for name in TABLES:
         df: pd.DataFrame = getattr(t, name)
@@ -187,6 +216,23 @@ def write(data_dir: Path, t: Tables, report: Report, seasons: Sequence[int], req
         "races_by_season": {str(k): int(v) for k, v in raced.groupby("season").size().items()},
         "weather_coverage": round(len(t.weather) / max(1, len(raced)), 3) if not t.weather.empty else 0.0,
         "api_requests": requests_made,
+        "points_reconciliation": {
+            "entities_checked": len(t.standings),
+            "mismatches": len(mismatches),
+            "explained": [
+                {
+                    "season": int(r["season"]),
+                    "kind": str(r["kind"]),
+                    "entity": str(r["entity_id"]),
+                    "diff": float(r["diff"]),
+                    "reason": str(r["reason"]),
+                }
+                for r in mismatches.to_dict("records")
+                if r["explained"]
+            ]
+            if not mismatches.empty
+            else [],
+        },
         "checks": {"ok": report.ok, "errors": report.errors, "warnings": report.warnings},
     }
     (data_dir / "manifest.json").write_text(json.dumps(manifest, indent=2), encoding="utf-8")

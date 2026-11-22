@@ -2,7 +2,7 @@
 
 **Who wins the next Grand Prix, and who takes the title?**
 
-PitWall is an AI/ML Formula 1 forecaster. It predicts win odds for every driver at every race of the 2027 season, simulates the championship 10,000 times, publishes each forecast before the race and scores itself in public afterwards.
+PitWall is an AI/ML Formula 1 forecaster. It predicts win odds for every driver at every race of the 2027 season, simulates both championships (drivers and constructors) 10,000 times, publishes each forecast before the race and scores itself in public afterwards.
 
 > Status: in development. Phases 1 (setup) and 2 (data) are done. The interactive design prototype is in [`prototype/`](prototype/). Open `prototype/index.html` in a browser.
 

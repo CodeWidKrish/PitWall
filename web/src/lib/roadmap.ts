@@ -33,7 +33,7 @@ export const PHASES: readonly Phase[] = [
   {
     id: 3,
     title: "Model",
-    summary: "Elo and grid baselines, a LightGBM ranker and a 2019–2026 backtest.",
+    summary: "Race odds, a 2019–2026 backtest and title odds for drivers and teams.",
     window: "26–29 Nov",
     status: "next",
   },
@@ -74,7 +74,7 @@ export const FEATURES: readonly Feature[] = [
   },
   {
     title: "The whole season, up front",
-    body: "Win odds for all 24 rounds of 2027, published before round 1 and updated after every weekend.",
+    body: "Odds for all 24 rounds of 2027 and for both championships, drivers and constructors, updated after every weekend.",
   },
   {
     title: "An honest backtest",

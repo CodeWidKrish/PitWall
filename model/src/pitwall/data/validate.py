@@ -39,6 +39,7 @@ def check(
     sprints: pd.DataFrame,
     weather: pd.DataFrame | None,
     entries: pd.DataFrame,
+    mismatches: pd.DataFrame | None = None,
 ) -> Report:
     r = Report()
 
@@ -114,5 +115,18 @@ def check(
         r.error("entries: some races don't have exactly one winner")
     if entries["quali_position"].isna().mean() > 0.05:
         r.warn(f"entries: {entries['quali_position'].isna().mean():.1%} rows lack a qualifying position")
+
+    # points reconciliation against the official standings
+    if mismatches is not None and not mismatches.empty:
+        for m in mismatches.to_dict("records"):
+            msg = (
+                f"standings: {m['season']} {m['kind']} {m['entity_id']}: our points {m['ours']:g}, "
+                f"official {m['official']:g} (diff {m['diff']:+g}); "
+                f"wins {m['wins_ours']:g} vs {m['wins_official']:g}"
+            )
+            if m["explained"]:
+                r.warn(f"{msg}. Known adjustment: {m['reason']}")
+            else:
+                r.error(msg)
 
     return r

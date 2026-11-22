@@ -99,6 +99,16 @@ class JolpicaClient:
             return data
         raise JolpicaError(f"{url}: gave up")  # pragma: no cover
 
+    # ---- standings ---------------------------------------------------------
+
+    def standings(self, path: str, *, permanent: bool = False) -> JsonDict | None:
+        """The standings list for `path` (e.g. "2024/24/driverstandings"), or None if empty."""
+        lists = self.get(path, permanent=permanent)["MRData"]["StandingsTable"]["StandingsLists"]
+        if not lists:
+            return None
+        first: JsonDict = lists[0]
+        return first
+
     # ---- paginated race tables --------------------------------------------
 
     def races(self, path: str, *, permanent: bool = False) -> list[JsonDict]:
