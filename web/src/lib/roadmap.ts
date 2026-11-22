@@ -19,9 +19,9 @@ export const PHASES: readonly Phase[] = [
   {
     id: 1,
     title: "Setup",
-    summary: "Web app, model package, CI and the first live deploy.",
+    summary: "Web app, model package and checks on every push.",
     window: "22 Nov",
-    status: "active",
+    status: "done",
   },
   {
     id: 2,
@@ -61,7 +61,7 @@ export const PHASES: readonly Phase[] = [
   {
     id: 7,
     title: "Launch",
-    summary: "Automatic updates after every race, performance and the write-up.",
+    summary: "Go live, with automatic updates after every race and the write-up.",
     window: "8–10 Dec",
     status: "next",
   },
