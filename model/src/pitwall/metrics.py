@@ -80,3 +80,66 @@ def calibration(df: pd.DataFrame, p_col: str, outcome: str = "won") -> list[dict
                 }
             )
     return out
+
+
+def _confusion(pred: np.ndarray, actual: np.ndarray) -> dict[str, Any]:
+    tp = int(np.sum(pred & actual))
+    fp = int(np.sum(pred & ~actual))
+    fn = int(np.sum(~pred & actual))
+    tn = int(np.sum(~pred & ~actual))
+    n = tp + fp + fn + tn
+    precision = tp / (tp + fp) if tp + fp else 0.0
+    recall = tp / (tp + fn) if tp + fn else 0.0
+    f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+    accuracy = (tp + tn) / n if n else 0.0
+    return {
+        "tp": tp,
+        "fp": fp,
+        "fn": fn,
+        "tn": tn,
+        "accuracy": round(accuracy, 4),
+        "error_rate": round(1 - accuracy, 4),
+        "precision": round(precision, 4),
+        "recall": round(recall, 4),
+        "f1": round(f1, 4),
+        # What a model that always says "no" would score: shows how imbalanced the task is.
+        "always_no_accuracy": round((fp + tn) / n, 4) if n else 0.0,
+    }
+
+
+def classification(df: pd.DataFrame, p_win: str, p_podium: str) -> dict[str, Any]:
+    """Confusion matrices for "who wins" (top pick per race) and "who makes the podium" (top 3 per race).
+
+    Also ROC AUC (how well the odds rank winners above non-winners, 50% = random)
+    and expected calibration error (the average gap between predicted and actual
+    frequency, weighted by how often each probability band is used).
+    """
+    from sklearn.metrics import roc_auc_score
+
+    d = df.copy()
+    d["_rank_w"] = d.groupby(["season", "round"])[p_win].rank(ascending=False, method="first")
+    d["_rank_p"] = d.groupby(["season", "round"])[p_podium].rank(ascending=False, method="first")
+    won = d["won"].to_numpy().astype(bool)
+    pod = d["podium"].to_numpy().astype(bool)
+
+    def ece(p: pd.Series, y: np.ndarray) -> float:
+        bins = pd.cut(p, CALIBRATION_BINS, include_lowest=True)
+        t = (
+            pd.DataFrame({"p": p, "y": y, "b": bins})
+            .groupby("b", observed=True)
+            .agg(p=("p", "mean"), y=("y", "mean"), n=("y", "size"))
+        )
+        return float((t["n"] * (t["p"] - t["y"]).abs()).sum() / t["n"].sum())
+
+    return {
+        "win": {
+            **_confusion((d["_rank_w"] == 1).to_numpy(), won),
+            "roc_auc": round(float(roc_auc_score(won, d[p_win])), 4),
+            "calibration_error": round(ece(d[p_win], won), 4),
+        },
+        "podium": {
+            **_confusion((d["_rank_p"] <= 3).to_numpy(), pod),
+            "roc_auc": round(float(roc_auc_score(pod, d[p_podium])), 4),
+            "calibration_error": round(ece(d[p_podium], pod), 4),
+        },
+    }

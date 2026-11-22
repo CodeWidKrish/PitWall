@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-11-22T03:53:06+00:00",
+  "built_at": "2026-11-22T03:57:30+00:00",
   "model_version": "0.1.0",
   "test_seasons": [
     2020,
@@ -218,6 +218,36 @@
           "temperature": 1.0
         }
       ],
+      "classification": {
+        "win": {
+          "tp": 75,
+          "fp": 76,
+          "fn": 76,
+          "tn": 2831,
+          "accuracy": 0.9503,
+          "error_rate": 0.0497,
+          "precision": 0.4967,
+          "recall": 0.4967,
+          "f1": 0.4967,
+          "always_no_accuracy": 0.9506,
+          "roc_auc": 0.937,
+          "calibration_error": 0.0056
+        },
+        "podium": {
+          "tp": 259,
+          "fp": 194,
+          "fn": 194,
+          "tn": 2411,
+          "accuracy": 0.8731,
+          "error_rate": 0.1269,
+          "precision": 0.5717,
+          "recall": 0.5717,
+          "f1": 0.5717,
+          "always_no_accuracy": 0.8519,
+          "roc_auc": 0.9049,
+          "calibration_error": 0.0226
+        }
+      },
       "calibration": [
         {
           "band": "0%-2%",
@@ -551,6 +581,36 @@
           "temperature": 0.7972651367453139
         }
       ],
+      "classification": {
+        "win": {
+          "tp": 88,
+          "fp": 63,
+          "fn": 63,
+          "tn": 2844,
+          "accuracy": 0.9588,
+          "error_rate": 0.0412,
+          "precision": 0.5828,
+          "recall": 0.5828,
+          "f1": 0.5828,
+          "always_no_accuracy": 0.9506,
+          "roc_auc": 0.9607,
+          "calibration_error": 0.0093
+        },
+        "podium": {
+          "tp": 298,
+          "fp": 155,
+          "fn": 155,
+          "tn": 2450,
+          "accuracy": 0.8986,
+          "error_rate": 0.1014,
+          "precision": 0.6578,
+          "recall": 0.6578,
+          "f1": 0.6578,
+          "always_no_accuracy": 0.8519,
+          "roc_auc": 0.9348,
+          "calibration_error": 0.0217
+        }
+      },
       "calibration": [
         {
           "band": "0%-2%",

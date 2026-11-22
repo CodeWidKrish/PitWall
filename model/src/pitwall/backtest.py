@@ -20,7 +20,7 @@ import pandas as pd
 from pitwall import __version__
 from pitwall.baselines import elo_baseline, grid_baseline
 from pitwall.features import POST_QUALI, PRE_QUALI
-from pitwall.metrics import calibration, race_scores, summarise
+from pitwall.metrics import calibration, classification, race_scores, summarise
 from pitwall.model import fit
 
 MODES = {"pre_quali": PRE_QUALI, "post_quali": POST_QUALI}
@@ -80,6 +80,7 @@ def run(
                 base_name: summarise(race_scores(allp, "p_base")),
             },
             "per_season": per_season,
+            "classification": classification(allp, "p_model", "p_podium_model"),
             "calibration": calibration(allp, "p_model"),
             "podium_calibration": calibration(allp, "p_podium_model", "podium"),
             "feature_importance": dict(sorted(importance.items(), key=lambda kv: -kv[1])),
@@ -140,6 +141,32 @@ def markdown(report: dict[str, Any]) -> str:
             lines.append(
                 f"| {s['season']} | {_pct(s['model']['winner_hit'])} | {_pct(s[base]['winner_hit'])} |"
             )
+        cl = r["classification"]
+        lines += [
+            "",
+            "Classification view. Each race, the top pick is predicted to win and the top three to make "
+            "the podium; every driver-race counts once.",
+            "",
+            "| | Win | Podium |",
+            "|---|---|---|",
+            f"| True positives | {cl['win']['tp']} | {cl['podium']['tp']} |",
+            f"| False positives | {cl['win']['fp']} | {cl['podium']['fp']} |",
+            f"| False negatives | {cl['win']['fn']} | {cl['podium']['fn']} |",
+            f"| True negatives | {cl['win']['tn']} | {cl['podium']['tn']} |",
+            f"| Accuracy | {_pct(cl['win']['accuracy'])} | {_pct(cl['podium']['accuracy'])} |",
+            f"| Error rate | {_pct(cl['win']['error_rate'])} | {_pct(cl['podium']['error_rate'])} |",
+            f"| Precision | {_pct(cl['win']['precision'])} | {_pct(cl['podium']['precision'])} |",
+            f"| Recall | {_pct(cl['win']['recall'])} | {_pct(cl['podium']['recall'])} |",
+            f"| F1 | {_pct(cl['win']['f1'])} | {_pct(cl['podium']['f1'])} |",
+            f"| ROC AUC | {_pct(cl['win']['roc_auc'])} | {_pct(cl['podium']['roc_auc'])} |",
+            f"| Calibration error | {cl['win']['calibration_error']:.1%} | "
+            f"{cl['podium']['calibration_error']:.1%} |",
+            f"| Accuracy of always saying no | {_pct(cl['win']['always_no_accuracy'])} | "
+            f"{_pct(cl['podium']['always_no_accuracy'])} |",
+            "",
+            "Accuracy is inflated by imbalance (most drivers don't win, so always saying no scores highly). "
+            "Precision, recall, ROC AUC and calibration error are the meaningful numbers.",
+        ]
         lines += ["", "Calibration (win odds): when PitWall says X%, how often did it happen?", ""]
         lines += ["| Band | Predictions | Predicted | Actual |", "|---|---|---|---|"]
         for c in r["calibration"]:

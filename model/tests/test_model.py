@@ -155,3 +155,24 @@ def test_clinched_when_the_lead_is_out_of_reach() -> None:
     rows = [{"driver_id": "a", "points_now": 100.0}, {"driver_id": "b", "points_now": 60.0}]
     assert clinched(rows, max_gain=25) == "a"
     assert clinched(rows, max_gain=50) is None
+
+
+def test_confusion_matrix_counts_top_picks() -> None:
+    from pitwall.metrics import classification
+
+    df = pd.DataFrame(
+        {
+            "season": [1] * 4 + [1] * 4,
+            "round": [1] * 4 + [2] * 4,
+            "won": [True, False, False, False, False, True, False, False],
+            "podium": [True, True, True, False, True, True, False, True],
+            "p": [0.6, 0.2, 0.1, 0.1, 0.5, 0.3, 0.1, 0.1],
+        }
+    )
+    c = classification(df, "p", "p")
+    w = c["win"]
+    # Race 1: top pick won (TP). Race 2: top pick lost (FP) and the winner was missed (FN).
+    assert (w["tp"], w["fp"], w["fn"], w["tn"]) == (1, 1, 1, 5)
+    assert w["precision"] == 0.5 and w["recall"] == 0.5
+    assert w["accuracy"] == 0.75 and w["error_rate"] == 0.25
+    assert 0.5 < w["roc_auc"] <= 1.0

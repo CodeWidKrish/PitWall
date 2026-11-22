@@ -29,6 +29,25 @@ Per season (top pick wins):
 | 2025 | 33% | 33% |
 | 2026 | 25% | 15% |
 
+Classification view. Each race, the top pick is predicted to win and the top three to make the podium; every driver-race counts once.
+
+| | Win | Podium |
+|---|---|---|
+| True positives | 75 | 259 |
+| False positives | 76 | 194 |
+| False negatives | 76 | 194 |
+| True negatives | 2831 | 2411 |
+| Accuracy | 95% | 87% |
+| Error rate | 5% | 13% |
+| Precision | 50% | 57% |
+| Recall | 50% | 57% |
+| F1 | 50% | 57% |
+| ROC AUC | 94% | 90% |
+| Calibration error | 0.6% | 2.3% |
+| Accuracy of always saying no | 95% | 85% |
+
+Accuracy is inflated by imbalance (most drivers don't win, so always saying no scores highly). Precision, recall, ROC AUC and calibration error are the meaningful numbers.
+
 Calibration (win odds): when PitWall says X%, how often did it happen?
 
 | Band | Predictions | Predicted | Actual |
@@ -68,6 +87,25 @@ Per season (top pick wins):
 | 2024 | 42% | 46% |
 | 2025 | 58% | 67% |
 | 2026 | 65% | 70% |
+
+Classification view. Each race, the top pick is predicted to win and the top three to make the podium; every driver-race counts once.
+
+| | Win | Podium |
+|---|---|---|
+| True positives | 88 | 298 |
+| False positives | 63 | 155 |
+| False negatives | 63 | 155 |
+| True negatives | 2844 | 2450 |
+| Accuracy | 96% | 90% |
+| Error rate | 4% | 10% |
+| Precision | 58% | 66% |
+| Recall | 58% | 66% |
+| F1 | 58% | 66% |
+| ROC AUC | 96% | 93% |
+| Calibration error | 0.9% | 2.2% |
+| Accuracy of always saying no | 95% | 85% |
+
+Accuracy is inflated by imbalance (most drivers don't win, so always saying no scores highly). Precision, recall, ROC AUC and calibration error are the meaningful numbers.
 
 Calibration (win odds): when PitWall says X%, how often did it happen?
 
