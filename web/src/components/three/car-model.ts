@@ -11,7 +11,9 @@ import * as T from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 
-export const CAR_MODEL_URL = "/models/pitwall-car.glb";
+// In production the model is served from private storage (Vercel Blob), set at build time;
+// locally it is read from public/models, which git ignores.
+export const CAR_MODEL_URL = process.env.NEXT_PUBLIC_CAR_MODEL_URL || "/models/pitwall-car.glb";
 const LENGTH_M = 5.39;
 
 export interface CarModel {
