@@ -112,14 +112,16 @@ export default function Credits() {
 
           <h2 className="mt-16 font-mono text-[11px] uppercase tracking-[0.16em] text-sub">Engine sounds</h2>
           <p className="mt-3 max-w-[70ch] text-sub">
-            Recorded at the Goodwood Festival of Speed. Played as recorded for lights out and pass-bys; the onboard
-            engine is built from short slices of these recordings, pitched with the car&apos;s revs. Team radio is
-            spoken by your browser&apos;s speech voice over generated static; the messages are not real team radio.
+            Every car you hear is a real recording, only trimmed, joined with crossfades and levelled: trackside from
+            the 2021 Turkish GP, onboard from close-up launches at the Goodwood Festival of Speed, and lights out from
+            the 2021 Russian GP grid. Team radio is spoken by your browser&apos;s speech voice over generated static;
+            the messages are not real team radio. These edited recordings are shared under the same licences.
           </p>
           <ul className="mt-6 grid gap-3 md:grid-cols-2">
             {Object.entries(audio).map(([slug, a]) => (
               <li key={slug} className="panel grid gap-1 p-4 text-sm">
-                <strong className="type-voice text-xl font-normal">{a.title.replace(/\.ogg$/, "")}</strong>
+                <strong className="type-voice text-xl font-normal">{a.title.replace(/\.(ogg|webm)$/, "")}</strong>
+                <span className="text-sub">{a.used_in}</span>
                 <span className="text-sub">
                   Recording: {a.author} ·{" "}
                   <a href={a.licence_url ?? "#"} className="text-ink underline underline-offset-2" rel="license noreferrer">

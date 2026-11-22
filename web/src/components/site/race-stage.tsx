@@ -83,10 +83,8 @@ export function RaceStage() {
         },
         onTelemetry: (t) => {
           setTel(t);
-          sound?.engine(t.rpm, t.throttle);
         },
         onBanner: (kind, text, carId) => showBanner({ kind, text, carId }),
-        onPassBy: (k) => sound?.passBy(k),
         onTags: setTags,
       });
       if (!c) setOk(false);
