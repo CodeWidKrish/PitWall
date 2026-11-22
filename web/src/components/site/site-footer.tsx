@@ -15,8 +15,8 @@ export function SiteFooter() {
             Independent project. Not affiliated with Formula 1, the FIA or any team. For analysis, not betting.
           </p>
           <p>
-            Results from the Jolpica F1 API · weather from Open-Meteo · highlights by FORMULA 1 on YouTube · driver
-            photos from Wikimedia Commons ({" "}
+            Results from the Jolpica F1 API · weather from Open-Meteo · highlights by FORMULA 1 on YouTube · photos,
+            footage and engine sounds from Wikimedia Commons ({" "}
             <Link href="/credits" className="text-ink underline underline-offset-4">
               credits
             </Link>{" "}

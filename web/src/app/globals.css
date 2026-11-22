@@ -495,37 +495,6 @@ body {
 }
 
 /* ------------------------------------------------------------------- hero */
-.hero-photo {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: min(64vw, 920px);
-  z-index: 0;
-  mask-image: linear-gradient(90deg, transparent 0%, #000 42%), linear-gradient(0deg, transparent 0%, #000 34%);
-  mask-composite: intersect;
-  -webkit-mask-composite: source-in;
-}
-.hero-photo img {
-  filter: grayscale(1) contrast(1.2) brightness(0.78);
-}
-.hero-photo::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(200deg, var(--c) 0%, transparent 62%);
-  mix-blend-mode: color;
-  opacity: 0.8;
-}
-.hero-number {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-stretch: 62%;
-  font-style: italic;
-  line-height: 0.78;
-  color: transparent;
-  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--c) 70%, transparent);
-}
 .flare {
   position: absolute;
   left: -20%;
@@ -667,4 +636,41 @@ body {
   to {
     stroke-dashoffset: 0;
   }
+}
+
+@keyframes eq {
+  0%,
+  100% {
+    height: 3px;
+  }
+  50% {
+    height: 12px;
+  }
+}
+
+@keyframes wipe {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* Onboard: the race takes the whole frame. */
+.hero-copy,
+.hero-fav,
+.hero-ticker {
+  transition:
+    opacity 0.6s,
+    transform 0.7s var(--ease-out-expo);
+}
+section[data-cam="board"] .hero-copy,
+section[data-cam="board"] .hero-fav {
+  opacity: 0;
+  transform: translateY(14px);
+  pointer-events: none;
+}
+section[data-cam="board"] .hero-ticker {
+  transform: translateY(100%);
 }

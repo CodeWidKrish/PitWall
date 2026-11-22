@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { D, SectionHead, V } from "@/components/ui/reveal";
 import { driver, pct, site } from "@/lib/data";
-import { highlightFor } from "@/lib/footage";
+import { highlightFor, watchUrl } from "@/lib/footage";
 
 /**
  * The model's track record. Every season from 2020 was predicted by a model trained
@@ -126,7 +126,7 @@ export function Record() {
                           <>
                             {" · "}
                             <a
-                              href={`https://www.youtube.com/watch?v=${video.id}`}
+                              href={watchUrl(video.id)}
                               target="_blank"
                               rel="noreferrer"
                               className="text-ink underline underline-offset-2"

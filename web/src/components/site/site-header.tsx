@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { shortRaceName, site } from "@/lib/data";
+import { HeaderShell } from "@/components/site/header-shell";
+import { Logo } from "@/components/ui/logo";
+import { SoundToggle } from "@/components/ui/sound-toggle";
 
 const LINKS = [
   { href: "#drivers", label: "Drivers" },
@@ -10,33 +12,12 @@ const LINKS = [
   { href: "#record", label: "Record" },
 ];
 
-export function Logo() {
-  return (
-    <>
-      <svg viewBox="0 0 26 26" className="size-[26px]" aria-hidden="true">
-        <rect x="1" y="1" width="24" height="24" rx="5" fill="none" stroke="currentColor" strokeWidth="1.6" />
-        <path
-          d="M5 18 C9 18 9 8 13 8 S17 18 21 18"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-      </svg>
-      <span className="font-display text-[22px] font-extrabold uppercase italic leading-none tracking-[0.02em] [font-stretch:70%]">
-        PitWall
-      </span>
-    </>
-  );
-}
-
-/** Fixed bar that inverts against whatever is behind it, day or night. */
+/** Site navigation: logo, section links and the sound switch. */
 export function SiteHeader({ home = true }: { home?: boolean }) {
-  const next = site.next_race;
   return (
-    <header className="fixed inset-x-0 top-0 z-50 text-white mix-blend-difference">
-      <div className="wrap flex h-[72px] items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2.5" aria-label="PitWall home">
+    <HeaderShell>
+      <div className="wrap flex h-[68px] items-center justify-between gap-4">
+        <Link href="/" aria-label="PitWall home" data-cursor="Home">
           <Logo />
         </Link>
         {home ? (
@@ -55,16 +36,8 @@ export function SiteHeader({ home = true }: { home?: boolean }) {
             </ul>
           </nav>
         ) : null}
-        {next ? (
-          <Link
-            href="/#odds"
-            data-cursor="Odds"
-            className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-current px-3.5 py-2.5 font-mono text-xs font-semibold uppercase tracking-[0.1em]"
-          >
-            R{next.round} · {shortRaceName(next.race_name)}
-          </Link>
-        ) : null}
+        <SoundToggle />
       </div>
-    </header>
+    </HeaderShell>
   );
 }

@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { Portrait } from "@/components/ui/portrait";
+import audio from "@/data/audio-credits.json";
 import { driver, photoCredits } from "@/lib/data";
+import { CLIPS } from "@/lib/footage";
 
 export const metadata: Metadata = {
   title: "Credits",
@@ -22,9 +24,10 @@ export default function Credits() {
           </h1>
           <div className="mt-10 grid max-w-[70ch] gap-4 text-[17px] text-sub">
             <p>
-              Race results come from the Jolpica F1 API and race weather from Open-Meteo. Highlights are by FORMULA 1 and
-              play from YouTube; PitWall doesn&apos;t host any footage. Team names are used only to identify teams; no
-              logos are used.
+              Race results come from the Jolpica F1 API and race weather from Open-Meteo. Official race highlights are
+              by FORMULA 1 and open on YouTube. The on-site footage and engine sounds are fan recordings shared under
+              free licences, listed below. Team names are used only to identify teams; no logos are used. The 3D cars
+              are a generic design drawn in code.
             </p>
             <p>
               Driver photos are from Wikimedia Commons under the licences below. On the site they are cropped and shown
@@ -58,6 +61,53 @@ export default function Credits() {
                 </li>
               );
             })}
+          </ul>
+
+          <h2 className="mt-24 font-mono text-[11px] uppercase tracking-[0.16em] text-sub">Footage</h2>
+          <p className="mt-3 max-w-[70ch] text-sub">
+            Trimmed to short clips and re-encoded for the web; these versions are shared under the same licence.
+          </p>
+          <ul className="mt-6 grid gap-3 md:grid-cols-2">
+            {CLIPS.map((c) => (
+              <li key={c.slug} className="panel grid gap-1 p-4 text-sm">
+                <strong className="type-voice text-xl font-normal">
+                  {c.title} · {c.place}, {c.year}
+                </strong>
+                <span className="text-sub">
+                  Video: {c.author} ·{" "}
+                  <a href={c.licenceUrl} className="text-ink underline underline-offset-2" rel="license noreferrer">
+                    {c.licence}
+                  </a>{" "}
+                  ·{" "}
+                  <a href={c.source} className="text-ink underline underline-offset-2" rel="noreferrer">
+                    Original on Wikimedia Commons
+                  </a>
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          <h2 className="mt-16 font-mono text-[11px] uppercase tracking-[0.16em] text-sub">Engine sounds</h2>
+          <p className="mt-3 max-w-[70ch] text-sub">
+            Recorded at the Goodwood Festival of Speed and played as recorded, trimmed and faded. The onboard engine note
+            and the radio squelch are generated in the browser.
+          </p>
+          <ul className="mt-6 grid gap-3 md:grid-cols-2">
+            {Object.entries(audio).map(([slug, a]) => (
+              <li key={slug} className="panel grid gap-1 p-4 text-sm">
+                <strong className="type-voice text-xl font-normal">{a.title.replace(/\.ogg$/, "")}</strong>
+                <span className="text-sub">
+                  Recording: {a.author} ·{" "}
+                  <a href={a.licence_url ?? "#"} className="text-ink underline underline-offset-2" rel="license noreferrer">
+                    {a.licence}
+                  </a>{" "}
+                  ·{" "}
+                  <a href={a.source} className="text-ink underline underline-offset-2" rel="noreferrer">
+                    Original on Wikimedia Commons
+                  </a>
+                </span>
+              </li>
+            ))}
           </ul>
         </div>
       </main>
