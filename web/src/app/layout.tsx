@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Archivo, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
+import { FollowProvider } from "@/components/follow";
+import { Chrome } from "@/components/motion/chrome";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -55,7 +57,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       // This only ignores attribute differences on this one element.
       suppressHydrationWarning
     >
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        <noscript>
+          <style>{`.reveal-line > span, [data-reveal="fade"], .bar-fill { transform: none !important; opacity: 1 !important; }`}</style>
+        </noscript>
+        <FollowProvider>
+          <Chrome />
+          {children}
+        </FollowProvider>
+      </body>
     </html>
   );
 }

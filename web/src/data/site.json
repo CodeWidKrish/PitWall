@@ -1,0 +1,3658 @@
+{
+ "built_at": "2026-11-22T10:27:38+00:00",
+ "data_through": {
+  "season": 2026,
+  "round": 20,
+  "race_name": "Brazilian Grand Prix"
+ },
+ "drivers": {
+  "albon": {
+   "id": "albon",
+   "code": "ALB",
+   "name": "Alexander Albon",
+   "first_name": "Alexander",
+   "last_name": "Albon",
+   "number": 23,
+   "nationality": "Thai",
+   "date_of_birth": "1996-03-23",
+   "team_now": "williams",
+   "team_next": "williams",
+   "seat_status": "confirmed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Alexander_Albon",
+   "photo": "albon.jpg",
+   "career_since_2018": {
+    "starts": 149,
+    "wins": 0,
+    "podiums": 2
+   }
+  },
+  "alonso": {
+   "id": "alonso",
+   "code": "ALO",
+   "name": "Fernando Alonso",
+   "first_name": "Fernando",
+   "last_name": "Alonso",
+   "number": 14,
+   "nationality": "Spanish",
+   "date_of_birth": "1981-07-29",
+   "team_now": "aston_martin",
+   "team_next": "aston_martin",
+   "seat_status": "confirmed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Fernando_Alonso",
+   "photo": "alonso.jpg",
+   "career_since_2018": {
+    "starts": 155,
+    "wins": 0,
+    "podiums": 9
+   }
+  },
+  "antonelli": {
+   "id": "antonelli",
+   "code": "ANT",
+   "name": "Andrea Kimi Antonelli",
+   "first_name": "Andrea Kimi",
+   "last_name": "Antonelli",
+   "number": 12,
+   "nationality": "Italian",
+   "date_of_birth": "2006-08-25",
+   "team_now": "mercedes",
+   "team_next": "mercedes",
+   "seat_status": "expected",
+   "wikipedia": "https://en.wikipedia.org/wiki/Andrea_Kimi_Antonelli",
+   "photo": "antonelli.jpg",
+   "career_since_2018": {
+    "starts": 44,
+    "wins": 9,
+    "podiums": 19
+   }
+  },
+  "arvid_lindblad": {
+   "id": "arvid_lindblad",
+   "code": "LIN",
+   "name": "Arvid Lindblad",
+   "first_name": "Arvid",
+   "last_name": "Lindblad",
+   "number": 41,
+   "nationality": "British",
+   "date_of_birth": "2007-08-08",
+   "team_now": "rb",
+   "team_next": "rb",
+   "seat_status": "assumed",
+   "wikipedia": "https://en.wikipedia.org/wiki/Arvid_Lindblad",
+   "photo": "arvid_lindblad.jpg",
+   "career_since_2018": {
+    "starts": 20,
+    "wins": 0,
+    "podiums": 0
+   }
+  },
+  "bearman": {
+   "id": "bearman",
+   "code": "BEA",
+   "name": "Oliver Bearman",
+   "first_name": "Oliver",
+   "last_name": "Bearman",
+   "number": 87,
+   "nationality": "British",
+   "date_of_birth": "2005-05-08",
+   "team_now": "haas",
+   "team_next": "haas",
+   "seat_status": "expected",
+   "wikipedia": "http://en.wikipedia.org/wiki/Oliver_Bearman",
+   "photo": "bearman.jpg",
+   "career_since_2018": {
+    "starts": 47,
+    "wins": 0,
+    "podiums": 0
+   }
+  },
+  "bortoleto": {
+   "id": "bortoleto",
+   "code": "BOR",
+   "name": "Gabriel Bortoleto",
+   "first_name": "Gabriel",
+   "last_name": "Bortoleto",
+   "number": 5,
+   "nationality": "Brazilian",
+   "date_of_birth": "2004-10-14",
+   "team_now": "audi",
+   "team_next": "audi",
+   "seat_status": "expected",
+   "wikipedia": "https://en.wikipedia.org/wiki/Gabriel_Bortoleto",
+   "photo": "bortoleto.jpg",
+   "career_since_2018": {
+    "starts": 44,
+    "wins": 0,
+    "podiums": 0
+   }
+  },
+  "bottas": {
+   "id": "bottas",
+   "code": "BOT",
+   "name": "Valtteri Bottas",
+   "first_name": "Valtteri",
+   "last_name": "Bottas",
+   "number": 77,
+   "nationality": "Finnish",
+   "date_of_birth": "1989-08-28",
+   "team_now": "cadillac",
+   "team_next": "cadillac",
+   "seat_status": "confirmed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Valtteri_Bottas",
+   "photo": "bottas.jpg",
+   "career_since_2018": {
+    "starts": 169,
+    "wins": 7,
+    "podiums": 45
+   }
+  },
+  "colapinto": {
+   "id": "colapinto",
+   "code": "COL",
+   "name": "Franco Colapinto",
+   "first_name": "Franco",
+   "last_name": "Colapinto",
+   "number": 43,
+   "nationality": "Argentine",
+   "date_of_birth": "2003-05-27",
+   "team_now": "alpine",
+   "team_next": "alpine",
+   "seat_status": "confirmed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Franco_Colapinto",
+   "photo": "colapinto.jpg",
+   "career_since_2018": {
+    "starts": 47,
+    "wins": 0,
+    "podiums": 0
+   }
+  },
+  "gasly": {
+   "id": "gasly",
+   "code": "GAS",
+   "name": "Pierre Gasly",
+   "first_name": "Pierre",
+   "last_name": "Gasly",
+   "number": 10,
+   "nationality": "French",
+   "date_of_birth": "1996-02-07",
+   "team_now": "alpine",
+   "team_next": "alpine",
+   "seat_status": "confirmed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Pierre_Gasly",
+   "photo": "gasly.jpg",
+   "career_since_2018": {
+    "starts": 193,
+    "wins": 1,
+    "podiums": 5
+   }
+  },
+  "hadjar": {
+   "id": "hadjar",
+   "code": "HAD",
+   "name": "Isack Hadjar",
+   "first_name": "Isack",
+   "last_name": "Hadjar",
+   "number": 6,
+   "nationality": "French",
+   "date_of_birth": "2004-09-28",
+   "team_now": "red_bull",
+   "team_next": "red_bull",
+   "seat_status": "confirmed",
+   "wikipedia": "https://en.wikipedia.org/wiki/Isack_Hadjar",
+   "photo": "hadjar.jpg",
+   "career_since_2018": {
+    "starts": 41,
+    "wins": 0,
+    "podiums": 4
+   }
+  },
+  "hamilton": {
+   "id": "hamilton",
+   "code": "HAM",
+   "name": "Lewis Hamilton",
+   "first_name": "Lewis",
+   "last_name": "Hamilton",
+   "number": 44,
+   "nationality": "British",
+   "date_of_birth": "1985-01-07",
+   "team_now": "ferrari",
+   "team_next": "ferrari",
+   "seat_status": "confirmed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Lewis_Hamilton",
+   "photo": "hamilton.jpg",
+   "career_since_2018": {
+    "starts": 192,
+    "wins": 44,
+    "podiums": 92
+   }
+  },
+  "hulkenberg": {
+   "id": "hulkenberg",
+   "code": "HUL",
+   "name": "Nico Hülkenberg",
+   "first_name": "Nico",
+   "last_name": "Hülkenberg",
+   "number": 27,
+   "nationality": "German",
+   "date_of_birth": "1987-08-19",
+   "team_now": "audi",
+   "team_next": "audi",
+   "seat_status": "expected",
+   "wikipedia": "http://en.wikipedia.org/wiki/Nico_H%C3%BClkenberg",
+   "photo": "hulkenberg.jpg",
+   "career_since_2018": {
+    "starts": 137,
+    "wins": 0,
+    "podiums": 1
+   }
+  },
+  "lawson": {
+   "id": "lawson",
+   "code": "LAW",
+   "name": "Liam Lawson",
+   "first_name": "Liam",
+   "last_name": "Lawson",
+   "number": 30,
+   "nationality": "New Zealander",
+   "date_of_birth": "2002-02-11",
+   "team_now": "rb",
+   "team_next": "rb",
+   "seat_status": "assumed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Liam_Lawson",
+   "photo": "lawson.jpg",
+   "career_since_2018": {
+    "starts": 55,
+    "wins": 0,
+    "podiums": 0
+   }
+  },
+  "leclerc": {
+   "id": "leclerc",
+   "code": "LEC",
+   "name": "Charles Leclerc",
+   "first_name": "Charles",
+   "last_name": "Leclerc",
+   "number": 16,
+   "nationality": "Monegasque",
+   "date_of_birth": "1997-10-16",
+   "team_now": "ferrari",
+   "team_next": "ferrari",
+   "seat_status": "confirmed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Charles_Leclerc",
+   "photo": "leclerc.jpg",
+   "career_since_2018": {
+    "starts": 193,
+    "wins": 9,
+    "podiums": 56
+   }
+  },
+  "max_verstappen": {
+   "id": "max_verstappen",
+   "code": "VER",
+   "name": "Max Verstappen",
+   "first_name": "Max",
+   "last_name": "Verstappen",
+   "number": 3,
+   "nationality": "Dutch",
+   "date_of_birth": "1997-09-30",
+   "team_now": "red_bull",
+   "team_next": "red_bull",
+   "seat_status": "confirmed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Max_Verstappen",
+   "photo": "max_verstappen.jpg",
+   "career_since_2018": {
+    "starts": 193,
+    "wins": 71,
+    "podiums": 128
+   }
+  },
+  "norris": {
+   "id": "norris",
+   "code": "NOR",
+   "name": "Lando Norris",
+   "first_name": "Lando",
+   "last_name": "Norris",
+   "number": 1,
+   "nationality": "British",
+   "date_of_birth": "1999-11-13",
+   "team_now": "mclaren",
+   "team_next": "mclaren",
+   "seat_status": "confirmed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Lando_Norris",
+   "photo": "norris.jpg",
+   "career_since_2018": {
+    "starts": 172,
+    "wins": 14,
+    "podiums": 50
+   }
+  },
+  "ocon": {
+   "id": "ocon",
+   "code": "OCO",
+   "name": "Esteban Ocon",
+   "first_name": "Esteban",
+   "last_name": "Ocon",
+   "number": 31,
+   "nationality": "French",
+   "date_of_birth": "1996-09-17",
+   "team_now": null,
+   "team_next": null,
+   "seat_status": null,
+   "wikipedia": "http://en.wikipedia.org/wiki/Esteban_Ocon",
+   "photo": "ocon.jpg",
+   "career_since_2018": {
+    "starts": 169,
+    "wins": 1,
+    "podiums": 4
+   }
+  },
+  "perez": {
+   "id": "perez",
+   "code": "PER",
+   "name": "Sergio Pérez",
+   "first_name": "Sergio",
+   "last_name": "Pérez",
+   "number": 11,
+   "nationality": "Mexican",
+   "date_of_birth": "1990-01-26",
+   "team_now": "cadillac",
+   "team_next": "cadillac",
+   "seat_status": "confirmed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Sergio_P%C3%A9rez",
+   "photo": "perez.jpg",
+   "career_since_2018": {
+    "starts": 167,
+    "wins": 6,
+    "podiums": 32
+   }
+  },
+  "piastri": {
+   "id": "piastri",
+   "code": "PIA",
+   "name": "Oscar Piastri",
+   "first_name": "Oscar",
+   "last_name": "Piastri",
+   "number": 81,
+   "nationality": "Australian",
+   "date_of_birth": "2001-04-06",
+   "team_now": "mclaren",
+   "team_next": "mclaren",
+   "seat_status": "confirmed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Oscar_Piastri",
+   "photo": "piastri.jpg",
+   "career_since_2018": {
+    "starts": 90,
+    "wins": 9,
+    "podiums": 28
+   }
+  },
+  "rafael_camara": {
+   "id": "rafael_camara",
+   "code": "CAM",
+   "name": "Rafael Camara",
+   "first_name": "Rafael",
+   "last_name": "Camara",
+   "number": 51,
+   "nationality": "Brazilian",
+   "date_of_birth": "2005-05-05",
+   "team_now": "haas",
+   "team_next": "haas",
+   "seat_status": "confirmed",
+   "wikipedia": "https://en.wikipedia.org/wiki/Rafael_C%C3%A2mara",
+   "photo": "rafael_camara.jpg",
+   "career_since_2018": {
+    "starts": 1,
+    "wins": 0,
+    "podiums": 0
+   }
+  },
+  "russell": {
+   "id": "russell",
+   "code": "RUS",
+   "name": "George Russell",
+   "first_name": "George",
+   "last_name": "Russell",
+   "number": 63,
+   "nationality": "British",
+   "date_of_birth": "1998-02-15",
+   "team_now": "mercedes",
+   "team_next": "mercedes",
+   "seat_status": "expected",
+   "wikipedia": "http://en.wikipedia.org/wiki/George_Russell_(racing_driver)",
+   "photo": "russell.jpg",
+   "career_since_2018": {
+    "starts": 172,
+    "wins": 8,
+    "podiums": 32
+   }
+  },
+  "ryo_hirakawa": {
+   "id": "ryo_hirakawa",
+   "code": "HIR",
+   "name": "Ryo Hirakawa",
+   "first_name": "Ryo",
+   "last_name": "Hirakawa",
+   "number": 50,
+   "nationality": "Japanese",
+   "date_of_birth": "1994-03-07",
+   "team_now": null,
+   "team_next": null,
+   "seat_status": null,
+   "wikipedia": "https://en.wikipedia.org/wiki/Ryo_Hirakawa",
+   "photo": "ryo_hirakawa.jpg",
+   "career_since_2018": {
+    "starts": 1,
+    "wins": 0,
+    "podiums": 0
+   }
+  },
+  "sainz": {
+   "id": "sainz",
+   "code": "SAI",
+   "name": "Carlos Sainz",
+   "first_name": "Carlos",
+   "last_name": "Sainz",
+   "number": 55,
+   "nationality": "Spanish",
+   "date_of_birth": "1994-09-01",
+   "team_now": "williams",
+   "team_next": "williams",
+   "seat_status": "confirmed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Carlos_Sainz_Jr.",
+   "photo": "sainz.jpg",
+   "career_since_2018": {
+    "starts": 192,
+    "wins": 4,
+    "podiums": 29
+   }
+  },
+  "stroll": {
+   "id": "stroll",
+   "code": "STR",
+   "name": "Lance Stroll",
+   "first_name": "Lance",
+   "last_name": "Stroll",
+   "number": 18,
+   "nationality": "Canadian",
+   "date_of_birth": "1998-10-29",
+   "team_now": "aston_martin",
+   "team_next": "aston_martin",
+   "seat_status": "confirmed",
+   "wikipedia": "http://en.wikipedia.org/wiki/Lance_Stroll",
+   "photo": "stroll.jpg",
+   "career_since_2018": {
+    "starts": 191,
+    "wins": 0,
+    "podiums": 2
+   }
+  },
+  "tsunoda": {
+   "id": "tsunoda",
+   "code": "TSU",
+   "name": "Yuki Tsunoda",
+   "first_name": "Yuki",
+   "last_name": "Tsunoda",
+   "number": 22,
+   "nationality": "Japanese",
+   "date_of_birth": "2000-05-11",
+   "team_now": null,
+   "team_next": null,
+   "seat_status": null,
+   "wikipedia": "http://en.wikipedia.org/wiki/Yuki_Tsunoda",
+   "photo": "tsunoda.jpg",
+   "career_since_2018": {
+    "starts": 117,
+    "wins": 0,
+    "podiums": 0
+   }
+  }
+ },
+ "teams": {
+  "alpine": {
+   "id": "alpine",
+   "name": "Alpine F1 Team"
+  },
+  "williams": {
+   "id": "williams",
+   "name": "Williams"
+  },
+  "haas": {
+   "id": "haas",
+   "name": "Haas F1 Team"
+  },
+  "aston_martin": {
+   "id": "aston_martin",
+   "name": "Aston Martin"
+  },
+  "ferrari": {
+   "id": "ferrari",
+   "name": "Ferrari"
+  },
+  "rb": {
+   "id": "rb",
+   "name": "RB F1 Team"
+  },
+  "mercedes": {
+   "id": "mercedes",
+   "name": "Mercedes"
+  },
+  "red_bull": {
+   "id": "red_bull",
+   "name": "Red Bull"
+  },
+  "mclaren": {
+   "id": "mclaren",
+   "name": "McLaren"
+  },
+  "audi": {
+   "id": "audi",
+   "name": "Audi"
+  },
+  "cadillac": {
+   "id": "cadillac",
+   "name": "Cadillac F1 Team"
+  }
+ },
+ "season": {
+  "season": 2026,
+  "after_round": 20,
+  "rounds": 23,
+  "drivers": [
+   {
+    "driver_id": "antonelli",
+    "position": 1,
+    "points": 390.0,
+    "wins": 9,
+    "podiums": 16,
+    "poles": 7,
+    "starts": 20,
+    "dnfs": 1,
+    "avg_finish": 3.4,
+    "avg_quali": 3.3,
+    "best_finish": 1,
+    "team": "mercedes"
+   },
+   {
+    "driver_id": "max_verstappen",
+    "position": 2,
+    "points": 279.0,
+    "wins": 3,
+    "podiums": 12,
+    "poles": 2,
+    "starts": 20,
+    "dnfs": 4,
+    "avg_finish": 4.0,
+    "avg_quali": 5.37,
+    "best_finish": 1,
+    "team": "red_bull"
+   },
+   {
+    "driver_id": "russell",
+    "position": 3,
+    "points": 262.0,
+    "wins": 3,
+    "podiums": 8,
+    "poles": 5,
+    "starts": 20,
+    "dnfs": 3,
+    "avg_finish": 5.17,
+    "avg_quali": 3.45,
+    "best_finish": 1,
+    "team": "mercedes"
+   },
+   {
+    "driver_id": "hamilton",
+    "position": 4,
+    "points": 261.0,
+    "wins": 1,
+    "podiums": 7,
+    "poles": 1,
+    "starts": 20,
+    "dnfs": 1,
+    "avg_finish": 4.26,
+    "avg_quali": 4.4,
+    "best_finish": 1,
+    "team": "ferrari"
+   },
+   {
+    "driver_id": "leclerc",
+    "position": 5,
+    "points": 249.0,
+    "wins": 1,
+    "podiums": 6,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 3,
+    "avg_finish": 4.72,
+    "avg_quali": 4.2,
+    "best_finish": 1,
+    "team": "ferrari"
+   },
+   {
+    "driver_id": "norris",
+    "position": 6,
+    "points": 246.0,
+    "wins": 3,
+    "podiums": 6,
+    "poles": 4,
+    "starts": 20,
+    "dnfs": 4,
+    "avg_finish": 4.12,
+    "avg_quali": 4.7,
+    "best_finish": 1,
+    "team": "mclaren"
+   },
+   {
+    "driver_id": "piastri",
+    "position": 7,
+    "points": 152.0,
+    "wins": 0,
+    "podiums": 2,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 3,
+    "avg_finish": 6.71,
+    "avg_quali": 6.35,
+    "best_finish": 2,
+    "team": "mclaren"
+   },
+   {
+    "driver_id": "hadjar",
+    "position": 8,
+    "points": 122.0,
+    "wins": 0,
+    "podiums": 3,
+    "poles": 0,
+    "starts": 17,
+    "dnfs": 2,
+    "avg_finish": 6.2,
+    "avg_quali": 8.06,
+    "best_finish": 3,
+    "team": "red_bull"
+   },
+   {
+    "driver_id": "lawson",
+    "position": 9,
+    "points": 89.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 1,
+    "avg_finish": 8.42,
+    "avg_quali": 10.85,
+    "best_finish": 5,
+    "team": "rb"
+   },
+   {
+    "driver_id": "gasly",
+    "position": 10,
+    "points": 42.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 1,
+    "starts": 20,
+    "dnfs": 2,
+    "avg_finish": 10.44,
+    "avg_quali": 10.45,
+    "best_finish": 6,
+    "team": "alpine"
+   },
+   {
+    "driver_id": "arvid_lindblad",
+    "position": 11,
+    "points": 38.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 2,
+    "avg_finish": 10.17,
+    "avg_quali": 11.15,
+    "best_finish": 6,
+    "team": "rb"
+   },
+   {
+    "driver_id": "colapinto",
+    "position": 12,
+    "points": 27.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 3,
+    "avg_finish": 11.59,
+    "avg_quali": 13.15,
+    "best_finish": 6,
+    "team": "alpine"
+   },
+   {
+    "driver_id": "bearman",
+    "position": 13,
+    "points": 23.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 6,
+    "avg_finish": 12.8,
+    "avg_quali": 14.37,
+    "best_finish": 5,
+    "team": "haas"
+   },
+   {
+    "driver_id": "bortoleto",
+    "position": 14,
+    "points": 14.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 2,
+    "avg_finish": 11.89,
+    "avg_quali": 13.25,
+    "best_finish": 8,
+    "team": "audi"
+   },
+   {
+    "driver_id": "hulkenberg",
+    "position": 15,
+    "points": 14.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 4,
+    "avg_finish": 11.0,
+    "avg_quali": 12.0,
+    "best_finish": 8,
+    "team": "audi"
+   },
+   {
+    "driver_id": "ocon",
+    "position": 16,
+    "points": 7.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 18,
+    "dnfs": 1,
+    "avg_finish": 13.12,
+    "avg_quali": 15.28,
+    "best_finish": 8,
+    "team": "haas"
+   },
+   {
+    "driver_id": "alonso",
+    "position": 17,
+    "points": 7.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 7,
+    "avg_finish": 14.62,
+    "avg_quali": 18.1,
+    "best_finish": 8,
+    "team": "aston_martin"
+   },
+   {
+    "driver_id": "sainz",
+    "position": 18,
+    "points": 7.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 3,
+    "avg_finish": 14.17,
+    "avg_quali": 15.16,
+    "best_finish": 9,
+    "team": "williams"
+   },
+   {
+    "driver_id": "albon",
+    "position": 19,
+    "points": 5.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 7,
+    "avg_finish": 14.93,
+    "avg_quali": 16.45,
+    "best_finish": 8,
+    "team": "williams"
+   },
+   {
+    "driver_id": "tsunoda",
+    "position": 20,
+    "points": 1.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 3,
+    "dnfs": 0,
+    "avg_finish": 11.67,
+    "avg_quali": 14.67,
+    "best_finish": 10,
+    "team": "rb"
+   },
+   {
+    "driver_id": "ryo_hirakawa",
+    "position": 21,
+    "points": 1.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 1,
+    "dnfs": 0,
+    "avg_finish": 10.0,
+    "avg_quali": 18.0,
+    "best_finish": 10,
+    "team": "haas"
+   },
+   {
+    "driver_id": "stroll",
+    "position": 22,
+    "points": 0.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 13,
+    "avg_finish": 15.17,
+    "avg_quali": 20.06,
+    "best_finish": 12,
+    "team": "aston_martin"
+   },
+   {
+    "driver_id": "bottas",
+    "position": 23,
+    "points": 0.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 11,
+    "avg_finish": 17.2,
+    "avg_quali": 20.25,
+    "best_finish": 13,
+    "team": "cadillac"
+   },
+   {
+    "driver_id": "perez",
+    "position": 24,
+    "points": 0.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 20,
+    "dnfs": 5,
+    "avg_finish": 16.2,
+    "avg_quali": 20.1,
+    "best_finish": 14,
+    "team": "cadillac"
+   },
+   {
+    "driver_id": "rafael_camara",
+    "position": 25,
+    "points": 0.0,
+    "wins": 0,
+    "podiums": 0,
+    "poles": 0,
+    "starts": 1,
+    "dnfs": 0,
+    "avg_finish": 20.0,
+    "avg_quali": 13.0,
+    "best_finish": 20,
+    "team": "haas"
+   }
+  ],
+  "constructors": [
+   {
+    "constructor_id": "mercedes",
+    "position": 1,
+    "points": 652.0,
+    "wins": 12
+   },
+   {
+    "constructor_id": "ferrari",
+    "position": 2,
+    "points": 510.0,
+    "wins": 2
+   },
+   {
+    "constructor_id": "red_bull",
+    "position": 3,
+    "points": 415.0,
+    "wins": 3
+   },
+   {
+    "constructor_id": "mclaren",
+    "position": 4,
+    "points": 398.0,
+    "wins": 3
+   },
+   {
+    "constructor_id": "rb",
+    "position": 5,
+    "points": 114.0,
+    "wins": 0
+   },
+   {
+    "constructor_id": "alpine",
+    "position": 6,
+    "points": 69.0,
+    "wins": 0
+   },
+   {
+    "constructor_id": "haas",
+    "position": 7,
+    "points": 31.0,
+    "wins": 0
+   },
+   {
+    "constructor_id": "audi",
+    "position": 8,
+    "points": 28.0,
+    "wins": 0
+   },
+   {
+    "constructor_id": "williams",
+    "position": 9,
+    "points": 12.0,
+    "wins": 0
+   },
+   {
+    "constructor_id": "aston_martin",
+    "position": 10,
+    "points": 7.0,
+    "wins": 0
+   },
+   {
+    "constructor_id": "cadillac",
+    "position": 11,
+    "points": 0.0,
+    "wins": 0
+   }
+  ],
+  "progress": {
+   "rounds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20
+   ],
+   "drivers": {
+    "albon": [
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     1.0,
+     5.0,
+     5.0,
+     5.0,
+     5.0,
+     5.0,
+     5.0,
+     5.0,
+     5.0,
+     5.0,
+     5.0,
+     5.0,
+     5.0,
+     5.0,
+     5.0,
+     5.0
+    ],
+    "alonso": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     3.0,
+     3.0,
+     3.0,
+     3.0,
+     7.0,
+     7.0,
+     7.0,
+     7.0,
+     7.0
+    ],
+    "antonelli": [
+     18.0,
+     47.0,
+     72.0,
+     100.0,
+     131.0,
+     156.0,
+     156.0,
+     171.0,
+     179.0,
+     204.0,
+     219.0,
+     242.0,
+     267.0,
+     292.0,
+     302.0,
+     320.0,
+     340.0,
+     365.0,
+     380.0,
+     390.0
+    ],
+    "arvid_lindblad": [
+     4.0,
+     4.0,
+     4.0,
+     4.0,
+     5.0,
+     13.0,
+     15.0,
+     16.0,
+     22.0,
+     24.0,
+     25.0,
+     25.0,
+     29.0,
+     31.0,
+     37.0,
+     38.0,
+     38.0,
+     38.0,
+     38.0,
+     38.0
+    ],
+    "bearman": [
+     6.0,
+     17.0,
+     17.0,
+     17.0,
+     18.0,
+     18.0,
+     18.0,
+     18.0,
+     18.0,
+     18.0,
+     18.0,
+     18.0,
+     18.0,
+     18.0,
+     20.0,
+     20.0,
+     23.0,
+     23.0,
+     23.0,
+     23.0
+    ],
+    "bortoleto": [
+     2.0,
+     2.0,
+     2.0,
+     2.0,
+     2.0,
+     2.0,
+     2.0,
+     2.0,
+     6.0,
+     10.0,
+     10.0,
+     10.0,
+     10.0,
+     10.0,
+     10.0,
+     10.0,
+     10.0,
+     10.0,
+     14.0,
+     14.0
+    ],
+    "bottas": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "colapinto": [
+     0.0,
+     1.0,
+     1.0,
+     7.0,
+     15.0,
+     15.0,
+     16.0,
+     16.0,
+     18.0,
+     19.0,
+     19.0,
+     19.0,
+     21.0,
+     27.0,
+     27.0,
+     27.0,
+     27.0,
+     27.0,
+     27.0,
+     27.0
+    ],
+    "gasly": [
+     1.0,
+     9.0,
+     15.0,
+     16.0,
+     20.0,
+     26.0,
+     32.0,
+     32.0,
+     33.0,
+     33.0,
+     33.0,
+     35.0,
+     41.0,
+     41.0,
+     41.0,
+     41.0,
+     41.0,
+     42.0,
+     42.0,
+     42.0
+    ],
+    "hadjar": [
+     0.0,
+     4.0,
+     4.0,
+     4.0,
+     14.0,
+     29.0,
+     37.0,
+     45.0,
+     55.0,
+     63.0,
+     71.0,
+     71.0,
+     71.0,
+     71.0,
+     86.0,
+     96.0,
+     97.0,
+     105.0,
+     107.0,
+     122.0
+    ],
+    "hamilton": [
+     12.0,
+     33.0,
+     41.0,
+     51.0,
+     72.0,
+     90.0,
+     115.0,
+     125.0,
+     147.0,
+     159.0,
+     169.0,
+     183.0,
+     191.0,
+     191.0,
+     199.0,
+     214.0,
+     229.0,
+     241.0,
+     259.0,
+     261.0
+    ],
+    "hulkenberg": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     2.0,
+     6.0,
+     6.0,
+     7.0,
+     7.0,
+     7.0,
+     13.0,
+     13.0,
+     13.0,
+     14.0
+    ],
+    "lawson": [
+     0.0,
+     8.0,
+     10.0,
+     10.0,
+     16.0,
+     26.0,
+     30.0,
+     32.0,
+     41.0,
+     41.0,
+     45.0,
+     51.0,
+     51.0,
+     59.0,
+     59.0,
+     65.0,
+     75.0,
+     77.0,
+     83.0,
+     89.0
+    ],
+    "leclerc": [
+     15.0,
+     34.0,
+     49.0,
+     59.0,
+     75.0,
+     75.0,
+     75.0,
+     79.0,
+     108.0,
+     126.0,
+     138.0,
+     155.0,
+     155.0,
+     167.0,
+     179.0,
+     191.0,
+     215.0,
+     233.0,
+     245.0,
+     249.0
+    ],
+    "max_verstappen": [
+     8.0,
+     8.0,
+     12.0,
+     26.0,
+     43.0,
+     43.0,
+     55.0,
+     73.0,
+     76.0,
+     91.0,
+     109.0,
+     112.0,
+     127.0,
+     145.0,
+     163.0,
+     188.0,
+     221.0,
+     236.0,
+     261.0,
+     279.0
+    ],
+    "norris": [
+     10.0,
+     15.0,
+     25.0,
+     51.0,
+     58.0,
+     58.0,
+     73.0,
+     79.0,
+     97.0,
+     103.0,
+     128.0,
+     159.0,
+     171.0,
+     186.0,
+     186.0,
+     188.0,
+     201.0,
+     211.0,
+     221.0,
+     246.0
+    ],
+    "ocon": [
+     0.0,
+     0.0,
+     1.0,
+     1.0,
+     1.0,
+     3.0,
+     3.0,
+     3.0,
+     3.0,
+     3.0,
+     3.0,
+     3.0,
+     3.0,
+     3.0,
+     7.0,
+     7.0,
+     7.0,
+     7.0,
+     7.0,
+     7.0
+    ],
+    "perez": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "piastri": [
+     0.0,
+     3.0,
+     21.0,
+     43.0,
+     48.0,
+     60.0,
+     70.0,
+     82.0,
+     84.0,
+     94.0,
+     94.0,
+     106.0,
+     116.0,
+     120.0,
+     120.0,
+     128.0,
+     138.0,
+     144.0,
+     144.0,
+     152.0
+    ],
+    "rafael_camara": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "russell": [
+     25.0,
+     51.0,
+     63.0,
+     80.0,
+     88.0,
+     88.0,
+     106.0,
+     131.0,
+     154.0,
+     154.0,
+     160.0,
+     183.0,
+     201.0,
+     211.0,
+     236.0,
+     236.0,
+     238.0,
+     242.0,
+     250.0,
+     262.0
+    ],
+    "ryo_hirakawa": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     1.0
+    ],
+    "sainz": [
+     0.0,
+     2.0,
+     2.0,
+     4.0,
+     6.0,
+     6.0,
+     6.0,
+     6.0,
+     6.0,
+     6.0,
+     6.0,
+     6.0,
+     6.0,
+     6.0,
+     7.0,
+     7.0,
+     7.0,
+     7.0,
+     7.0,
+     7.0
+    ],
+    "stroll": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "tsunoda": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ]
+   },
+   "constructors": {
+    "alpine": [
+     1.0,
+     10.0,
+     16.0,
+     23.0,
+     35.0,
+     41.0,
+     48.0,
+     48.0,
+     51.0,
+     52.0,
+     52.0,
+     54.0,
+     62.0,
+     68.0,
+     68.0,
+     68.0,
+     68.0,
+     69.0,
+     69.0,
+     69.0
+    ],
+    "aston_martin": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     3.0,
+     3.0,
+     3.0,
+     3.0,
+     7.0,
+     7.0,
+     7.0,
+     7.0,
+     7.0
+    ],
+    "audi": [
+     2.0,
+     2.0,
+     2.0,
+     2.0,
+     2.0,
+     2.0,
+     2.0,
+     2.0,
+     6.0,
+     10.0,
+     12.0,
+     16.0,
+     16.0,
+     17.0,
+     17.0,
+     17.0,
+     23.0,
+     23.0,
+     27.0,
+     28.0
+    ],
+    "cadillac": [
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "ferrari": [
+     27.0,
+     67.0,
+     90.0,
+     110.0,
+     147.0,
+     165.0,
+     190.0,
+     204.0,
+     255.0,
+     285.0,
+     307.0,
+     338.0,
+     346.0,
+     358.0,
+     378.0,
+     405.0,
+     444.0,
+     474.0,
+     504.0,
+     510.0
+    ],
+    "haas": [
+     6.0,
+     17.0,
+     18.0,
+     18.0,
+     19.0,
+     21.0,
+     21.0,
+     21.0,
+     21.0,
+     21.0,
+     21.0,
+     21.0,
+     21.0,
+     21.0,
+     27.0,
+     27.0,
+     30.0,
+     30.0,
+     31.0,
+     31.0
+    ],
+    "mclaren": [
+     10.0,
+     18.0,
+     46.0,
+     94.0,
+     106.0,
+     118.0,
+     143.0,
+     161.0,
+     181.0,
+     197.0,
+     222.0,
+     265.0,
+     287.0,
+     306.0,
+     306.0,
+     316.0,
+     339.0,
+     355.0,
+     365.0,
+     398.0
+    ],
+    "mercedes": [
+     43.0,
+     98.0,
+     135.0,
+     180.0,
+     219.0,
+     244.0,
+     262.0,
+     302.0,
+     333.0,
+     358.0,
+     379.0,
+     425.0,
+     468.0,
+     503.0,
+     538.0,
+     556.0,
+     578.0,
+     607.0,
+     630.0,
+     652.0
+    ],
+    "rb": [
+     4.0,
+     12.0,
+     14.0,
+     14.0,
+     21.0,
+     39.0,
+     45.0,
+     48.0,
+     63.0,
+     65.0,
+     70.0,
+     70.0,
+     75.0,
+     77.0,
+     83.0,
+     90.0,
+     100.0,
+     102.0,
+     108.0,
+     114.0
+    ],
+    "red_bull": [
+     8.0,
+     12.0,
+     16.0,
+     30.0,
+     57.0,
+     72.0,
+     92.0,
+     118.0,
+     131.0,
+     154.0,
+     180.0,
+     189.0,
+     204.0,
+     230.0,
+     263.0,
+     298.0,
+     332.0,
+     355.0,
+     382.0,
+     415.0
+    ],
+    "williams": [
+     0.0,
+     2.0,
+     2.0,
+     5.0,
+     7.0,
+     11.0,
+     11.0,
+     11.0,
+     11.0,
+     11.0,
+     11.0,
+     11.0,
+     11.0,
+     11.0,
+     12.0,
+     12.0,
+     12.0,
+     12.0,
+     12.0,
+     12.0
+    ]
+   }
+  },
+  "clinched": {
+   "drivers": "antonelli",
+   "constructors": "mercedes",
+   "after_round": 20
+  }
+ },
+ "races": [
+  {
+   "round": 1,
+   "race_name": "Australian Grand Prix",
+   "circuit_id": "albert_park",
+   "country": "Australia",
+   "date": "2026-03-08",
+   "has_sprint": false,
+   "winner": "russell",
+   "pole": "russell",
+   "pre": {
+    "favourite": "piastri",
+    "p_favourite": 0.2436,
+    "p_winner": 0.1321,
+    "hit": false,
+    "winner_in_top3": false
+   },
+   "post": {
+    "favourite": "russell",
+    "p_favourite": 0.6716,
+    "p_winner": 0.6716,
+    "hit": true,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 2,
+   "race_name": "Chinese Grand Prix",
+   "circuit_id": "shanghai",
+   "country": "China",
+   "date": "2026-03-15",
+   "has_sprint": true,
+   "winner": "antonelli",
+   "pole": "antonelli",
+   "pre": {
+    "favourite": "russell",
+    "p_favourite": 0.3264,
+    "p_winner": 0.0946,
+    "hit": false,
+    "winner_in_top3": false
+   },
+   "post": {
+    "favourite": "russell",
+    "p_favourite": 0.3959,
+    "p_winner": 0.3128,
+    "hit": false,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 3,
+   "race_name": "Japanese Grand Prix",
+   "circuit_id": "suzuka",
+   "country": "Japan",
+   "date": "2026-03-29",
+   "has_sprint": false,
+   "winner": "antonelli",
+   "pole": "antonelli",
+   "pre": {
+    "favourite": "russell",
+    "p_favourite": 0.3867,
+    "p_winner": 0.1596,
+    "hit": false,
+    "winner_in_top3": true
+   },
+   "post": {
+    "favourite": "antonelli",
+    "p_favourite": 0.4741,
+    "p_winner": 0.4741,
+    "hit": true,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 4,
+   "race_name": "Miami Grand Prix",
+   "circuit_id": "miami",
+   "country": "USA",
+   "date": "2026-05-03",
+   "has_sprint": true,
+   "winner": "antonelli",
+   "pole": "antonelli",
+   "pre": {
+    "favourite": "russell",
+    "p_favourite": 0.3327,
+    "p_winner": 0.2342,
+    "hit": false,
+    "winner_in_top3": true
+   },
+   "post": {
+    "favourite": "antonelli",
+    "p_favourite": 0.621,
+    "p_winner": 0.621,
+    "hit": true,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 5,
+   "race_name": "Canadian Grand Prix",
+   "circuit_id": "villeneuve",
+   "country": "Canada",
+   "date": "2026-05-24",
+   "has_sprint": true,
+   "winner": "antonelli",
+   "pole": "russell",
+   "pre": {
+    "favourite": "russell",
+    "p_favourite": 0.3228,
+    "p_winner": 0.2733,
+    "hit": false,
+    "winner_in_top3": true
+   },
+   "post": {
+    "favourite": "russell",
+    "p_favourite": 0.5919,
+    "p_winner": 0.198,
+    "hit": false,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 6,
+   "race_name": "Monaco Grand Prix",
+   "circuit_id": "monaco",
+   "country": "Monaco",
+   "date": "2026-06-07",
+   "has_sprint": false,
+   "winner": "antonelli",
+   "pole": "antonelli",
+   "pre": {
+    "favourite": "antonelli",
+    "p_favourite": 0.4277,
+    "p_winner": 0.4277,
+    "hit": true,
+    "winner_in_top3": true
+   },
+   "post": {
+    "favourite": "antonelli",
+    "p_favourite": 0.5406,
+    "p_winner": 0.5406,
+    "hit": true,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 7,
+   "race_name": "Barcelona Grand Prix",
+   "circuit_id": "catalunya",
+   "country": "Spain",
+   "date": "2026-06-14",
+   "has_sprint": false,
+   "winner": "hamilton",
+   "pole": "russell",
+   "pre": {
+    "favourite": "antonelli",
+    "p_favourite": 0.5056,
+    "p_winner": 0.0736,
+    "hit": false,
+    "winner_in_top3": false
+   },
+   "post": {
+    "favourite": "russell",
+    "p_favourite": 0.4521,
+    "p_winner": 0.1773,
+    "hit": false,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 8,
+   "race_name": "Austrian Grand Prix",
+   "circuit_id": "red_bull_ring",
+   "country": "Austria",
+   "date": "2026-06-28",
+   "has_sprint": false,
+   "winner": "russell",
+   "pole": "russell",
+   "pre": {
+    "favourite": "antonelli",
+    "p_favourite": 0.3817,
+    "p_winner": 0.2041,
+    "hit": false,
+    "winner_in_top3": true
+   },
+   "post": {
+    "favourite": "russell",
+    "p_favourite": 0.4526,
+    "p_winner": 0.4526,
+    "hit": true,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 9,
+   "race_name": "British Grand Prix",
+   "circuit_id": "silverstone",
+   "country": "UK",
+   "date": "2026-07-05",
+   "has_sprint": true,
+   "winner": "leclerc",
+   "pole": "antonelli",
+   "pre": {
+    "favourite": "antonelli",
+    "p_favourite": 0.368,
+    "p_winner": 0.0602,
+    "hit": false,
+    "winner_in_top3": false
+   },
+   "post": {
+    "favourite": "antonelli",
+    "p_favourite": 0.4556,
+    "p_winner": 0.182,
+    "hit": false,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 10,
+   "race_name": "Belgian Grand Prix",
+   "circuit_id": "spa",
+   "country": "Belgium",
+   "date": "2026-07-19",
+   "has_sprint": false,
+   "winner": "antonelli",
+   "pole": "antonelli",
+   "pre": {
+    "favourite": "antonelli",
+    "p_favourite": 0.2909,
+    "p_winner": 0.2909,
+    "hit": true,
+    "winner_in_top3": true
+   },
+   "post": {
+    "favourite": "antonelli",
+    "p_favourite": 0.4115,
+    "p_winner": 0.4115,
+    "hit": true,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 11,
+   "race_name": "Hungarian Grand Prix",
+   "circuit_id": "hungaroring",
+   "country": "Hungary",
+   "date": "2026-07-26",
+   "has_sprint": false,
+   "winner": "norris",
+   "pole": "norris",
+   "pre": {
+    "favourite": "antonelli",
+    "p_favourite": 0.3521,
+    "p_winner": 0.073,
+    "hit": false,
+    "winner_in_top3": false
+   },
+   "post": {
+    "favourite": "norris",
+    "p_favourite": 0.4385,
+    "p_winner": 0.4385,
+    "hit": true,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 12,
+   "race_name": "Dutch Grand Prix",
+   "circuit_id": "zandvoort",
+   "country": "Netherlands",
+   "date": "2026-08-23",
+   "has_sprint": true,
+   "winner": "norris",
+   "pole": "norris",
+   "pre": {
+    "favourite": "antonelli",
+    "p_favourite": 0.3732,
+    "p_winner": 0.1264,
+    "hit": false,
+    "winner_in_top3": true
+   },
+   "post": {
+    "favourite": "norris",
+    "p_favourite": 0.6151,
+    "p_winner": 0.6151,
+    "hit": true,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 13,
+   "race_name": "Italian Grand Prix",
+   "circuit_id": "monza",
+   "country": "Italy",
+   "date": "2026-09-06",
+   "has_sprint": false,
+   "winner": "antonelli",
+   "pole": "gasly",
+   "pre": {
+    "favourite": "antonelli",
+    "p_favourite": 0.3057,
+    "p_winner": 0.3057,
+    "hit": true,
+    "winner_in_top3": true
+   },
+   "post": {
+    "favourite": "russell",
+    "p_favourite": 0.5266,
+    "p_winner": 0.0334,
+    "hit": false,
+    "winner_in_top3": false
+   }
+  },
+  {
+   "round": 14,
+   "race_name": "Spanish Grand Prix",
+   "circuit_id": "madring",
+   "country": "Spain",
+   "date": "2026-09-13",
+   "has_sprint": false,
+   "winner": "antonelli",
+   "pole": "norris",
+   "pre": {
+    "favourite": "antonelli",
+    "p_favourite": 0.2857,
+    "p_winner": 0.2857,
+    "hit": true,
+    "winner_in_top3": true
+   },
+   "post": {
+    "favourite": "norris",
+    "p_favourite": 0.4626,
+    "p_winner": 0.2769,
+    "hit": false,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 15,
+   "race_name": "Azerbaijan Grand Prix",
+   "circuit_id": "baku",
+   "country": "Azerbaijan",
+   "date": "2026-09-26",
+   "has_sprint": false,
+   "winner": "russell",
+   "pole": "russell",
+   "pre": {
+    "favourite": "norris",
+    "p_favourite": 0.2717,
+    "p_winner": 0.1684,
+    "hit": false,
+    "winner_in_top3": true
+   },
+   "post": {
+    "favourite": "russell",
+    "p_favourite": 0.6889,
+    "p_winner": 0.6889,
+    "hit": true,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 16,
+   "race_name": "Bahrain Grand Prix in Malaysia",
+   "circuit_id": "sepang",
+   "country": "Malaysia",
+   "date": "2026-10-04",
+   "has_sprint": false,
+   "winner": "max_verstappen",
+   "pole": "max_verstappen",
+   "pre": {
+    "favourite": "antonelli",
+    "p_favourite": 0.2586,
+    "p_winner": 0.1183,
+    "hit": false,
+    "winner_in_top3": false
+   },
+   "post": {
+    "favourite": "max_verstappen",
+    "p_favourite": 0.4971,
+    "p_winner": 0.4971,
+    "hit": true,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 17,
+   "race_name": "Singapore Grand Prix",
+   "circuit_id": "marina_bay",
+   "country": "Singapore",
+   "date": "2026-10-11",
+   "has_sprint": true,
+   "winner": "max_verstappen",
+   "pole": "max_verstappen",
+   "pre": {
+    "favourite": "antonelli",
+    "p_favourite": 0.2243,
+    "p_winner": 0.1977,
+    "hit": false,
+    "winner_in_top3": true
+   },
+   "post": {
+    "favourite": "max_verstappen",
+    "p_favourite": 0.5728,
+    "p_winner": 0.5728,
+    "hit": true,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 18,
+   "race_name": "United States Grand Prix",
+   "circuit_id": "americas",
+   "country": "USA",
+   "date": "2026-10-25",
+   "has_sprint": false,
+   "winner": "antonelli",
+   "pole": "antonelli",
+   "pre": {
+    "favourite": "max_verstappen",
+    "p_favourite": 0.3221,
+    "p_winner": 0.1624,
+    "hit": false,
+    "winner_in_top3": true
+   },
+   "post": {
+    "favourite": "antonelli",
+    "p_favourite": 0.4531,
+    "p_winner": 0.4531,
+    "hit": true,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 19,
+   "race_name": "Mexico City Grand Prix",
+   "circuit_id": "rodriguez",
+   "country": "Mexico",
+   "date": "2026-11-01",
+   "has_sprint": false,
+   "winner": "max_verstappen",
+   "pole": "hamilton",
+   "pre": {
+    "favourite": "max_verstappen",
+    "p_favourite": 0.3685,
+    "p_winner": 0.3685,
+    "hit": true,
+    "winner_in_top3": true
+   },
+   "post": {
+    "favourite": "hamilton",
+    "p_favourite": 0.3993,
+    "p_winner": 0.1801,
+    "hit": false,
+    "winner_in_top3": true
+   }
+  },
+  {
+   "round": 20,
+   "race_name": "Brazilian Grand Prix",
+   "circuit_id": "interlagos",
+   "country": "Brazil",
+   "date": "2026-11-08",
+   "has_sprint": false,
+   "winner": "norris",
+   "pole": "norris",
+   "pre": {
+    "favourite": "max_verstappen",
+    "p_favourite": 0.4037,
+    "p_winner": 0.0697,
+    "hit": false,
+    "winner_in_top3": false
+   },
+   "post": {
+    "favourite": "norris",
+    "p_favourite": 0.4628,
+    "p_winner": 0.4628,
+    "hit": true,
+    "winner_in_top3": true
+   }
+  }
+ ],
+ "next_race": {
+  "season": 2026,
+  "round": 21,
+  "race_name": "Las Vegas Grand Prix",
+  "circuit_id": "vegas",
+  "circuit_name": "Las Vegas Strip Street Circuit",
+  "locality": "Las Vegas",
+  "country": "USA",
+  "start_utc": "2026-11-22T04:00:00+00:00",
+  "has_sprint": false,
+  "model_kind": "pl",
+  "last_winner": {
+   "driver_id": "max_verstappen",
+   "season": 2025
+  },
+  "inputs": [
+   {
+    "key": "elo",
+    "label": "Elo rating",
+    "higher_is_better": true
+   },
+   {
+    "key": "drv_finish_avg5",
+    "label": "Average finish, last 5",
+    "higher_is_better": false
+   },
+   {
+    "key": "drv_points_avg5",
+    "label": "Points per race, last 5",
+    "higher_is_better": true
+   },
+   {
+    "key": "drv_quali_avg5",
+    "label": "Average grid slot, last 5",
+    "higher_is_better": false
+   },
+   {
+    "key": "team_points_avg5",
+    "label": "Team points per race, last 5",
+    "higher_is_better": true
+   },
+   {
+    "key": "drv_circuit_finish",
+    "label": "Past finishes at this track",
+    "higher_is_better": false
+   },
+   {
+    "key": "drv_dnf_rate10",
+    "label": "Retirement rate, last 10",
+    "higher_is_better": false
+   }
+  ],
+  "field": {
+   "elo": {
+    "min": 1357.0985,
+    "max": 1769.8278,
+    "mean": 1538.626
+   },
+   "drv_finish_avg5": {
+    "min": 1.6,
+    "max": 20.6,
+    "mean": 11.7818
+   },
+   "drv_points_avg5": {
+    "min": 0.0,
+    "max": 23.2,
+    "mean": 4.9091
+   },
+   "drv_quali_avg5": {
+    "min": 3.4,
+    "max": 21.0,
+    "mean": 11.3636
+   },
+   "team_points_avg5": {
+    "min": 0.0,
+    "max": 30.4,
+    "mean": 9.8364
+   },
+   "drv_circuit_finish": {
+    "min": 2.3333,
+    "max": 21.0,
+    "mean": 10.5083
+   },
+   "drv_dnf_rate10": {
+    "min": 0.0,
+    "max": 0.7,
+    "mean": 0.1773
+   }
+  },
+  "odds": [
+   {
+    "driver_id": "max_verstappen",
+    "team": "red_bull",
+    "p_win": 0.352,
+    "p_podium": 0.7917,
+    "inputs": {
+     "elo": 1769.8278,
+     "drv_finish_avg5": 1.6,
+     "drv_points_avg5": 23.2,
+     "drv_quali_avg5": 4.8,
+     "team_points_avg5": 30.4,
+     "drv_circuit_finish": 2.3333,
+     "drv_dnf_rate10": 0.1
+    }
+   },
+   {
+    "driver_id": "antonelli",
+    "team": "mercedes",
+    "p_win": 0.1986,
+    "p_podium": 0.5956,
+    "inputs": {
+     "elo": 1670.9228,
+     "drv_finish_avg5": 2.8,
+     "drv_points_avg5": 17.6,
+     "drv_quali_avg5": 3.4,
+     "team_points_avg5": 22.8,
+     "drv_circuit_finish": 3.0,
+     "drv_dnf_rate10": 0.0
+    }
+   },
+   {
+    "driver_id": "norris",
+    "team": "mclaren",
+    "p_win": 0.1295,
+    "p_podium": 0.4381,
+    "inputs": {
+     "elo": 1728.3281,
+     "drv_finish_avg5": 4.8,
+     "drv_points_avg5": 12.0,
+     "drv_quali_avg5": 5.2,
+     "team_points_avg5": 18.4,
+     "drv_circuit_finish": 16.0,
+     "drv_dnf_rate10": 0.1
+    }
+   },
+   {
+    "driver_id": "russell",
+    "team": "mercedes",
+    "p_win": 0.0867,
+    "p_podium": 0.3118,
+    "inputs": {
+     "elo": 1687.1841,
+     "drv_finish_avg5": 9.4,
+     "drv_points_avg5": 5.2,
+     "drv_quali_avg5": 4.8,
+     "team_points_avg5": 22.8,
+     "drv_circuit_finish": 3.6667,
+     "drv_dnf_rate10": 0.1
+    }
+   },
+   {
+    "driver_id": "leclerc",
+    "team": "ferrari",
+    "p_win": 0.0843,
+    "p_podium": 0.3041,
+    "inputs": {
+     "elo": 1705.3775,
+     "drv_finish_avg5": 4.0,
+     "drv_points_avg5": 14.0,
+     "drv_quali_avg5": 3.6,
+     "team_points_avg5": 26.4,
+     "drv_circuit_finish": 3.3333,
+     "drv_dnf_rate10": 0.1
+    }
+   },
+   {
+    "driver_id": "hamilton",
+    "team": "ferrari",
+    "p_win": 0.0797,
+    "p_podium": 0.2891,
+    "inputs": {
+     "elo": 1685.7202,
+     "drv_finish_avg5": 4.8,
+     "drv_points_avg5": 12.4,
+     "drv_quali_avg5": 4.4,
+     "team_points_avg5": 26.4,
+     "drv_circuit_finish": 5.6667,
+     "drv_dnf_rate10": 0.1
+    }
+   },
+   {
+    "driver_id": "hadjar",
+    "team": "red_bull",
+    "p_win": 0.0295,
+    "p_podium": 0.1137,
+    "inputs": {
+     "elo": 1566.1403,
+     "drv_finish_avg5": 6.6,
+     "drv_points_avg5": 7.2,
+     "drv_quali_avg5": 8.4,
+     "team_points_avg5": 30.4,
+     "drv_circuit_finish": 6.0,
+     "drv_dnf_rate10": 0.0
+    }
+   },
+   {
+    "driver_id": "piastri",
+    "team": "mclaren",
+    "p_win": 0.0191,
+    "p_podium": 0.0746,
+    "inputs": {
+     "elo": 1669.2523,
+     "drv_finish_avg5": 7.4,
+     "drv_points_avg5": 6.4,
+     "drv_quali_avg5": 9.0,
+     "team_points_avg5": 18.4,
+     "drv_circuit_finish": 12.6667,
+     "drv_dnf_rate10": 0.1
+    }
+   },
+   {
+    "driver_id": "lawson",
+    "team": "rb",
+    "p_win": 0.0089,
+    "p_podium": 0.0349,
+    "inputs": {
+     "elo": 1527.5219,
+     "drv_finish_avg5": 7.4,
+     "drv_points_avg5": 6.0,
+     "drv_quali_avg5": 11.4,
+     "team_points_avg5": 6.2,
+     "drv_circuit_finish": 15.0,
+     "drv_dnf_rate10": 0.0
+    }
+   },
+   {
+    "driver_id": "arvid_lindblad",
+    "team": "rb",
+    "p_win": 0.0055,
+    "p_podium": 0.0216,
+    "inputs": {
+     "elo": 1507.8686,
+     "drv_finish_avg5": 13.8,
+     "drv_points_avg5": 0.2,
+     "drv_quali_avg5": 11.4,
+     "team_points_avg5": 6.2,
+     "drv_circuit_finish": null,
+     "drv_dnf_rate10": 0.1
+    }
+   },
+   {
+    "driver_id": "hulkenberg",
+    "team": "audi",
+    "p_win": 0.0019,
+    "p_podium": 0.0074,
+    "inputs": {
+     "elo": 1475.8016,
+     "drv_finish_avg5": 10.8,
+     "drv_points_avg5": 1.4,
+     "drv_quali_avg5": 11.2,
+     "team_points_avg5": 2.2,
+     "drv_circuit_finish": 11.3333,
+     "drv_dnf_rate10": 0.0
+    }
+   },
+   {
+    "driver_id": "bortoleto",
+    "team": "audi",
+    "p_win": 0.0012,
+    "p_podium": 0.0048,
+    "inputs": {
+     "elo": 1450.6712,
+     "drv_finish_avg5": 15.2,
+     "drv_points_avg5": 0.8,
+     "drv_quali_avg5": 14.6,
+     "team_points_avg5": 2.2,
+     "drv_circuit_finish": 21.0,
+     "drv_dnf_rate10": 0.1
+    }
+   },
+   {
+    "driver_id": "colapinto",
+    "team": "alpine",
+    "p_win": 0.0009,
+    "p_podium": 0.0034,
+    "inputs": {
+     "elo": 1430.923,
+     "drv_finish_avg5": 16.6,
+     "drv_points_avg5": 0.0,
+     "drv_quali_avg5": 14.6,
+     "team_points_avg5": 0.2,
+     "drv_circuit_finish": 14.5,
+     "drv_dnf_rate10": 0.3
+    }
+   },
+   {
+    "driver_id": "gasly",
+    "team": "alpine",
+    "p_win": 0.0009,
+    "p_podium": 0.0034,
+    "inputs": {
+     "elo": 1458.82,
+     "drv_finish_avg5": 13.6,
+     "drv_points_avg5": 0.2,
+     "drv_quali_avg5": 11.0,
+     "team_points_avg5": 0.2,
+     "drv_circuit_finish": 15.0,
+     "drv_dnf_rate10": 0.1
+    }
+   },
+   {
+    "driver_id": "bearman",
+    "team": "haas",
+    "p_win": 0.0006,
+    "p_podium": 0.0022,
+    "inputs": {
+     "elo": 1458.4576,
+     "drv_finish_avg5": 17.0,
+     "drv_points_avg5": 0.6,
+     "drv_quali_avg5": 13.6,
+     "team_points_avg5": 0.8,
+     "drv_circuit_finish": 10.0,
+     "drv_dnf_rate10": 0.3
+    }
+   },
+   {
+    "driver_id": "albon",
+    "team": "williams",
+    "p_win": 0.0002,
+    "p_podium": 0.0009,
+    "inputs": {
+     "elo": 1428.6518,
+     "drv_finish_avg5": 16.4,
+     "drv_points_avg5": 0.0,
+     "drv_quali_avg5": 16.8,
+     "team_points_avg5": 0.0,
+     "drv_circuit_finish": 18.0,
+     "drv_dnf_rate10": 0.4
+    }
+   },
+   {
+    "driver_id": "alonso",
+    "team": "aston_martin",
+    "p_win": 0.0002,
+    "p_podium": 0.0008,
+    "inputs": {
+     "elo": 1462.393,
+     "drv_finish_avg5": 14.6,
+     "drv_points_avg5": 0.8,
+     "drv_quali_avg5": 14.0,
+     "team_points_avg5": 0.8,
+     "drv_circuit_finish": 10.3333,
+     "drv_dnf_rate10": 0.3
+    }
+   },
+   {
+    "driver_id": "stroll",
+    "team": "aston_martin",
+    "p_win": 0.0002,
+    "p_podium": 0.0007,
+    "inputs": {
+     "elo": 1410.2838,
+     "drv_finish_avg5": 18.0,
+     "drv_points_avg5": 0.0,
+     "drv_quali_avg5": 17.8,
+     "team_points_avg5": 0.8,
+     "drv_circuit_finish": 13.6667,
+     "drv_dnf_rate10": 0.7
+    }
+   },
+   {
+    "driver_id": "sainz",
+    "team": "williams",
+    "p_win": 0.0001,
+    "p_podium": 0.0005,
+    "inputs": {
+     "elo": 1459.2483,
+     "drv_finish_avg5": 16.0,
+     "drv_points_avg5": 0.0,
+     "drv_quali_avg5": 15.2,
+     "team_points_avg5": 0.0,
+     "drv_circuit_finish": 4.6667,
+     "drv_dnf_rate10": 0.1
+    }
+   },
+   {
+    "driver_id": "rafael_camara",
+    "team": "haas",
+    "p_win": 0.0001,
+    "p_podium": 0.0004,
+    "inputs": {
+     "elo": 1489.709,
+     "drv_finish_avg5": 20.0,
+     "drv_points_avg5": 0.0,
+     "drv_quali_avg5": 13.0,
+     "team_points_avg5": 0.8,
+     "drv_circuit_finish": null,
+     "drv_dnf_rate10": 0.0
+    }
+   },
+   {
+    "driver_id": "bottas",
+    "team": "cadillac",
+    "p_win": 0.0,
+    "p_podium": 0.0002,
+    "inputs": {
+     "elo": 1357.0985,
+     "drv_finish_avg5": 20.6,
+     "drv_points_avg5": 0.0,
+     "drv_quali_avg5": 21.0,
+     "team_points_avg5": 0.0,
+     "drv_circuit_finish": 17.5,
+     "drv_dnf_rate10": 0.7
+    }
+   },
+   {
+    "driver_id": "perez",
+    "team": "cadillac",
+    "p_win": 0.0,
+    "p_podium": 0.0001,
+    "inputs": {
+     "elo": 1449.5711,
+     "drv_finish_avg5": 17.8,
+     "drv_points_avg5": 0.0,
+     "drv_quali_avg5": 20.8,
+     "team_points_avg5": 0.0,
+     "drv_circuit_finish": 6.5,
+     "drv_dnf_rate10": 0.2
+    }
+   }
+  ]
+ },
+ "forecast": {
+  "season": 2027,
+  "simulations": 10000,
+  "drivers": [
+   {
+    "driver_id": "max_verstappen",
+    "code": "VER",
+    "name": "Max Verstappen",
+    "team": "red_bull",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 313.6,
+    "p_title": 0.2846
+   },
+   {
+    "driver_id": "norris",
+    "code": "NOR",
+    "name": "Lando Norris",
+    "team": "mclaren",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 282.8,
+    "p_title": 0.1937
+   },
+   {
+    "driver_id": "antonelli",
+    "code": "ANT",
+    "name": "Andrea Kimi Antonelli",
+    "team": "mercedes",
+    "seat_status": "expected",
+    "points_now": 0.0,
+    "expected_points": 289.3,
+    "p_title": 0.1932
+   },
+   {
+    "driver_id": "leclerc",
+    "code": "LEC",
+    "name": "Charles Leclerc",
+    "team": "ferrari",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 248.1,
+    "p_title": 0.1077
+   },
+   {
+    "driver_id": "russell",
+    "code": "RUS",
+    "name": "George Russell",
+    "team": "mercedes",
+    "seat_status": "expected",
+    "points_now": 0.0,
+    "expected_points": 248.2,
+    "p_title": 0.0791
+   },
+   {
+    "driver_id": "hamilton",
+    "code": "HAM",
+    "name": "Lewis Hamilton",
+    "team": "ferrari",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 217.4,
+    "p_title": 0.056
+   },
+   {
+    "driver_id": "hadjar",
+    "code": "HAD",
+    "name": "Isack Hadjar",
+    "team": "red_bull",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 219.3,
+    "p_title": 0.0343
+   },
+   {
+    "driver_id": "piastri",
+    "code": "PIA",
+    "name": "Oscar Piastri",
+    "team": "mclaren",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 192.3,
+    "p_title": 0.0255
+   },
+   {
+    "driver_id": "lawson",
+    "code": "LAW",
+    "name": "Liam Lawson",
+    "team": "rb",
+    "seat_status": "assumed",
+    "points_now": 0.0,
+    "expected_points": 142.3,
+    "p_title": 0.0142
+   },
+   {
+    "driver_id": "arvid_lindblad",
+    "code": "LIN",
+    "name": "Arvid Lindblad",
+    "team": "rb",
+    "seat_status": "assumed",
+    "points_now": 0.0,
+    "expected_points": 119.5,
+    "p_title": 0.0075
+   },
+   {
+    "driver_id": "hulkenberg",
+    "code": "HUL",
+    "name": "Nico Hülkenberg",
+    "team": "audi",
+    "seat_status": "expected",
+    "points_now": 0.0,
+    "expected_points": 86.3,
+    "p_title": 0.0025
+   },
+   {
+    "driver_id": "bortoleto",
+    "code": "BOR",
+    "name": "Gabriel Bortoleto",
+    "team": "audi",
+    "seat_status": "expected",
+    "points_now": 0.0,
+    "expected_points": 63.0,
+    "p_title": 0.0011
+   },
+   {
+    "driver_id": "gasly",
+    "code": "GAS",
+    "name": "Pierre Gasly",
+    "team": "alpine",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 45.1,
+    "p_title": 0.0002
+   },
+   {
+    "driver_id": "albon",
+    "code": "ALB",
+    "name": "Alexander Albon",
+    "team": "williams",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 34.0,
+    "p_title": 0.0002
+   },
+   {
+    "driver_id": "colapinto",
+    "code": "COL",
+    "name": "Franco Colapinto",
+    "team": "alpine",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 48.2,
+    "p_title": 0.0001
+   },
+   {
+    "driver_id": "rafael_camara",
+    "code": "CAM",
+    "name": "Rafael Camara",
+    "team": "haas",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 40.9,
+    "p_title": 0.0001
+   },
+   {
+    "driver_id": "bearman",
+    "code": "BEA",
+    "name": "Oliver Bearman",
+    "team": "haas",
+    "seat_status": "expected",
+    "points_now": 0.0,
+    "expected_points": 49.3,
+    "p_title": 0.0
+   },
+   {
+    "driver_id": "alonso",
+    "code": "ALO",
+    "name": "Fernando Alonso",
+    "team": "aston_martin",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 42.2,
+    "p_title": 0.0
+   },
+   {
+    "driver_id": "sainz",
+    "code": "SAI",
+    "name": "Carlos Sainz",
+    "team": "williams",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 37.0,
+    "p_title": 0.0
+   },
+   {
+    "driver_id": "stroll",
+    "code": "STR",
+    "name": "Lance Stroll",
+    "team": "aston_martin",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 23.5,
+    "p_title": 0.0
+   },
+   {
+    "driver_id": "perez",
+    "code": "PER",
+    "name": "Sergio Pérez",
+    "team": "cadillac",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 22.5,
+    "p_title": 0.0
+   },
+   {
+    "driver_id": "bottas",
+    "code": "BOT",
+    "name": "Valtteri Bottas",
+    "team": "cadillac",
+    "seat_status": "confirmed",
+    "points_now": 0.0,
+    "expected_points": 19.3,
+    "p_title": 0.0
+   }
+  ],
+  "constructors": [
+   {
+    "constructor_id": "mercedes",
+    "name": "Mercedes",
+    "points_now": 0.0,
+    "expected_points": 537.5,
+    "p_title": 0.3028
+   },
+   {
+    "constructor_id": "red_bull",
+    "name": "Red Bull",
+    "points_now": 0.0,
+    "expected_points": 532.8,
+    "p_title": 0.2915
+   },
+   {
+    "constructor_id": "mclaren",
+    "name": "McLaren",
+    "points_now": 0.0,
+    "expected_points": 475.1,
+    "p_title": 0.1972
+   },
+   {
+    "constructor_id": "ferrari",
+    "name": "Ferrari",
+    "points_now": 0.0,
+    "expected_points": 465.5,
+    "p_title": 0.1821
+   },
+   {
+    "constructor_id": "rb",
+    "name": "RB F1 Team",
+    "points_now": 0.0,
+    "expected_points": 261.8,
+    "p_title": 0.0232
+   },
+   {
+    "constructor_id": "audi",
+    "name": "Audi",
+    "points_now": 0.0,
+    "expected_points": 149.3,
+    "p_title": 0.0027
+   },
+   {
+    "constructor_id": "alpine",
+    "name": "Alpine F1 Team",
+    "points_now": 0.0,
+    "expected_points": 93.3,
+    "p_title": 0.0003
+   },
+   {
+    "constructor_id": "williams",
+    "name": "Williams",
+    "points_now": 0.0,
+    "expected_points": 71.0,
+    "p_title": 0.0002
+   },
+   {
+    "constructor_id": "haas",
+    "name": "Haas F1 Team",
+    "points_now": 0.0,
+    "expected_points": 90.2,
+    "p_title": 0.0
+   },
+   {
+    "constructor_id": "aston_martin",
+    "name": "Aston Martin",
+    "points_now": 0.0,
+    "expected_points": 65.7,
+    "p_title": 0.0
+   },
+   {
+    "constructor_id": "cadillac",
+    "name": "Cadillac F1 Team",
+    "points_now": 0.0,
+    "expected_points": 41.8,
+    "p_title": 0.0
+   }
+  ],
+  "calendar": [
+   {
+    "round": 1,
+    "race_name": "Bahrain Grand Prix",
+    "circuit_id": "bahrain",
+    "country": "Bahrain",
+    "has_sprint": true
+   },
+   {
+    "round": 2,
+    "race_name": "Saudi Arabian Grand Prix",
+    "circuit_id": "jeddah",
+    "country": "Saudi Arabia",
+    "has_sprint": false
+   },
+   {
+    "round": 3,
+    "race_name": "Australian Grand Prix",
+    "circuit_id": "albert_park",
+    "country": "Australia",
+    "has_sprint": true
+   },
+   {
+    "round": 4,
+    "race_name": "Japanese Grand Prix",
+    "circuit_id": "suzuka",
+    "country": "Japan",
+    "has_sprint": true
+   },
+   {
+    "round": 5,
+    "race_name": "Chinese Grand Prix",
+    "circuit_id": "shanghai",
+    "country": "China",
+    "has_sprint": false
+   },
+   {
+    "round": 6,
+    "race_name": "Miami Grand Prix",
+    "circuit_id": "miami",
+    "country": "USA",
+    "has_sprint": false
+   },
+   {
+    "round": 7,
+    "race_name": "Canadian Grand Prix",
+    "circuit_id": "villeneuve",
+    "country": "Canada",
+    "has_sprint": true
+   },
+   {
+    "round": 8,
+    "race_name": "Monaco Grand Prix",
+    "circuit_id": "monaco",
+    "country": "Monaco",
+    "has_sprint": true
+   },
+   {
+    "round": 9,
+    "race_name": "Portuguese Grand Prix",
+    "circuit_id": "portimao",
+    "country": "Portugal",
+    "has_sprint": false
+   },
+   {
+    "round": 10,
+    "race_name": "Spanish Grand Prix",
+    "circuit_id": "madring",
+    "country": "Spain",
+    "has_sprint": false
+   },
+   {
+    "round": 11,
+    "race_name": "Austrian Grand Prix",
+    "circuit_id": "red_bull_ring",
+    "country": "Austria",
+    "has_sprint": false
+   },
+   {
+    "round": 12,
+    "race_name": "British Grand Prix",
+    "circuit_id": "silverstone",
+    "country": "UK",
+    "has_sprint": true
+   },
+   {
+    "round": 13,
+    "race_name": "Belgian Grand Prix",
+    "circuit_id": "spa",
+    "country": "Belgium",
+    "has_sprint": false
+   },
+   {
+    "round": 14,
+    "race_name": "Hungarian Grand Prix",
+    "circuit_id": "hungaroring",
+    "country": "Hungary",
+    "has_sprint": false
+   },
+   {
+    "round": 15,
+    "race_name": "Italian Grand Prix",
+    "circuit_id": "monza",
+    "country": "Italy",
+    "has_sprint": true
+   },
+   {
+    "round": 16,
+    "race_name": "Azerbaijan Grand Prix",
+    "circuit_id": "baku",
+    "country": "Azerbaijan",
+    "has_sprint": false
+   },
+   {
+    "round": 17,
+    "race_name": "Turkish Grand Prix",
+    "circuit_id": "istanbul",
+    "country": "Türkiye",
+    "has_sprint": false
+   },
+   {
+    "round": 18,
+    "race_name": "Singapore Grand Prix",
+    "circuit_id": "marina_bay",
+    "country": "Singapore",
+    "has_sprint": false
+   },
+   {
+    "round": 19,
+    "race_name": "United States Grand Prix",
+    "circuit_id": "americas",
+    "country": "USA",
+    "has_sprint": false
+   },
+   {
+    "round": 20,
+    "race_name": "Mexico City Grand Prix",
+    "circuit_id": "rodriguez",
+    "country": "Mexico",
+    "has_sprint": false
+   },
+   {
+    "round": 21,
+    "race_name": "São Paulo Grand Prix",
+    "circuit_id": "interlagos",
+    "country": "Brazil",
+    "has_sprint": true
+   },
+   {
+    "round": 22,
+    "race_name": "Las Vegas Grand Prix",
+    "circuit_id": "vegas",
+    "country": "USA",
+    "has_sprint": false
+   },
+   {
+    "round": 23,
+    "race_name": "Qatar Grand Prix",
+    "circuit_id": "losail",
+    "country": "Qatar",
+    "has_sprint": true
+   },
+   {
+    "round": 24,
+    "race_name": "Abu Dhabi Grand Prix",
+    "circuit_id": "yas_marina",
+    "country": "UAE",
+    "has_sprint": true
+   }
+  ],
+  "sources": {
+   "calendar_source": "https://www.formula1.com/en/latest/article/formula-1-reveals-calendar-for-2027-season-with-10-sprint-events.5J8ePLyjRuMyWEIDNUKgY4 (published 16 Sep 2026)",
+   "calendar_note": "24 rounds and the 10 sprint weekends are official. Race order follows F1's announcement; Portugal/Spain and Austria/Britain order within their pairs is inferred. Exact race dates are not published as text, so dates are placeholders two weeks apart (only used to order races).",
+   "lineup_source": "https://www.the-race.com/formula-1/2027-f1-grid-every-confirmed-driver/ (15 Oct 2026)",
+   "lineup_note": "status: confirmed = signed or announced; expected = reported but not officially confirmed; assumed = seat open, 2026 driver carried over as a placeholder."
+  }
+ },
+ "record": {
+  "built_at": "2026-11-22T09:59:44+00:00",
+  "test_seasons": [
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025,
+   2026
+  ],
+  "modes": {
+   "pre_quali": {
+    "baseline": "elo",
+    "model": {
+     "races": 151,
+     "winner_hit": 0.4768,
+     "winner_in_top3": 0.7881,
+     "podium_overlap": 0.5607,
+     "brier": 0.6925,
+     "log_loss": 1.5702,
+     "winner_prob": 0.3169,
+     "favourite_prob": 0.4802
+    },
+    "baseline_scores": {
+     "races": 151,
+     "winner_hit": 0.4702,
+     "winner_in_top3": 0.6887,
+     "podium_overlap": 0.5453,
+     "brier": 0.7411,
+     "log_loss": 1.871,
+     "winner_prob": 0.3501,
+     "favourite_prob": 0.6029
+    },
+    "per_season": [
+     {
+      "season": 2020,
+      "model": {
+       "races": 17,
+       "winner_hit": 0.6471,
+       "winner_in_top3": 0.8235,
+       "podium_overlap": 0.6667,
+       "brier": 0.5809,
+       "log_loss": 1.4611,
+       "winner_prob": 0.4179,
+       "favourite_prob": 0.5747
+      },
+      "baseline": {
+       "races": 17,
+       "winner_hit": 0.6471,
+       "winner_in_top3": 0.8824,
+       "podium_overlap": 0.7059,
+       "brier": 0.5761,
+       "log_loss": 1.6256,
+       "winner_prob": 0.4614,
+       "favourite_prob": 0.6601
+      }
+     },
+     {
+      "season": 2021,
+      "model": {
+       "races": 22,
+       "winner_hit": 0.3182,
+       "winner_in_top3": 0.7727,
+       "podium_overlap": 0.5758,
+       "brier": 0.815,
+       "log_loss": 1.9568,
+       "winner_prob": 0.202,
+       "favourite_prob": 0.3575
+      },
+      "baseline": {
+       "races": 22,
+       "winner_hit": 0.3636,
+       "winner_in_top3": 0.8636,
+       "podium_overlap": 0.697,
+       "brier": 0.7233,
+       "log_loss": 1.7025,
+       "winner_prob": 0.3559,
+       "favourite_prob": 0.5689
+      }
+     },
+     {
+      "season": 2022,
+      "model": {
+       "races": 22,
+       "winner_hit": 0.5909,
+       "winner_in_top3": 0.8182,
+       "podium_overlap": 0.5455,
+       "brier": 0.6467,
+       "log_loss": 1.4407,
+       "winner_prob": 0.3056,
+       "favourite_prob": 0.4198
+      },
+      "baseline": {
+       "races": 22,
+       "winner_hit": 0.5909,
+       "winner_in_top3": 0.6818,
+       "podium_overlap": 0.4697,
+       "brier": 0.6693,
+       "log_loss": 1.7084,
+       "winner_prob": 0.3606,
+       "favourite_prob": 0.5464
+      }
+     },
+     {
+      "season": 2023,
+      "model": {
+       "races": 22,
+       "winner_hit": 0.8636,
+       "winner_in_top3": 0.9545,
+       "podium_overlap": 0.4848,
+       "brier": 0.2983,
+       "log_loss": 0.6926,
+       "winner_prob": 0.5871,
+       "favourite_prob": 0.6526
+      },
+      "baseline": {
+       "races": 22,
+       "winner_hit": 0.8636,
+       "winner_in_top3": 0.9091,
+       "podium_overlap": 0.5152,
+       "brier": 0.2779,
+       "log_loss": 0.6964,
+       "winner_prob": 0.6206,
+       "favourite_prob": 0.6972
+      }
+     },
+     {
+      "season": 2024,
+      "model": {
+       "races": 24,
+       "winner_hit": 0.375,
+       "winner_in_top3": 0.625,
+       "podium_overlap": 0.5278,
+       "brier": 0.8967,
+       "log_loss": 2.0736,
+       "winner_prob": 0.2733,
+       "favourite_prob": 0.6128
+      },
+      "baseline": {
+       "races": 24,
+       "winner_hit": 0.375,
+       "winner_in_top3": 0.5417,
+       "podium_overlap": 0.4583,
+       "brier": 1.0425,
+       "log_loss": 2.6003,
+       "winner_prob": 0.3181,
+       "favourite_prob": 0.8194
+      }
+     },
+     {
+      "season": 2025,
+      "model": {
+       "races": 24,
+       "winner_hit": 0.3333,
+       "winner_in_top3": 0.875,
+       "podium_overlap": 0.6528,
+       "brier": 0.7501,
+       "log_loss": 1.5128,
+       "winner_prob": 0.2616,
+       "favourite_prob": 0.409
+      },
+      "baseline": {
+       "races": 24,
+       "winner_hit": 0.3333,
+       "winner_in_top3": 0.625,
+       "podium_overlap": 0.5833,
+       "brier": 0.8598,
+       "log_loss": 1.9331,
+       "winner_prob": 0.2369,
+       "favourite_prob": 0.5361
+      }
+     },
+     {
+      "season": 2026,
+      "model": {
+       "races": 20,
+       "winner_hit": 0.25,
+       "winner_in_top3": 0.65,
+       "podium_overlap": 0.4833,
+       "brier": 0.8226,
+       "log_loss": 1.81,
+       "winner_prob": 0.1913,
+       "favourite_prob": 0.3376
+      },
+      "baseline": {
+       "races": 20,
+       "winner_hit": 0.15,
+       "winner_in_top3": 0.35,
+       "podium_overlap": 0.4167,
+       "brier": 0.985,
+       "log_loss": 2.7863,
+       "winner_prob": 0.1146,
+       "favourite_prob": 0.3706
+      }
+     }
+    ],
+    "confidence": [
+     {
+      "band": "0%-25%",
+      "races": 5,
+      "favourite_prob": 0.2315,
+      "favourite_won": 0.2,
+      "winner_in_top3": 0.6
+     },
+     {
+      "band": "25%-40%",
+      "races": 57,
+      "favourite_prob": 0.3348,
+      "favourite_won": 0.4035,
+      "winner_in_top3": 0.8246
+     },
+     {
+      "band": "40%-60%",
+      "races": 49,
+      "favourite_prob": 0.4787,
+      "favourite_won": 0.449,
+      "winner_in_top3": 0.7755
+     },
+     {
+      "band": "60%-100%",
+      "races": 40,
+      "favourite_prob": 0.7202,
+      "favourite_won": 0.65,
+      "winner_in_top3": 0.775
+     }
+    ],
+    "classification": {
+     "tp": 72,
+     "fp": 79,
+     "fn": 79,
+     "tn": 2828,
+     "accuracy": 0.9483,
+     "error_rate": 0.0517,
+     "precision": 0.4768,
+     "recall": 0.4768,
+     "f1": 0.4768,
+     "always_no_accuracy": 0.9506,
+     "roc_auc": 0.9331,
+     "calibration_error": 0.0037
+    }
+   },
+   "post_quali": {
+    "baseline": "grid",
+    "model": {
+     "races": 151,
+     "winner_hit": 0.5828,
+     "winner_in_top3": 0.894,
+     "podium_overlap": 0.6556,
+     "brier": 0.5859,
+     "log_loss": 1.2583,
+     "winner_prob": 0.398,
+     "favourite_prob": 0.5308
+    },
+    "baseline_scores": {
+     "races": 151,
+     "winner_hit": 0.5695,
+     "winner_in_top3": 0.8543,
+     "podium_overlap": 0.6689,
+     "brier": 0.646,
+     "log_loss": 1.5736,
+     "winner_prob": 0.3287,
+     "favourite_prob": 0.4687
+    },
+    "per_season": [
+     {
+      "season": 2020,
+      "model": {
+       "races": 17,
+       "winner_hit": 0.7059,
+       "winner_in_top3": 0.8824,
+       "podium_overlap": 0.7451,
+       "brier": 0.5626,
+       "log_loss": 1.4324,
+       "winner_prob": 0.4375,
+       "favourite_prob": 0.5895
+      },
+      "baseline": {
+       "races": 17,
+       "winner_hit": 0.5882,
+       "winner_in_top3": 0.7647,
+       "podium_overlap": 0.6863,
+       "brier": 0.715,
+       "log_loss": 1.9159,
+       "winner_prob": 0.2918,
+       "favourite_prob": 0.4105
+      }
+     },
+     {
+      "season": 2021,
+      "model": {
+       "races": 22,
+       "winner_hit": 0.3636,
+       "winner_in_top3": 0.7273,
+       "podium_overlap": 0.6212,
+       "brier": 0.7591,
+       "log_loss": 1.72,
+       "winner_prob": 0.2315,
+       "favourite_prob": 0.3666
+      },
+      "baseline": {
+       "races": 22,
+       "winner_hit": 0.5,
+       "winner_in_top3": 0.8182,
+       "podium_overlap": 0.697,
+       "brier": 0.6905,
+       "log_loss": 1.6558,
+       "winner_prob": 0.3057,
+       "favourite_prob": 0.4599
+      }
+     },
+     {
+      "season": 2022,
+      "model": {
+       "races": 22,
+       "winner_hit": 0.5,
+       "winner_in_top3": 0.9091,
+       "podium_overlap": 0.6364,
+       "brier": 0.6326,
+       "log_loss": 1.2421,
+       "winner_prob": 0.3246,
+       "favourite_prob": 0.4271
+      },
+      "baseline": {
+       "races": 22,
+       "winner_hit": 0.4545,
+       "winner_in_top3": 0.8182,
+       "podium_overlap": 0.6364,
+       "brier": 0.7218,
+       "log_loss": 1.758,
+       "winner_prob": 0.2918,
+       "favourite_prob": 0.4711
+      }
+     },
+     {
+      "season": 2023,
+      "model": {
+       "races": 22,
+       "winner_hit": 0.9091,
+       "winner_in_top3": 0.9545,
+       "podium_overlap": 0.6061,
+       "brier": 0.264,
+       "log_loss": 0.6142,
+       "winner_prob": 0.6063,
+       "favourite_prob": 0.6406
+      },
+      "baseline": {
+       "races": 22,
+       "winner_hit": 0.6364,
+       "winner_in_top3": 0.8636,
+       "podium_overlap": 0.6364,
+       "brier": 0.6091,
+       "log_loss": 1.5004,
+       "winner_prob": 0.3451,
+       "favourite_prob": 0.467
+      }
+     },
+     {
+      "season": 2024,
+      "model": {
+       "races": 24,
+       "winner_hit": 0.4167,
+       "winner_in_top3": 0.8333,
+       "podium_overlap": 0.6111,
+       "brier": 0.8248,
+       "log_loss": 1.7359,
+       "winner_prob": 0.3788,
+       "favourite_prob": 0.7074
+      },
+      "baseline": {
+       "races": 24,
+       "winner_hit": 0.4583,
+       "winner_in_top3": 0.8333,
+       "podium_overlap": 0.6667,
+       "brier": 0.7023,
+       "log_loss": 1.7103,
+       "winner_prob": 0.3073,
+       "favourite_prob": 0.4965
+      }
+     },
+     {
+      "season": 2025,
+      "model": {
+       "races": 24,
+       "winner_hit": 0.5833,
+       "winner_in_top3": 1.0,
+       "podium_overlap": 0.7639,
+       "brier": 0.521,
+       "log_loss": 1.0116,
+       "winner_prob": 0.4058,
+       "favourite_prob": 0.4757
+      },
+      "baseline": {
+       "races": 24,
+       "winner_hit": 0.6667,
+       "winner_in_top3": 0.9583,
+       "podium_overlap": 0.75,
+       "brier": 0.549,
+       "log_loss": 1.1196,
+       "winner_prob": 0.3826,
+       "favourite_prob": 0.4905
+      }
+     },
+     {
+      "season": 2026,
+      "model": {
+       "races": 20,
+       "winner_hit": 0.65,
+       "winner_in_top3": 0.95,
+       "podium_overlap": 0.6167,
+       "brier": 0.5093,
+       "log_loss": 1.0515,
+       "winner_prob": 0.413,
+       "favourite_prob": 0.5092
+      },
+      "baseline": {
+       "races": 20,
+       "winner_hit": 0.7,
+       "winner_in_top3": 0.9,
+       "podium_overlap": 0.6,
+       "brier": 0.5448,
+       "log_loss": 1.4504,
+       "winner_prob": 0.3692,
+       "favourite_prob": 0.4672
+      }
+     }
+    ],
+    "confidence": [
+     {
+      "band": "25%-40%",
+      "races": 43,
+      "favourite_prob": 0.3447,
+      "favourite_won": 0.3721,
+      "winner_in_top3": 0.814
+     },
+     {
+      "band": "40%-60%",
+      "races": 62,
+      "favourite_prob": 0.4934,
+      "favourite_won": 0.6129,
+      "winner_in_top3": 0.9516
+     },
+     {
+      "band": "60%-100%",
+      "races": 46,
+      "favourite_prob": 0.7552,
+      "favourite_won": 0.7391,
+      "winner_in_top3": 0.8913
+     }
+    ],
+    "classification": {
+     "tp": 88,
+     "fp": 63,
+     "fn": 63,
+     "tn": 2844,
+     "accuracy": 0.9588,
+     "error_rate": 0.0412,
+     "precision": 0.5828,
+     "recall": 0.5828,
+     "f1": 0.5828,
+     "always_no_accuracy": 0.9506,
+     "roc_auc": 0.9586,
+     "calibration_error": 0.0081
+    }
+   }
+  }
+ }
+}

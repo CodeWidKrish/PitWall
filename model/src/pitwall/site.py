@@ -271,9 +271,19 @@ def export(settings: Settings, out_path: Path = SITE_JSON) -> Path:
     config = json.loads(config_path.read_text(encoding="utf-8")) if config_path.exists() else None
 
     season_block = _season_block(entries, races, standings, season)
-    current_ids = {d["driver_id"] for d in season_block["drivers"] if d["starts"] >= 3}
+    # Who has mathematically clinched, from `pitwall model simulate` for this season.
+    titles_now = settings.reports_dir / f"titles-{season}.json"
+    if titles_now.exists():
+        t_now = json.loads(titles_now.read_text(encoding="utf-8"))
+        season_block["clinched"] = {
+            "drivers": t_now.get("drivers_clinched_by"),
+            "constructors": t_now.get("constructors_clinched_by"),
+            "after_round": t_now.get("after_round"),
+        }
+    # The current grid is the line-up of the latest race; standings may include stand-ins.
+    current_ids = set(current_state(entries, races, season).lineup["driver_id"])
     next_ids = {s["driver_id"] for s in config["lineup"]} if config else set()
-    ids = current_ids | next_ids
+    ids = {d["driver_id"] for d in season_block["drivers"]} | current_ids | next_ids
 
     meta = _driver_meta(settings, [season])
     latest = (

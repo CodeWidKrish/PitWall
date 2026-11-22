@@ -4,7 +4,7 @@
 
 PitWall is an AI/ML Formula 1 forecaster. It predicts win odds for every driver at every race of the 2027 season, simulates both championships (drivers and constructors) 10,000 times, publishes each forecast before the race and scores itself in public afterwards.
 
-> Status: in development. Phases 1-3 (setup, data, model) are done; the backtest is in [`model/reports/BACKTEST.md`](model/reports/BACKTEST.md). The interactive design prototype is in [`prototype/`](prototype/). Open `prototype/index.html` in a browser.
+> Status: in development. Phases 1-4 (setup, data, model, website base) are done: the site runs on real 2026 results, the model's odds and its walk-forward backtest ([`model/reports/BACKTEST.md`](model/reports/BACKTEST.md)). The original design prototype is in [`prototype/`](prototype/).
 
 ![PitWall prototype hero](prototype/screen-hero-v3.png)
 
@@ -26,6 +26,13 @@ PitWall is an AI/ML Formula 1 forecaster. It predicts win odds for every driver 
 | Evaluation | Rolling backtest, Brier score, calibration, winner hit rate |
 | Pipeline | GitHub Actions runs after each race weekend and publishes JSON |
 | Web | Next.js, TypeScript, Tailwind, Three.js (React Three Fiber), GSAP, Lenis |
+
+## Credits
+
+- Results: [Jolpica F1 API](https://github.com/jolpica/jolpica-f1). Weather: [Open-Meteo](https://open-meteo.com/).
+- Driver photos: Wikimedia Commons, each under its own free licence (CC BY, CC BY-SA, CC0 or UK OGL); authors and licences are listed on the site's `/credits` page and in [`web/src/data/photo-credits.json`](web/src/data/photo-credits.json).
+- Race highlights: by FORMULA 1, embedded from YouTube. PitWall does not host any footage.
+- Not affiliated with Formula 1, the FIA or any team. No team or F1 logos are used.
 
 ## Project structure
 

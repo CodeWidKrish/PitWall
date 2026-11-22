@@ -1,65 +1,133 @@
-import { Eyebrow } from "@/components/ui/eyebrow";
-import { REPO_URL } from "@/lib/roadmap";
+import Image from "next/image";
+import type { CSSProperties } from "react";
+import { Countdown } from "@/components/site/countdown";
+import { Line } from "@/components/ui/reveal";
+import { driver, pct, photoSrc, shortRaceName, site, team } from "@/lib/data";
 
-/** Opening statement. A racing line draws across the screen behind the headline. */
+/**
+ * Opening shot: the next race, its favourite in the team colour, the model's
+ * win odds for the whole grid rolling along the bottom.
+ */
 export function Hero() {
+  const race = site.next_race;
+  if (!race) return null;
+  const fav = race.odds[0];
+  const d = driver(fav.driver_id);
+  const t = team(fav.team);
+  const src = photoSrc(d);
+  const title = site.forecast?.drivers.find((r) => r.driver_id === d.id);
+  const lastWinner = race.last_winner ? driver(race.last_winner.driver_id) : null;
+  const name = shortRaceName(race.race_name);
+  const after = site.data_through;
+
   return (
-    <section className="relative isolate overflow-hidden pb-24 pt-40 md:pb-32 md:pt-48">
-      <svg
+    <section
+      id="top"
+      aria-label={`${race.race_name} forecast`}
+      className="theme-night relative isolate h-[max(720px,100svh)] max-h-[1080px] overflow-hidden"
+      style={{ "--c": t.colour } as CSSProperties}
+    >
+      {src ? (
+        <div className="hero-photo" aria-hidden="true">
+          <Image src={src} alt="" fill preload sizes="(min-width: 1440px) 920px, 64vw" className="object-cover object-[50%_15%]" />
+        </div>
+      ) : null}
+      <span
         aria-hidden="true"
-        viewBox="0 0 1440 700"
-        preserveAspectRatio="none"
-        className="absolute inset-0 -z-10 h-full w-full"
+        className="hero-number pointer-events-none absolute right-[-2vw] top-[8%] z-0 text-[clamp(260px,42vw,640px)] max-md:hidden"
       >
-        <defs>
-          <radialGradient id="glow" cx="72%" cy="38%" r="45%">
-            <stop offset="0" stopColor="#8f45ff" stopOpacity="0.22" />
-            <stop offset="1" stopColor="#8f45ff" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <rect width="1440" height="700" fill="url(#glow)" />
-        <path
-          d="M-40,560 C220,540 300,380 520,400 S820,600 1000,460 S1240,160 1480,200"
-          fill="none"
-          stroke="#8f45ff"
-          strokeWidth="2"
-          strokeLinecap="round"
-          pathLength={1}
-          className="[stroke-dasharray:1] [stroke-dashoffset:1] motion-safe:animate-[draw_2.4s_var(--ease-out-expo)_0.2s_forwards] motion-reduce:[stroke-dashoffset:0]"
-        />
-      </svg>
+        {d.number ?? ""}
+      </span>
+      <div className="flare" aria-hidden="true" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgb(11_12_14/0.94)_0%,rgb(11_12_14/0.55)_38%,transparent_66%),linear-gradient(0deg,rgb(11_12_14)_0%,transparent_42%),linear-gradient(180deg,rgb(11_12_14/0.7)_0%,transparent_20%)]"
+      />
 
-      <div className="mx-auto max-w-[1280px] px-5">
-        <Eyebrow>2027 season · 24 rounds · 10 sprints</Eyebrow>
+      {/* Favourite card */}
+      <aside
+        aria-label="Race favourite"
+        data-reveal="fade"
+        style={{ "--i": 4 } as CSSProperties}
+        className="absolute right-[max(20px,calc((100vw-1280px)/2+20px))] top-[104px] z-[3] w-[340px] rounded-2xl border border-white/10 bg-[rgb(18_20_23/0.62)] p-5 backdrop-blur-xl max-lg:hidden"
+      >
+        <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-sub">
+          <span>Race favourite</span>
+          <span className="pill best">Top odds</span>
+        </div>
+        <p className="mt-3.5 flex items-start font-display text-[108px] font-extrabold leading-[0.82] tracking-[-0.02em] [font-stretch:70%]">
+          {(fav.p_win * 100).toFixed(1)}
+          <small className="type-voice ml-1 text-[0.42em] text-accent">%</small>
+        </p>
+        <div className="mt-3 flex items-center gap-3">
+          <span className="h-[30px] w-[5px] flex-none rounded-sm" style={{ background: t.colour }} />
+          <div>
+            <strong className="type-voice block text-[26px] leading-none">{d.name}</strong>
+            <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-sub">{t.name}</span>
+          </div>
+        </div>
+        <dl className="mt-4 grid grid-cols-3 border-t border-white/10">
+          {[
+            ["Podium", pct(fav.p_podium, 0)],
+            [`${site.forecast?.season ?? ""} title`, title ? pct(title.p_title, 0) : "—"],
+            ["Won here", lastWinner ? `${lastWinner.code} '${String(race.last_winner!.season).slice(2)}` : "—"],
+          ].map(([k, v]) => (
+            <div key={k} className="grid gap-1.5 pt-3">
+              <dt className="font-mono text-[10px] uppercase tracking-[0.14em] text-sub">{k}</dt>
+              <dd className="type-data text-lg">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      </aside>
 
-        <h1 className="mt-7 text-[clamp(56px,11vw,176px)] leading-[0.84]">
-          <span className="block overflow-hidden pb-[0.05em]">
-            <span className="inline-block motion-safe:animate-[rise_1.1s_var(--ease-out-expo)_both]">
+      {/* Headline */}
+      <div className="absolute inset-x-0 bottom-[96px] z-[3]">
+        <div className="wrap grid gap-8">
+          <span className="tag text-sub" data-reveal="fade">
+            Round {race.round} · {race.locality} · {race.has_sprint ? "Sprint weekend" : "Next race"}
+          </span>
+          <h1 className="text-[clamp(64px,11vw,176px)] leading-[0.84]" data-reveal="lines">
+            <Line i={0}>
               <span className="type-voice">Who</span> <span className="type-display">wins</span>
-            </span>
-          </span>
-          <span className="block overflow-hidden pb-[0.05em]">
-            <span className="inline-block motion-safe:animate-[rise_1.1s_var(--ease-out-expo)_0.08s_both]">
-              <span className="type-display">the</span>{" "}
-              <span className="type-display text-transparent [-webkit-text-stroke:2px_var(--accent)]">title?</span>
-            </span>
-          </span>
-        </h1>
+            </Line>
+            <Line i={1}>
+              <span className="type-display text-transparent [-webkit-text-stroke:2px_var(--accent)]">{name}?</span>
+            </Line>
+          </h1>
+          <div className="flex flex-wrap items-end gap-x-10 gap-y-6" data-reveal="fade" style={{ "--i": 3 } as CSSProperties}>
+            <a href="#odds" className="btn btn-primary" data-cursor="Go">
+              <span className="lbl">
+                <i>See every driver&apos;s odds</i>
+                <i>See every driver&apos;s odds</i>
+              </span>
+              <span className="dot" />
+            </a>
+            {race.start_utc ? <Countdown startUtc={race.start_utc} /> : null}
+            <p className="max-w-[38ch] text-[15px] text-[#a4aab2]">
+              Pre-race odds from a model trained on every race since 2018, with results up to the {after.race_name}{" "}
+              (Round {after.round}).
+            </p>
+          </div>
+        </div>
+      </div>
 
-        <div className="mt-10 grid gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-          <p className="max-w-[46ch] text-[17px] leading-relaxed text-sub">
-            PitWall predicts every Formula 1 race winner and both championships, publishes its odds before lights out
-            and scores itself in public afterwards. The forecast for the 2027 season is being built now.
-          </p>
-          <a
-            href={REPO_URL}
-            className="group inline-flex items-center gap-3 justify-self-start rounded-full bg-accent px-6 py-4 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-white transition-colors duration-500 hover:bg-ink hover:text-paper"
-          >
-            View the source
-            <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
-          </a>
+      {/* Odds ticker */}
+      <div className="ticker absolute inset-x-0 bottom-0 z-[3] overflow-hidden whitespace-nowrap border-t border-white/10 bg-[rgb(11_12_14/0.6)] backdrop-blur-md">
+        <div className="ticker-track py-[18px]" aria-label="Win odds for every driver">
+          {[0, 1].map((copy) => (
+            <div key={copy} className="flex" aria-hidden={copy === 1}>
+              {race.odds.map((o) => {
+                const od = driver(o.driver_id);
+                return (
+                  <span key={o.driver_id} className="inline-flex items-baseline gap-3 border-r border-white/10 px-6">
+                    <i className="h-2.5 w-1 self-center rounded-sm" style={{ background: team(o.team).colour }} />
+                    <span className="type-code text-2xl leading-none">{od.code}</span>
+                    <span className="type-data text-sm">{pct(o.p_win)}</span>
+                  </span>
+                );
+              })}
+            </div>
+          ))}
         </div>
       </div>
     </section>

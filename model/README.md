@@ -60,16 +60,18 @@ uv run pitwall model simulate --season 2026  # title odds for both championships
 
 | 2020-2026, 151 races | Top pick wins | Winner in top 3 | Brier | Log loss |
 |---|---|---|---|---|
-| Before qualifying: PitWall | **49.7%** | **80.8%** | **0.687** | **1.539** |
+| Before qualifying: PitWall | **47.7%** | **78.8%** | **0.693** | **1.570** |
 | Before qualifying: Elo baseline | 47.0% | 68.9% | 0.741 | 1.871 |
-| After qualifying: PitWall | **58.3%** | **90.7%** | **0.580** | **1.234** |
+| After qualifying: PitWall | **58.3%** | **89.4%** | **0.586** | **1.258** |
 | After qualifying: grid baseline | 57.0% | 85.4% | 0.646 | 1.574 |
 
-The full report, with per-season numbers, calibration tables and feature importance, is in [`reports/BACKTEST.md`](reports/BACKTEST.md). The model kind per mode was chosen on this backtest, which flatters it slightly; the live 2027 scorecard is the clean test.
+The full report, with per-season numbers, calibration tables and feature importance, is in [`reports/BACKTEST.md`](reports/BACKTEST.md). The model kind for each season is picked walk-forward, from the two seasons before it only, so no test result shapes its own forecast. The live 2027 scorecard is the final test.
 
 **Championships** (`simulate.py`): the remaining races and sprints are played 10,000 times. Each simulation draws retirements from team and driver reliability, finishing orders from the Plackett-Luce strengths, and a season-long form swing per team and driver, so upgrades and slumps are possible. It covers both titles, drivers' and constructors', and detects when a title is mathematically decided. Simulated from two-thirds distance in 2020-2025, the favourite went on to win 5 of 6 drivers' and 5 of 6 constructors' titles.
 
 **Honest limits:** F1 has a lot of luck (safety cars, crashes, strategy), so no model picks winners 90% of the time. About 50-60% is the realistic ceiling. What PitWall aims for instead is calibration: when it says 30%, that should happen about 30% of the time.
+
+**Website data** (`site.py`): `pitwall site export` writes `web/src/data/site.json` (standings, points by round, 2026 race calls from a model trained on 2018-2025, next-race odds with their inputs, the 2027 forecast and this backtest). `pitwall site photos` fetches one freely licensed photo per driver from Wikimedia Commons and records author and licence for the site's credits page.
 
 ## Checks
 
