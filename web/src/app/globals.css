@@ -165,6 +165,9 @@ body {
   }
 
   .h2 {
+    transform: skewY(var(--skew, 0deg));
+    transform-origin: left center;
+    will-change: transform;
     font-size: clamp(46px, 7.6vw, 116px);
     line-height: 0.88;
     text-wrap: balance;
@@ -200,6 +203,12 @@ body {
   }
 
   /* Rolling-label button, from the prototype */
+  .btn,
+  [data-magnetic] {
+    transition-property: transform, color, background, box-shadow;
+    transition-duration: 0.5s;
+    transition-timing-function: var(--ease-out-expo);
+  }
   .btn {
     position: relative;
     isolation: isolate;
@@ -681,5 +690,18 @@ section[data-cam="board"] .hero-ticker {
   }
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+@keyframes introMark {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.92);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
   }
 }

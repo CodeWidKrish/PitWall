@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { toast } from "@/components/ui/toaster";
 import { DEFAULT_FOLLOW, driver, site, team } from "@/lib/data";
 
 /**
@@ -40,6 +41,9 @@ export function FollowProvider({ children }: { children: ReactNode }) {
 
   const setFollow = useCallback((id: string) => {
     setFollowId(id);
+    const d = driver(id);
+    const t = teamOf(id);
+    toast({ title: `Following ${d.name}`, body: `The site now runs in ${t.name} colours.`, colour: t.colour });
     try {
       localStorage.setItem(KEY, id);
     } catch {

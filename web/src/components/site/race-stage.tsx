@@ -48,6 +48,7 @@ export function RaceStage() {
   const bannerId = useRef(0);
   const launched = useRef(false);
   const heroVisible = useRef(true);
+  const [introDone, setIntroDone] = useState(false);
 
   const grid: SceneCar[] = useMemo(() => {
     const odds = site.next_race?.odds ?? [];
@@ -126,6 +127,12 @@ export function RaceStage() {
   useEffect(() => {
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const timers: ReturnType<typeof setTimeout>[] = [];
+    if (!reduce && !window.__pitwallIntroDone) {
+      // Start the lights once the intro curtain has lifted.
+      const go = () => setIntroDone(true);
+      addEventListener("pitwall:intro-done", go, { once: true });
+      return () => removeEventListener("pitwall:intro-done", go);
+    }
     if (reduce) {
       launched.current = true;
       timers.push(setTimeout(() => setLights(6), 0));
@@ -145,7 +152,7 @@ export function RaceStage() {
       ),
     );
     return () => timers.forEach(clearTimeout);
-  }, [grid, showBanner]);
+  }, [grid, showBanner, introDone]);
 
   useEffect(() => {
     if (inGrid) ctrl.current?.setFollow(followId);
@@ -162,6 +169,18 @@ export function RaceStage() {
       showBanner({ kind: "info", text: `Onboard with ${d.name}`, carId: d.id });
     }
   };
+
+  // Keyboard: 1 broadcast, 2 onboard, 3 orbit, while the race is on screen.
+  useEffect(() => {
+    const key = (e: KeyboardEvent) => {
+      const t = e.target as HTMLElement;
+      if (e.metaKey || e.ctrlKey || e.altKey || /input|select|textarea/i.test(t.tagName) || !heroVisible.current) return;
+      const m = ({ "1": "tv", "2": "board", "3": "orbit" } as Record<string, CamMode>)[e.key];
+      if (m) host.current?.querySelector<HTMLButtonElement>(`[data-cam-btn="${m}"]`)?.click();
+    };
+    addEventListener("keydown", key);
+    return () => removeEventListener("keydown", key);
+  }, []);
 
   if (!ok) return null;
   const meId = inGrid ? followId : grid[0]?.id;
@@ -407,17 +426,19 @@ export function RaceStage() {
               type="button"
               aria-pressed={cam === m.k}
               onClick={() => choose(m.k)}
+              data-cam-btn={m.k}
               data-cursor={m.label}
               className={`rounded-full px-3.5 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.1em] transition-[background,color] duration-300 ease-expo ${
                 cam === m.k ? "bg-[#ecedef] text-[#0b0c0e]" : "text-[#a4aab2] hover:text-white"
               }`}
             >
               {m.label}
+              <kbd className="ml-2 hidden font-mono text-[9px] opacity-50 xl:inline">{CAMS.indexOf(m) + 1}</kbd>
             </button>
           ))}
         </div>
         <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#6b727b] max-md:hidden">
-          Drag the track for a free camera
+          Drag for a free camera · keys 1 2 3 · M for sound
         </span>
       </div>
     </div>

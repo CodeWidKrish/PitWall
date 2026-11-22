@@ -16,7 +16,7 @@ export default function Credits() {
   return (
     <>
       <SiteHeader home={false} />
-      <main className="theme-day flex-1 pb-28 pt-40">
+      <main id="main" className="theme-day flex-1 pb-28 pt-40">
         <div className="wrap">
           <span className="tag">Credits</span>
           <h1 className="h2 mt-6">

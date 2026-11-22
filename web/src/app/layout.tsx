@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Archivo, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
 import { FollowProvider } from "@/components/follow";
 import { Chrome } from "@/components/motion/chrome";
+import { Intro } from "@/components/motion/intro";
+import { Toaster } from "@/components/ui/toaster";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -59,11 +61,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="flex min-h-full flex-col">
         <noscript>
-          <style>{`.reveal-line > span, [data-reveal="fade"], .bar-fill { transform: none !important; opacity: 1 !important; }`}</style>
+          <style>{`.reveal-line > span, [data-reveal="fade"], .bar-fill { transform: none !important; opacity: 1 !important; } .intro { display: none !important; }`}</style>
         </noscript>
         <FollowProvider>
+          <a
+            href="#main"
+            className="fixed left-4 top-4 z-[300] -translate-y-24 rounded-full bg-accent px-4 py-2.5 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-white focus:translate-y-0"
+          >
+            Skip to content
+          </a>
+          <Intro />
           <Chrome />
           {children}
+          <Toaster />
         </FollowProvider>
       </body>
     </html>

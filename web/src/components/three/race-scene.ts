@@ -659,6 +659,8 @@ export function createRaceScene(
   // Swap in the realistic car once it has loaded; keep the code-built ones if it can't.
   let disposed = false;
   void loadCarModel(small).then((model) => {
+    window.__pitwallModelReady = true;
+    window.dispatchEvent(new Event("pitwall:model"));
     if (!model || disposed) return;
     cars.forEach((c) => {
       c.g.children.forEach((ch) => {

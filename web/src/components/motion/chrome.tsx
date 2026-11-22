@@ -17,9 +17,21 @@ export function Chrome() {
   useEffect(() => {
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const lenis = reduce ? null : new Lenis({ lerp: 0.1, wheelMultiplier: 1 });
+    (window as unknown as { __lenis?: Lenis | null }).__lenis = lenis;
     let raf = 0;
+    let skew = 0;
+    let lastSkew = "";
+    const root = document.documentElement;
     const frame = (t: number) => {
       lenis?.raf(t);
+      // Headlines lean into fast scrolling and settle when it stops.
+      const v = lenis ? lenis.velocity : 0;
+      skew += (Math.max(-6, Math.min(6, v * -0.12)) - skew) * 0.12;
+      const shown = skew.toFixed(2);
+      if (shown !== lastSkew) {
+        lastSkew = shown;
+        root.style.setProperty("--skew", `${shown}deg`);
+      }
       const max = document.documentElement.scrollHeight - innerHeight;
       if (progress.current) progress.current.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
       raf = requestAnimationFrame(frame);
@@ -64,6 +76,35 @@ export function Chrome() {
     return () => {
       io.disconnect();
       mo.disconnect();
+    };
+  }, []);
+
+  // Buttons lean toward the pointer and spring back.
+  useEffect(() => {
+    if (matchMedia("(hover: none), (pointer: coarse), (prefers-reduced-motion: reduce)").matches) return;
+    let active: HTMLElement | null = null;
+    const move = (e: PointerEvent) => {
+      const el = (e.target as HTMLElement | null)?.closest<HTMLElement>(".btn, [data-magnetic]");
+      if (active && active !== el) {
+        active.style.transform = "";
+        active = null;
+      }
+      if (!el) return;
+      active = el;
+      const r = el.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width / 2)) * 0.22;
+      const dy = (e.clientY - (r.top + r.height / 2)) * 0.32;
+      el.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`;
+    };
+    const leave = () => {
+      if (active) active.style.transform = "";
+      active = null;
+    };
+    addEventListener("pointermove", move);
+    document.addEventListener("pointerleave", leave);
+    return () => {
+      removeEventListener("pointermove", move);
+      document.removeEventListener("pointerleave", leave);
     };
   }, []);
 
