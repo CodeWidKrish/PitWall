@@ -67,6 +67,27 @@ export function score(c: LedgerCall): ScoredCall | null {
   };
 }
 
+/** A short, plain account of how a published call held up. */
+export function explain(s: ScoredCall, name: (id: string) => string): string[] {
+  const f = finalCall(s.call);
+  if (!f || !s.call.result) return [];
+  const { winner, podium } = s.call.result;
+  const rank = f.odds.findIndex((o) => o.driver_id === winner) + 1;
+  const fav = s.favourite;
+  const favPos = podium.indexOf(fav.driver_id);
+  const inTop3 = f.odds.slice(0, 3).filter((o) => podium.includes(o.driver_id)).length;
+  const lines = [
+    s.hit
+      ? `${name(fav.driver_id)} was the favourite at ${(fav.p_win * 100).toFixed(0)}% and won.`
+      : `${name(fav.driver_id)} was the favourite at ${(fav.p_win * 100).toFixed(0)}% and ${favPos >= 0 ? `finished P${favPos + 1}` : "missed the podium"}; ${name(winner)} won.`,
+  ];
+  if (!s.hit && s.p_winner !== null)
+    lines.push(`The model gave ${name(winner)} ${(s.p_winner * 100).toFixed(1)}%, ${rank ? `${rank === 2 ? "second" : rank === 3 ? "third" : `number ${rank}`} in its order` : "outside its order"}.`);
+  lines.push(`${inTop3} of its top three made the podium. Brier score ${s.brier.toFixed(3)} (lower is better; the backtest averages ${f.stage === "post_quali" ? "0.586" : "0.693"} at this stage).`);
+  lines.push(f.stage === "post_quali" ? "This was the call published after qualifying." : "This was the call published before qualifying.");
+  return lines;
+}
+
 export interface Bin {
   lo: number;
   hi: number;

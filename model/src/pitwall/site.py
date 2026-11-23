@@ -36,6 +36,7 @@ from pitwall.model import fit, select_kind
 from pitwall.simulate import current_state, future_features
 from pitwall.weekend import (
     constructor_odds,
+    race_weather,
     read_ledger,
     sprint_calibration,
     sprint_odds,
@@ -277,6 +278,13 @@ def _next_race(
         if pd.notna(info.get("race_start_utc"))
         else None,
         "has_sprint": bool(info["has_sprint"]),
+        "weather": race_weather(
+            info.get("lat"),
+            info.get("lon"),
+            pd.Timestamp(info["race_start_utc"]).tz_localize("UTC").isoformat()
+            if pd.notna(info.get("race_start_utc"))
+            else None,
+        ),
         "model_kind": kind,
         "stage": stage,
         "pole": (

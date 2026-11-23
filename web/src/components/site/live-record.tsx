@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { Countdown } from "@/components/site/countdown";
 import { D, SectionHead, V } from "@/components/ui/reveal";
-import { type Bin, finalCall, summary } from "@/lib/ledger";
+import { type Bin, explain, finalCall, summary } from "@/lib/ledger";
 import { driver, pct, shortRaceName, site, team } from "@/lib/data";
 import { REPO_URL } from "@/lib/links";
 
@@ -167,7 +167,9 @@ export function LiveRecord() {
             {s.scored.length ? (
               <ol className="grid gap-2" aria-label="Scored calls">
                 {[...s.scored].reverse().map((c) => (
-                  <li key={`${c.call.season}-${c.call.round}`} className="flex flex-wrap items-center justify-between gap-3 border-b border-rule py-3">
+                  <li key={`${c.call.season}-${c.call.round}`} className="border-b border-rule">
+                    <details className="group">
+                    <summary className="flex cursor-pointer list-none flex-wrap items-center justify-between gap-3 py-3 [&::-webkit-details-marker]:hidden">
                     <span className="grid">
                       <span className="type-voice text-xl leading-tight">{shortRaceName(c.call.race_name)} {c.call.season}</span>
                       <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-sub">
@@ -175,7 +177,17 @@ export function LiveRecord() {
                         {c.p_winner !== null ? ` (${pct(c.p_winner, 0)})` : ""}
                       </span>
                     </span>
-                    <span className={`pill ${c.hit ? "hit" : c.inTop3 ? "best" : "miss"}`}>{c.hit ? "Hit" : c.inTop3 ? "Top 3" : "Miss"}</span>
+                    <span className="flex items-center gap-3">
+                      <span className={`pill ${c.hit ? "hit" : c.inTop3 ? "best" : "miss"}`}>{c.hit ? "Hit" : c.inTop3 ? "Top 3" : "Miss"}</span>
+                      <span aria-hidden="true" className="font-mono text-lg text-sub transition-transform duration-500 ease-expo group-open:rotate-45">+</span>
+                    </span>
+                    </summary>
+                    <div className="grid max-w-[60ch] gap-1.5 pb-4 text-sm leading-relaxed text-sub">
+                      {explain(c, (id) => driver(id).name).map((l) => (
+                        <p key={l}>{l}</p>
+                      ))}
+                    </div>
+                    </details>
                   </li>
                 ))}
               </ol>

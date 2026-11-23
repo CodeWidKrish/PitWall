@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { CSSProperties } from "react";
 import { Countdown } from "@/components/site/countdown";
 import { AddToCalendar } from "@/components/ui/add-to-calendar";
+import { DataFreshness } from "@/components/ui/data-freshness";
 import { Logo, LogoMark } from "@/components/ui/logo";
 import { driver, pct, shortRaceName, site, team } from "@/lib/data";
 import { REPO_URL } from "@/lib/links";
@@ -58,7 +59,6 @@ export function SiteFooter() {
   const favOdds = race?.odds[0];
   const fav = favOdds ? driver(favOdds.driver_id) : null;
   const year = new Date(site.built_at).getFullYear();
-  const updated = new Date(site.built_at).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
   const rec = site.record?.modes.post_quali.model;
 
   return (
@@ -195,7 +195,9 @@ export function SiteFooter() {
 
       {/* Bottom bar */}
       <div className="wrap grid gap-4 py-8 font-mono text-[11px] uppercase leading-relaxed tracking-[0.1em] text-sub md:grid-cols-[1fr_auto_1fr] md:items-center">
-        <span>© {year} PitWall · Data updated {updated}</span>
+        <span>
+          © {year} PitWall · <DataFreshness builtAt={site.built_at} />
+        </span>
         <span className="flex gap-5">
           <Link href="/privacy" className="hover:text-ink">
             Privacy

@@ -31,6 +31,7 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+import requests
 
 from pitwall.features import PRE_QUALI
 from pitwall.model import fit, fit_temperature, softmax_by_race, top3_probs
@@ -210,3 +211,53 @@ def read_ledger(path: Path) -> dict[str, Any]:
         data: dict[str, Any] = json.loads(path.read_text(encoding="utf-8"))
         return data
     return {"since": None, "calls": []}
+
+
+# ------------------------------------------------------------ race-day weather
+
+FORECAST_URL = "https://api.open-meteo.com/v1/forecast"
+
+
+def race_weather(lat: float | None, lon: float | None, start_utc: str | None) -> dict[str, Any] | None:
+    """Open-Meteo's forecast for the hour of the race start, or None if it is too far off.
+
+    Shown next to the odds as context only: the model does not use weather.
+    """
+    if lat is None or lon is None or not start_utc or pd.isna(lat) or pd.isna(lon):
+        return None
+    start = datetime.fromisoformat(start_utc)
+    days = (start - datetime.now(UTC)).total_seconds() / 86400
+    if not 0 <= days <= 15:
+        return None
+    params: dict[str, str | float] = {
+        "latitude": float(lat),
+        "longitude": float(lon),
+        "hourly": "temperature_2m,precipitation_probability,precipitation,wind_speed_10m,cloud_cover",
+        "timezone": "UTC",
+        "start_date": start.date().isoformat(),
+        "end_date": start.date().isoformat(),
+    }
+    try:
+        res = requests.get(FORECAST_URL, params=params, timeout=20)
+        res.raise_for_status()
+        h = res.json()["hourly"]
+    except (requests.RequestException, KeyError, ValueError):
+        return None
+    hour = start.strftime("%Y-%m-%dT%H:00")
+    if hour not in h["time"]:
+        return None
+    i = h["time"].index(hour)
+
+    def val(k: str) -> float | None:
+        v = h.get(k, [None] * (i + 1))[i]
+        return None if v is None else round(float(v), 1)
+
+    return {
+        "at": hour + "Z",
+        "temperature_c": val("temperature_2m"),
+        "rain_chance": val("precipitation_probability"),
+        "rain_mm": val("precipitation"),
+        "wind_kmh": val("wind_speed_10m"),
+        "cloud_cover": val("cloud_cover"),
+        "fetched_at": datetime.now(UTC).isoformat(timespec="seconds"),
+    }

@@ -42,6 +42,7 @@ export function WeekendOdds({ race }: { race: NextRace }) {
         )}
         <Stage race={race} session={session} />
       </div>
+      {race.weather ? <RaceWeather w={race.weather} /> : null}
 
       {session === "sprint" && sprint?.result ? (
         <p className="panel flex flex-wrap items-center gap-x-4 gap-y-2 p-4 text-sm">
@@ -69,6 +70,33 @@ export function WeekendOdds({ race }: { race: NextRace }) {
           . Sprint qualifying is not used.
         </p>
       ) : null}
+    </div>
+  );
+}
+
+/** The race-day forecast at lights out: context only, the model doesn't use it. */
+function RaceWeather({ w }: { w: NonNullable<NextRace["weather"]> }) {
+  const items: [string, string][] = [
+    ["Air", w.temperature_c !== null ? `${Math.round(w.temperature_c)}°C` : "—"],
+    ["Rain chance", w.rain_chance !== null ? `${Math.round(w.rain_chance)}%` : "—"],
+    ["Wind", w.wind_kmh !== null ? `${Math.round(w.wind_kmh)} km/h` : "—"],
+    ["Cloud", w.cloud_cover !== null ? `${Math.round(w.cloud_cover)}%` : "—"],
+  ];
+  const wet = (w.rain_chance ?? 0) >= 40;
+  return (
+    <div className="flex flex-wrap items-center gap-x-8 gap-y-3 rounded-2xl border border-rule px-5 py-4">
+      <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-sub">Forecast at lights out</span>
+      <dl className="flex flex-wrap gap-x-7 gap-y-2">
+        {items.map(([k, v]) => (
+          <div key={k} className="flex items-baseline gap-2">
+            <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-sub">{k}</dt>
+            <dd className={`type-data text-lg ${k === "Rain chance" && wet ? "text-[var(--accent)]" : ""}`}>{v}</dd>
+          </div>
+        ))}
+      </dl>
+      <span className="ml-auto text-xs text-sub">
+        Open-Meteo{wet ? " · a wet race adds randomness the odds don't include" : " · not a model input"}
+      </span>
     </div>
   );
 }

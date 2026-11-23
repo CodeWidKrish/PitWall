@@ -43,7 +43,7 @@ export const TOOLS: ToolDef[] = [
     function: {
       name: "next_race",
       description:
-        "The next Grand Prix: name, date, whether odds are before or after qualifying, the model's win and podium odds for the top drivers, team odds, and sprint odds if it is a sprint weekend.",
+        "The next Grand Prix: name, date, whether odds are before or after qualifying, the model's win and podium odds for the top drivers, team odds, sprint odds if it is a sprint weekend, and the race-day weather forecast (temperature, rain chance, wind).",
       parameters: { type: "object", properties: { top: { type: "integer", description: "How many drivers (default 10)" } } },
     },
   },
@@ -173,6 +173,9 @@ export async function runTool(
           sprint: race.sprint
             ? race.sprint.odds.slice(0, 5).map((o) => ({ driver: driver(o.driver_id).name, win: p(o.p_win) }))
             : "not a sprint weekend",
+          race_day_forecast: race.weather
+            ? { ...race.weather, note: "Open-Meteo forecast for the start; the model does not use weather" }
+            : "not available yet (forecasts start about two weeks out)",
           last_winner_here: race.last_winner ? `${driver(race.last_winner.driver_id).name} (${race.last_winner.season})` : null,
         },
       };

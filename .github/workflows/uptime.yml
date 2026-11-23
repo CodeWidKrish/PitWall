@@ -1,0 +1,26 @@
+name: Uptime
+
+# Every hour: is the site up, and is its data fresh? A failed run emails the repository
+# owner, so a broken deploy or a stuck post-race update is noticed within the hour.
+on:
+  schedule:
+    - cron: "40 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Home page
+        run: curl -fsS -o /dev/null -w "home %{http_code} in %{time_total}s\n" --retry 2 --retry-delay 20 https://pitwallgp.vercel.app/
+      - name: Health and data freshness
+        run: |
+          code=$(curl -sS -o health.json -w "%{http_code}" --retry 2 --retry-delay 20 https://pitwallgp.vercel.app/api/health)
+          cat health.json; echo
+          if [ "$code" != "200" ]; then
+            echo "::error::Health check returned $code"
+            exit 1
+          fi

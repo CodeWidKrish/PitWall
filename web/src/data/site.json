@@ -2881,7 +2881,16 @@
      "drv_dnf_rate10": 0.2
     }
    }
-  ]
+  ],
+  "weather": {
+   "at": "2026-11-29T16:00Z",
+   "temperature_c": 23.9,
+   "rain_chance": 0.0,
+   "rain_mm": 0.0,
+   "wind_kmh": 6.4,
+   "cloud_cover": 66.0,
+   "fetched_at": "2026-11-23T14:57:04+00:00"
+  }
  },
  "forecast": {
   "season": 2027,

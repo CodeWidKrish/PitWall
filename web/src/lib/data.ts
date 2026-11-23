@@ -119,6 +119,16 @@ export interface NextRace {
   pole?: string | null;
   constructors?: TeamOdds[];
   sprint?: SprintBlock | null;
+  /** Open-Meteo forecast for the hour of the start; context only, not a model input. */
+  weather?: {
+    at: string;
+    temperature_c: number | null;
+    rain_chance: number | null;
+    rain_mm: number | null;
+    wind_kmh: number | null;
+    cloud_cover: number | null;
+    fetched_at: string;
+  } | null;
   last_winner: { driver_id: string; season: number } | null;
   inputs: InputDef[];
   field: Record<string, { min: number | null; max: number | null; mean: number | null }>;
