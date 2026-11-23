@@ -926,7 +926,10 @@ export function createRaceScene(
         t = curve.getTangentAt(c.u),
         side = tmp.set(-t.z, 0, t.x).normalize();
       c.g.position.copy(p).addScaledVector(side, c.lane);
-      c.g.lookAt(c.g.position.x + t.x, c.g.position.y + t.y, c.g.position.z + t.z);
+      // Face where the car is really going (it turns in and out of the racing line), keeping
+      // the track's slope.
+      const flat = Math.hypot(t.x, t.z);
+      c.g.lookAt(c.g.position.x + c.hx * flat, c.g.position.y + t.y, c.g.position.z + c.hz * flat);
       // The body pitches under braking and acceleration and rolls in corners (on its suspension).
       c.pitch += (Math.max(-0.035, Math.min(0.02, -c.aLong / G * 0.007)) - c.pitch) * 0.2;
       c.roll += (Math.max(-0.03, Math.min(0.03, (c.aLat / G) * 0.006)) - c.roll) * 0.2;
