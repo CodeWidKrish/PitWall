@@ -4,6 +4,7 @@ import { FollowProvider } from "@/components/follow";
 import { Chrome } from "@/components/motion/chrome";
 import { Intro } from "@/components/motion/intro";
 import { Toaster } from "@/components/ui/toaster";
+import { preconnect } from "react-dom";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -50,7 +51,11 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
+const MODEL_URL = process.env.NEXT_PUBLIC_CAR_MODEL_URL;
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  // Open the connection to the 3D car's host early so the model arrives sooner.
+  if (MODEL_URL?.startsWith("http")) preconnect(new URL(MODEL_URL).origin, { crossOrigin: "anonymous" });
   return (
     <html
       lang="en"

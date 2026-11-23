@@ -97,6 +97,9 @@ function normalise(root: T.Object3D) {
 }
 
 export async function loadCarModel(small: boolean): Promise<CarModel | null> {
+  // Respect data saver: keep the lightweight code-built cars.
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+  if (conn?.saveData) return null;
   try {
     const head = await fetch(CAR_MODEL_URL, { method: "HEAD" });
     if (!head.ok) return null;

@@ -22,7 +22,8 @@ function Delta({ now, was }: { now: number; was: number | undefined }) {
 
 /** Bend next season and re-run 10,000 seasons in a background thread. */
 export function WhatIf() {
-  const inputs = site.sim as unknown as SimInputs | null;
+  // The simulator's inputs are fetched only when this section is near the screen.
+  const [inputs, setInputs] = useState<SimInputs | null>(null);
   const { followId } = useFollow();
   const worker = useRef<Worker | null>(null);
   const reqId = useRef(0);
@@ -53,18 +54,21 @@ export function WhatIf() {
     [inputs],
   );
 
-  // Start the worker and the baseline once the section is close to the screen.
+  // Fetch the inputs and start the worker once the section is close to the screen.
   const box = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (!inputs || !box.current) return;
+    if (!box.current) return;
     const io = new IntersectionObserver(
       ([e]) => {
         if (!e.isIntersecting || worker.current) return;
-        worker.current = new Worker(new URL("../../lib/sim.worker.ts", import.meta.url), { type: "module" });
-        run({}, true);
         io.disconnect();
+        worker.current = new Worker(new URL("../../lib/sim.worker.ts", import.meta.url), { type: "module" });
+        void fetch("/data/sim.json")
+          .then((r) => r.json() as Promise<SimInputs>)
+          .then(setInputs)
+          .catch(() => {});
       },
-      { rootMargin: "400px 0px" },
+      { rootMargin: "600px 0px" },
     );
     io.observe(box.current);
     return () => {
@@ -72,12 +76,16 @@ export function WhatIf() {
       worker.current?.terminate();
       worker.current = null;
     };
+  }, []);
+
+  // Baseline run as soon as the inputs arrive.
+  useEffect(() => {
+    if (inputs) run({}, true);
   }, [inputs, run]);
 
-  if (!inputs) return null;
-
-  const teamIds = [...new Set(inputs.teams)];
-  const rounds = inputs.rounds.map((r) => r.round);
+  const teamIds = inputs ? [...new Set(inputs.teams)] : Object.keys(site.teams);
+  const rounds = inputs ? inputs.rounds.map((r) => r.round) : (site.forecast?.calendar ?? []).map((c) => c.round);
+  const driverIds = inputs ? inputs.drivers : (site.forecast?.drivers ?? []).map((d) => d.driver_id);
   const calendar = site.forecast?.calendar ?? [];
   const apply = () =>
     run({
@@ -140,7 +148,7 @@ export function WhatIf() {
           <div className="grid grid-cols-[minmax(0,1fr)_120px] gap-2">
             <select id="wi-out" className="select" value={outDriver} onChange={(e) => setOutDriver(e.target.value)}>
               <option value="">Nobody</option>
-              {inputs.drivers.map((d) => (
+              {driverIds.map((d) => (
                 <option key={d} value={d}>
                   {driver(d).name}
                 </option>
@@ -223,7 +231,7 @@ export function WhatIf() {
             if (!r)
               return <li key={i} className="h-11 animate-pulse rounded-[10px] bg-panel" aria-hidden="true" />;
             const isDriver = kind === "drivers";
-            const t = isDriver ? team(inputs.teams[inputs.drivers.indexOf(r.id)]) : team(r.id);
+            const t = isDriver && inputs ? team(inputs.teams[inputs.drivers.indexOf(r.id)]) : team(r.id);
             const label = isDriver ? driver(r.id).code : t.short;
             const mine = isDriver ? r.id === followId : r.id === myTeam;
             return (

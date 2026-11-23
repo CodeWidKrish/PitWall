@@ -75,7 +75,12 @@ export function RaceStage() {
     if (!canvas.current || !host.current) return;
     let disposed = false;
     let c: RaceController | null = null;
-    void import("@/components/three/race-scene").then(({ createRaceScene }) => {
+    // Start the 3D once the browser is idle, so the first paint and page scripts come first.
+    const idle =
+      "requestIdleCallback" in window
+        ? (cb: () => void) => window.requestIdleCallback(cb, { timeout: 900 })
+        : (cb: () => void) => window.setTimeout(cb, 200);
+    idle(() => void import("@/components/three/race-scene").then(({ createRaceScene }) => {
       if (disposed || !canvas.current || !host.current) return;
       c = createRaceScene(canvas.current, host.current, grid, inGrid ? followId : grid[0]?.id, {
         onShot: setShot,
@@ -92,7 +97,7 @@ export function RaceStage() {
       if (!c) setOk(false);
       ctrl.current = c;
       if (launched.current) c?.launch();
-    });
+    }));
     return () => {
       disposed = true;
       c?.dispose();

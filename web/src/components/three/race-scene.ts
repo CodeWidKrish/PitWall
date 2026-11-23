@@ -662,13 +662,32 @@ export function createRaceScene(
     window.__pitwallModelReady = true;
     window.dispatchEvent(new Event("pitwall:model"));
     if (!model || disposed) return;
-    cars.forEach((c) => {
-      c.g.children.forEach((ch) => {
-        if (ch.userData.code) ch.visible = false;
-      });
-      c.g.add(model.instance(c.d.colour, c.d.accent === "#0E1013" ? "#16181c" : "#f2f3f5"));
+    // Add the realistic cars hidden, compile their shaders in the background, then swap,
+    // so the switch never stalls a frame.
+    const real = cars.map((c) => {
+      const inst = model.instance(c.d.colour, c.d.accent === "#0E1013" ? "#16181c" : "#f2f3f5");
+      inst.visible = false;
+      c.g.add(inst);
+      return inst;
     });
-    ev.onModel?.(true);
+    const swap = () => {
+      if (disposed) return;
+      cars.forEach((c, k) => {
+        c.g.children.forEach((ch) => {
+          if (ch.userData.code) ch.visible = false;
+        });
+        real[k].visible = true;
+      });
+      ev.onModel?.(true);
+    };
+    real.forEach((r) => (r.visible = true));
+    renderer
+      .compileAsync(scene, camera)
+      .catch(() => {})
+      .finally(() => {
+        real.forEach((r) => (r.visible = false));
+        swap();
+      });
   });
 
   let follow = Math.max(0, cars.findIndex((c) => c.d.id === followId));
@@ -983,8 +1002,14 @@ export function createRaceScene(
       );
     }
   }
-  raf = requestAnimationFrame(frame);
+  // Compile every shader off the main thread before the first frame, so the page stays smooth.
   setCam("tv");
+  renderer
+    .compileAsync(scene, camera)
+    .catch(() => {})
+    .finally(() => {
+      if (!disposed) raf = requestAnimationFrame(frame);
+    });
 
   return {
     setCam,

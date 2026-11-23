@@ -6,6 +6,13 @@
   one brand accent (purple sector), timing colours that carry meaning, and --you,
   the team colour of the driver the visitor follows.
 */
+/* Registered so the followed team's colour can fade across the whole site. */
+@property --you {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #14b3a4;
+}
+
 :root {
   --day-paper: #e4e6e8;
   --day-ink: #0b0c0e;
@@ -81,6 +88,7 @@
 html {
   background: var(--night-paper);
   scroll-behavior: auto;
+  transition: --you 0.9s var(--ease-out-expo);
 }
 
 html.lenis,

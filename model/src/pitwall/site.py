@@ -36,6 +36,7 @@ from pitwall.model import fit, select_kind
 from pitwall.simulate import current_state, future_features
 
 SITE_JSON = REPO_ROOT / "web" / "src" / "data" / "site.json"
+SIM_JSON = REPO_ROOT / "web" / "public" / "data" / "sim.json"
 PHOTO_DIR = REPO_ROOT / "web" / "public" / "drivers"
 CREDITS_JSON = REPO_ROOT / "web" / "src" / "data" / "photo-credits.json"
 USER_AGENT = "PitWall/0.1 (+https://github.com/CodeWidKrish/PitWall)"
@@ -404,10 +405,16 @@ def export(settings: Settings, out_path: Path = SITE_JSON) -> Path:
         if forecast
         else None,
         "record": _record(settings.reports_dir),
-        "sim": _sim_inputs(entries, races, feats, config) if config else None,
     }
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(site, indent=1, ensure_ascii=False), encoding="utf-8")
+    # The simulator's inputs are only needed by the what-if tool, so they are a separate
+    # file the browser fetches on demand instead of part of every page load.
+    if config:
+        SIM_JSON.parent.mkdir(parents=True, exist_ok=True)
+        SIM_JSON.write_text(
+            json.dumps(_sim_inputs(entries, races, feats, config), separators=(",", ":")), encoding="utf-8"
+        )
     return out_path
 
 

@@ -78,7 +78,7 @@ export function Intro() {
     // Never hold the page: lift after a few seconds whatever happens.
     const hard = setTimeout(lift, repeat ? 1500 : 6000);
     const start = performance.now();
-    const minTime = repeat ? 350 : 1500;
+    const minTime = repeat ? 300 : 900;
     const tick = (now: number) => {
       const allowed = now - start < minTime ? Math.min(target, ((now - start) / minTime) * 100) : target;
       shown.current += (allowed - shown.current) * 0.12;
