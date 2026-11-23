@@ -83,7 +83,17 @@
 </tr>
 </table>
 
+
+<img src="docs/assets/divider.svg" alt="" width="100%">
+
 ## 📊 Track record
+
+<div align="center">
+<img src="docs/assets/track-record.svg" alt="Track record over 151 races with baselines, a calibration plot and Brier scores" width="100%">
+<br><br>
+<img src="docs/assets/seasons.svg" alt="Winner picked after qualifying per season, PitWall vs the grid baseline, including the seasons it lost" width="100%">
+</div>
+
 
 Every season from 2020 was predicted by a model trained **only on earlier seasons**, then scored against simple baselines. **151 races:**
 
@@ -96,6 +106,13 @@ Every season from 2020 was predicted by a model trained **only on earlier season
 
 > [!IMPORTANT]
 > F1 has a lot of luck in it, so **no honest model picks the winner nine times in ten.** The hit rate beats the baselines only slightly. The real gain is the **Brier score**: when PitWall says 30%, that happens about 30% of the time. Full numbers in [the backtest report](model/reports/BACKTEST.md).
+
+
+<img src="docs/assets/divider.svg" alt="" width="100%">
+
+## 🗓 A race weekend on PitWall
+
+<img src="docs/assets/weekend.svg" alt="Thursday odds published, Saturday re-run with the grid, Sunday the race, Sunday night scored in public and redeployed" width="100%">
 
 ## 🧩 What's on the site
 
@@ -156,21 +173,14 @@ Give a team more pace over the winter, take a driver out from any round, add cha
 
 **Also on the site:** next-race odds for the whole grid with the inputs behind each number · 2027 title odds and a calendar with every circuit drawn · season standings and head-to-head · real race footage and engine recordings · a hit-or-miss record of every 2026 race · add the next race to your calendar.
 
+
+<img src="docs/assets/divider.svg" alt="" width="100%">
+
 ## 🧠 How it works
 
-```mermaid
-flowchart LR
-    A[Jolpica F1 API<br/>races · quali · sprints] --> C[Clean and verify<br/>points rebuilt and checked<br/>against official standings]
-    B[Open-Meteo<br/>race-day weather] --> C
-    C --> D[Features<br/>Elo · form · grid gaps<br/>reliability · circuit history]
-    D --> E[Plackett-Luce<br/>+ LightGBM LambdaRank]
-    E --> F[Calibrated win<br/>and podium odds]
-    E --> G[Monte Carlo<br/>10,000 seasons]
-    F --> H[site.json + sim.json]
-    G --> H
-    H --> I[Next.js site<br/>on Vercel]
-    J[GitHub Action<br/>daily + after each race] -. re-runs .-> C
-```
+<div align="center">
+<img src="docs/assets/architecture.svg" alt="PitWall architecture: data, features, ranking model, Monte Carlo, site, and the GitHub Action loop" width="100%">
+</div>
 
 | Layer | What it does |
 |---|---|
@@ -182,7 +192,7 @@ flowchart LR
 
 ## 🏎 The race on the homepage
 
-The cars are not following an animation path. They race.
+<img src="docs/assets/race-physics.svg" alt="Cars lapping a circuit with a DRS zone next to the speed envelope from the lap model" width="100%">
 
 | | |
 |---|---|
@@ -196,6 +206,10 @@ The cars are not following an animation path. They race.
 ## 🧰 Tech stack
 
 <div align="center">
+<img src="https://skillicons.dev/icons?i=nextjs,react,ts,tailwind,threejs,python,githubactions,vercel&theme=dark" alt="Next.js, React, TypeScript, Tailwind, three.js, Python, GitHub Actions, Vercel">
+</div>
+
+<div align="center">
 
 | Website | Model | Infra |
 |:---:|:---:|:---:|
@@ -205,6 +219,9 @@ The cars are not following an animation path. They race.
 | ESLint | ruff · mypy strict · pytest | Meshopt-compressed GLB pipeline |
 
 </div>
+
+
+<img src="docs/assets/divider.svg" alt="" width="100%">
 
 ## 🚀 Run it yourself
 

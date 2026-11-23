@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-label="PitWall architecture: results and weather are verified and turned into features, a Plackett-Luce and LightGBM ranker gives calibrated race odds, a Monte Carlo simulates 10,000 seasons, and the site is rebuilt by a GitHub Action after every race">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0c0e"/><stop offset=".6" stop-color="#121019"/><stop offset="1" stop-color="#0b0c0e"/></linearGradient>
+    <linearGradient id="sector" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8f45ff"/><stop offset="1" stop-color="#b98cff"/></linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#fff" stroke-opacity=".035"/></pattern>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <clipPath id="frame"><rect width="1200" height="560" rx="22"/></clipPath>
+    
+    <style>
+  .h   { font: italic 900 34px 'Arial Narrow', 'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif; fill: #ecedef; letter-spacing: -.3px; }
+  .hs  { font: italic 400 18px Georgia, 'Times New Roman', serif; fill: #b4b8bf; }
+  .ct  { font: italic 800 21px 'Arial Narrow', 'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif; fill: #ecedef; }
+  .cl  { font: 500 13px Consolas, Menlo, 'DejaVu Sans Mono', monospace; fill: #c9ccd2; }
+  .tg  { font: 700 11px Consolas, Menlo, 'DejaVu Sans Mono', monospace; fill: #8a9099; letter-spacing: 2px; }
+  .num { font: italic 900 30px 'Arial Narrow', 'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif; fill: #ecedef; }
+  .sm  { font: 600 12px Consolas, Menlo, 'DejaVu Sans Mono', monospace; fill: #8a9099; }
+  .flow { stroke-dasharray: 6 9; animation: flow 1.1s linear infinite; }
+  @keyframes flow { to { stroke-dashoffset: -30; } }
+  .breathe { animation: breathe 3.2s ease-in-out infinite; }
+  @keyframes breathe { 0%,100% { stroke-opacity: .45; } 50% { stroke-opacity: 1; } }</style>
+  </defs>
+  <g clip-path="url(#frame)">
+  <rect width="1200" height="560" fill="url(#bg)"/><rect width="1200" height="560" fill="url(#grid)"/>
+
+  <text x="600" y="54" text-anchor="middle" class="h">FROM RAW RESULTS TO RACE-DAY ODDS</text>
+  <text x="600" y="82" text-anchor="middle" class="hs">Every step is automated, tested, and re-run by a GitHub Action after every Grand Prix</text>
+  
+  <g>
+    <rect x="40" y="120" width="250" height="140" rx="16" fill="#16151c" stroke="#14b3a4" stroke-width="1.6" class="breathe"/>
+    <text x="60" y="146" class="tg">SOURCE</text>
+    <circle cx="268" cy="142" r="5" fill="#14b3a4" filter="url(#glow)"/>
+    <text x="60" y="176" class="ct">Jolpica F1 API</text>
+    <text x="60" y="204" class="cl">races · quali · sprints</text>
+    <text x="60" y="225" class="cl">every round since 2018</text>
+    <text x="60" y="246" class="cl">cached · retried · rate-limited</text>
+  </g>
+  
+  <g>
+    <rect x="40" y="290" width="250" height="120" rx="16" fill="#16151c" stroke="#14b3a4" stroke-width="1.6" class="breathe"/>
+    <text x="60" y="316" class="tg">SOURCE</text>
+    <circle cx="268" cy="312" r="5" fill="#14b3a4" filter="url(#glow)"/>
+    <text x="60" y="346" class="ct">Open-Meteo</text>
+    <text x="60" y="374" class="cl">race-day weather</text>
+    <text x="60" y="395" class="cl">per circuit, per hour</text>
+  </g>
+  
+  <g>
+    <rect x="350" y="160" width="230" height="200" rx="16" fill="#16151c" stroke="#b98cff" stroke-width="1.6" class="breathe"/>
+    <text x="370" y="186" class="tg">BUILD</text>
+    <circle cx="558" cy="182" r="5" fill="#b98cff" filter="url(#glow)"/>
+    <text x="370" y="216" class="ct">Verify + features</text>
+    <text x="370" y="244" class="cl">289/289 standings rows</text>
+    <text x="370" y="265" class="cl">  rebuilt and matched</text>
+    <text x="370" y="286" class="cl">Elo · form · grid gaps</text>
+    <text x="370" y="307" class="cl">reliability · circuits</text>
+    <text x="370" y="328" class="cl">leak-free (tested)</text>
+  </g>
+  
+  <g>
+    <rect x="640" y="120" width="250" height="150" rx="16" fill="#16151c" stroke="#8f45ff" stroke-width="1.6" class="breathe"/>
+    <text x="660" y="146" class="tg">MODEL</text>
+    <circle cx="868" cy="142" r="5" fill="#8f45ff" filter="url(#glow)"/>
+    <text x="660" y="176" class="ct">Ranking model</text>
+    <text x="660" y="204" class="cl">Plackett-Luce (MLE)</text>
+    <text x="660" y="225" class="cl">+ LightGBM LambdaRank</text>
+    <text x="660" y="246" class="cl">calibrated softmax</text>
+    <text x="660" y="267" class="cl">chosen walk-forward</text>
+  </g>
+  
+  <g>
+    <rect x="640" y="300" width="250" height="120" rx="16" fill="#16151c" stroke="#8f45ff" stroke-width="1.6" class="breathe"/>
+    <text x="660" y="326" class="tg">SIMULATE</text>
+    <circle cx="868" cy="322" r="5" fill="#8f45ff" filter="url(#glow)"/>
+    <text x="660" y="356" class="ct">Monte Carlo</text>
+    <text x="660" y="384" class="cl">10,000 seasons</text>
+    <text x="660" y="405" class="cl">DNFs · form swings</text>
+    <text x="660" y="426" class="cl">clinch detection</text>
+  </g>
+  
+  <g>
+    <rect x="950" y="170" width="210" height="200" rx="16" fill="#16151c" stroke="#ff2a36" stroke-width="1.6" class="breathe"/>
+    <text x="970" y="196" class="tg">SHIP</text>
+    <circle cx="1138" cy="192" r="5" fill="#ff2a36" filter="url(#glow)"/>
+    <text x="970" y="226" class="ct">pitwallgp.vercel.app</text>
+    <text x="970" y="254" class="cl">race odds</text>
+    <text x="970" y="275" class="cl">title odds</text>
+    <text x="970" y="296" class="cl">public record</text>
+    <text x="970" y="317" class="cl">3D race + studio</text>
+    <text x="970" y="338" class="cl">what-if in a worker</text>
+  </g>
+  
+  <path id="w0" d="M290 190 C 320 190, 320 230, 350 230" fill="none" stroke="#14b3a4" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M290 190 C 320 190, 320 230, 350 230" fill="none" stroke="#14b3a4" stroke-width="2" class="flow"/>
+  <circle r="4.5" fill="#14b3a4" filter="url(#glow)"><animateMotion dur="1.6s" begin="0s" repeatCount="indefinite"><mpath href="#w0"/></animateMotion></circle>
+  
+  <path id="w1" d="M290 350 C 320 350, 320 300, 350 300" fill="none" stroke="#14b3a4" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M290 350 C 320 350, 320 300, 350 300" fill="none" stroke="#14b3a4" stroke-width="2" class="flow"/>
+  <circle r="4.5" fill="#14b3a4" filter="url(#glow)"><animateMotion dur="1.6s" begin="0.6s" repeatCount="indefinite"><mpath href="#w1"/></animateMotion></circle>
+  
+  <path id="w2" d="M580 230 C 610 230, 610 195, 640 195" fill="none" stroke="#b98cff" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M580 230 C 610 230, 610 195, 640 195" fill="none" stroke="#b98cff" stroke-width="2" class="flow"/>
+  <circle r="4.5" fill="#b98cff" filter="url(#glow)"><animateMotion dur="1.6s" begin="0.3s" repeatCount="indefinite"><mpath href="#w2"/></animateMotion></circle>
+  
+  <path id="w3" d="M580 300 C 610 300, 610 360, 640 360" fill="none" stroke="#b98cff" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M580 300 C 610 300, 610 360, 640 360" fill="none" stroke="#b98cff" stroke-width="2" class="flow"/>
+  <circle r="4.5" fill="#b98cff" filter="url(#glow)"><animateMotion dur="1.6s" begin="0.9s" repeatCount="indefinite"><mpath href="#w3"/></animateMotion></circle>
+  
+  <path id="w4" d="M890 195 C 920 195, 920 240, 950 240" fill="none" stroke="#8f45ff" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M890 195 C 920 195, 920 240, 950 240" fill="none" stroke="#8f45ff" stroke-width="2" class="flow"/>
+  <circle r="4.5" fill="#8f45ff" filter="url(#glow)"><animateMotion dur="1.6s" begin="0.5s" repeatCount="indefinite"><mpath href="#w4"/></animateMotion></circle>
+  
+  <path id="w5" d="M890 360 C 920 360, 920 300, 950 300" fill="none" stroke="#8f45ff" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M890 360 C 920 360, 920 300, 950 300" fill="none" stroke="#8f45ff" stroke-width="2" class="flow"/>
+  <circle r="4.5" fill="#8f45ff" filter="url(#glow)"><animateMotion dur="1.6s" begin="1.1s" repeatCount="indefinite"><mpath href="#w5"/></animateMotion></circle>
+  <!-- the automation loop -->
+  <g>
+    <rect x="300" y="458" width="600" height="56" rx="28" fill="#1a1622" stroke="#8f45ff" stroke-opacity=".6"/>
+    <text x="600" y="482" text-anchor="middle" class="ct" style="font-size:17px">GitHub Action · daily + race Sunday night</text>
+    <text x="600" y="502" text-anchor="middle" class="cl">new result? re-simulate → rebuild site data → commit → Vercel redeploys</text>
+  </g>
+  
+  <path id="w6" d="M1055 370 C 1055 440, 990 486, 900 486" fill="none" stroke="#ff2a36" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M1055 370 C 1055 440, 990 486, 900 486" fill="none" stroke="#ff2a36" stroke-width="2" class="flow"/>
+  <circle r="4.5" fill="#ff2a36" filter="url(#glow)"><animateMotion dur="2.4s" begin="0s" repeatCount="indefinite"><mpath href="#w6"/></animateMotion></circle>
+  
+  <path id="w7" d="M300 486 C 180 486, 165 470, 165 410" fill="none" stroke="#8f45ff" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M300 486 C 180 486, 165 470, 165 410" fill="none" stroke="#8f45ff" stroke-width="2" class="flow"/>
+  <circle r="4.5" fill="#8f45ff" filter="url(#glow)"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite"><mpath href="#w7"/></animateMotion></circle>
+  <rect x="0" y="554" width="1200" height="6" fill="url(#sector)"/>
+  </g>
+</svg>

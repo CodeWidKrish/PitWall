@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400" role="img" aria-label="Winner picked after qualifying, per season, PitWall vs grid baseline: 2020 71 vs 59, 2021 36 vs 50, 2022 50 vs 45, 2023 91 vs 64, 2024 42 vs 46, 2025 58 vs 67, 2026 65 vs 70">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0c0e"/><stop offset=".6" stop-color="#121019"/><stop offset="1" stop-color="#0b0c0e"/></linearGradient>
+    <linearGradient id="sector" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8f45ff"/><stop offset="1" stop-color="#b98cff"/></linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" fill="none" stroke="#fff" stroke-opacity=".035"/></pattern>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <clipPath id="frame"><rect width="1200" height="400" rx="22"/></clipPath>
+    
+    <style>
+  .h   { font: italic 900 34px 'Arial Narrow', 'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif; fill: #ecedef; letter-spacing: -.3px; }
+  .hs  { font: italic 400 18px Georgia, 'Times New Roman', serif; fill: #b4b8bf; }
+  .ct  { font: italic 800 21px 'Arial Narrow', 'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif; fill: #ecedef; }
+  .cl  { font: 500 13px Consolas, Menlo, 'DejaVu Sans Mono', monospace; fill: #c9ccd2; }
+  .tg  { font: 700 11px Consolas, Menlo, 'DejaVu Sans Mono', monospace; fill: #8a9099; letter-spacing: 2px; }
+  .num { font: italic 900 30px 'Arial Narrow', 'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif; fill: #ecedef; }
+  .sm  { font: 600 12px Consolas, Menlo, 'DejaVu Sans Mono', monospace; fill: #8a9099; }
+  .flow { stroke-dasharray: 6 9; animation: flow 1.1s linear infinite; }
+  @keyframes flow { to { stroke-dashoffset: -30; } }
+  .breathe { animation: breathe 3.2s ease-in-out infinite; }
+  @keyframes breathe { 0%,100% { stroke-opacity: .45; } 50% { stroke-opacity: 1; } }.grow{transform-box:fill-box;transform-origin:bottom;animation:grow 9s cubic-bezier(.16,1,.3,1) infinite}@keyframes grow{0%{transform:scaleY(0)}20%,90%{transform:scaleY(1)}100%{transform:scaleY(0)}}</style>
+  </defs>
+  <g clip-path="url(#frame)">
+  <rect width="1200" height="400" fill="url(#bg)"/><rect width="1200" height="400" fill="url(#grid)"/>
+
+  <text x="60" y="56" class="h">SEASON BY SEASON, WINS AND LOSSES</text>
+  <text x="60" y="82" class="hs">Winner picked after qualifying: PitWall vs the grid-slot baseline. Some seasons it loses, and it says so.</text>
+  <g transform="translate(900 40)"><rect width="14" height="14" rx="3" fill="#8f45ff"/><text x="22" y="12" class="sm" style="fill:#ecedef">PitWall</text><rect x="110" width="14" height="14" rx="3" fill="#4a4756"/><text x="132" y="12" class="sm">grid baseline</text></g>
+  <line x1="70" y1="320" x2="1140" y2="320" stroke="#2a2833"/>
+  
+  <rect class="grow" style="animation-delay:0.00s" x="90" y="163.79999999999998" width="44" height="156.20000000000002" rx="6" fill="#8f45ff"/>
+  <rect class="grow" style="animation-delay:0.08s" x="140" y="190.2" width="44" height="129.8" rx="6" fill="#4a4756"/>
+  <text x="112" y="153.79999999999998" text-anchor="middle" class="sm" style="fill:#ecedef">71%</text>
+  <text x="162" y="180.2" text-anchor="middle" class="sm">59%</text>
+  <text x="137" y="346" text-anchor="middle" class="ct" style="font-size:19px">2020</text>
+  <text x="137" y="366" text-anchor="middle" class="tg" style="fill:#22c55e">AHEAD</text>
+  <rect class="grow" style="animation-delay:0.15s" x="240" y="240.8" width="44" height="79.2" rx="6" fill="#8f45ff"/>
+  <rect class="grow" style="animation-delay:0.23s" x="290" y="210" width="44" height="110.00000000000001" rx="6" fill="#4a4756"/>
+  <text x="262" y="230.8" text-anchor="middle" class="sm" style="fill:#ecedef">36%</text>
+  <text x="312" y="200" text-anchor="middle" class="sm">50%</text>
+  <text x="287" y="346" text-anchor="middle" class="ct" style="font-size:19px">2021</text>
+  <text x="287" y="366" text-anchor="middle" class="tg" style="fill:#ff2a36">BEHIND</text>
+  <rect class="grow" style="animation-delay:0.30s" x="390" y="210" width="44" height="110.00000000000001" rx="6" fill="#8f45ff"/>
+  <rect class="grow" style="animation-delay:0.38s" x="440" y="221" width="44" height="99.00000000000001" rx="6" fill="#4a4756"/>
+  <text x="412" y="200" text-anchor="middle" class="sm" style="fill:#ecedef">50%</text>
+  <text x="462" y="211" text-anchor="middle" class="sm">45%</text>
+  <text x="437" y="346" text-anchor="middle" class="ct" style="font-size:19px">2022</text>
+  <text x="437" y="366" text-anchor="middle" class="tg" style="fill:#22c55e">AHEAD</text>
+  <rect class="grow" style="animation-delay:0.45s" x="540" y="119.79999999999998" width="44" height="200.20000000000002" rx="6" fill="#8f45ff"/>
+  <rect class="grow" style="animation-delay:0.53s" x="590" y="179.2" width="44" height="140.8" rx="6" fill="#4a4756"/>
+  <text x="562" y="109.79999999999998" text-anchor="middle" class="sm" style="fill:#ecedef">91%</text>
+  <text x="612" y="169.2" text-anchor="middle" class="sm">64%</text>
+  <text x="587" y="346" text-anchor="middle" class="ct" style="font-size:19px">2023</text>
+  <text x="587" y="366" text-anchor="middle" class="tg" style="fill:#22c55e">AHEAD</text>
+  <rect class="grow" style="animation-delay:0.60s" x="690" y="227.6" width="44" height="92.4" rx="6" fill="#8f45ff"/>
+  <rect class="grow" style="animation-delay:0.68s" x="740" y="218.8" width="44" height="101.2" rx="6" fill="#4a4756"/>
+  <text x="712" y="217.6" text-anchor="middle" class="sm" style="fill:#ecedef">42%</text>
+  <text x="762" y="208.8" text-anchor="middle" class="sm">46%</text>
+  <text x="737" y="346" text-anchor="middle" class="ct" style="font-size:19px">2024</text>
+  <text x="737" y="366" text-anchor="middle" class="tg" style="fill:#ff2a36">BEHIND</text>
+  <rect class="grow" style="animation-delay:0.75s" x="840" y="192.39999999999998" width="44" height="127.60000000000001" rx="6" fill="#8f45ff"/>
+  <rect class="grow" style="animation-delay:0.83s" x="890" y="172.6" width="44" height="147.4" rx="6" fill="#4a4756"/>
+  <text x="862" y="182.39999999999998" text-anchor="middle" class="sm" style="fill:#ecedef">58%</text>
+  <text x="912" y="162.6" text-anchor="middle" class="sm">67%</text>
+  <text x="887" y="346" text-anchor="middle" class="ct" style="font-size:19px">2025</text>
+  <text x="887" y="366" text-anchor="middle" class="tg" style="fill:#ff2a36">BEHIND</text>
+  <rect class="grow" style="animation-delay:0.90s" x="990" y="177" width="44" height="143" rx="6" fill="#8f45ff"/>
+  <rect class="grow" style="animation-delay:0.98s" x="1040" y="166" width="44" height="154" rx="6" fill="#4a4756"/>
+  <text x="1012" y="167" text-anchor="middle" class="sm" style="fill:#ecedef">65%</text>
+  <text x="1062" y="156" text-anchor="middle" class="sm">70%</text>
+  <text x="1037" y="346" text-anchor="middle" class="ct" style="font-size:19px">2026</text>
+  <text x="1037" y="366" text-anchor="middle" class="tg" style="fill:#ff2a36">BEHIND</text>
+  <rect x="0" y="394" width="1200" height="6" fill="url(#sector)"/>
+  </g>
+</svg>
