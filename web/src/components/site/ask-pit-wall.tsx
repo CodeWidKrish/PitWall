@@ -2,6 +2,7 @@
 
 import { type FormEvent, Fragment, useCallback, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { CarMark } from "@/components/ui/car-mark";
 import { driver, shortRaceName, site } from "@/lib/data";
 
 interface Turn {
@@ -159,16 +160,28 @@ export function AskPitWall() {
         onClick={() => setOpen(true)}
         aria-haspopup="dialog"
         aria-expanded={open}
-        className={`fixed bottom-[max(20px,env(safe-area-inset-bottom))] right-5 z-[90] inline-flex h-12 items-center gap-3 rounded-full border border-white/15 bg-[rgb(14_15_18/0.88)] pl-3 pr-5 font-mono text-[11px] uppercase tracking-[0.14em] text-[#ecedef] shadow-[0_20px_50px_-20px_rgb(0_0_0/0.8)] backdrop-blur-xl transition-[transform,opacity] duration-500 ease-expo hover:-translate-y-0.5 ${
+        aria-label="Ask the pit wall"
+        title="Ask the pit wall"
+        className={`pit-launch group fixed bottom-[max(20px,env(safe-area-inset-bottom))] right-5 z-[90] flex h-[60px] items-center rounded-full border border-white/12 bg-[rgb(14_15_18/0.9)] pl-2 pr-3 text-[#ecedef] shadow-[0_24px_60px_-22px_rgb(0_0_0/0.9),inset_0_1px_0_rgb(255_255_255/0.06)] backdrop-blur-xl transition-[transform,opacity,box-shadow] duration-500 ease-expo hover:-translate-y-0.5 hover:shadow-[0_28px_70px_-20px_color-mix(in_oklab,var(--you)_45%,transparent),inset_0_1px_0_rgb(255_255_255/0.08)] ${
           open ? "pointer-events-none translate-y-4 opacity-0" : ""
         }`}
       >
-        <span className="grid size-7 place-items-center rounded-full bg-[var(--you)] text-[#0b0c0e]" aria-hidden="true">
-          <svg viewBox="0 0 16 16" className="size-3.5">
-            <path d="M3 4.5h10v6H8l-3 2.5v-2.5H3Z" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
-          </svg>
+        {/* label slides out on hover and focus */}
+        <span
+          aria-hidden="true"
+          className="grid max-w-0 overflow-hidden whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.14em] opacity-0 transition-[max-width,opacity,margin] duration-500 ease-expo group-hover:ml-3 group-hover:max-w-[180px] group-hover:opacity-100 group-focus-visible:ml-3 group-focus-visible:max-w-[180px] group-focus-visible:opacity-100"
+        >
+          Ask the pit wall
         </span>
-        Ask the pit wall
+        <span className="relative block h-[46px] w-[112px]" aria-hidden="true">
+          {/* speed lines behind the car */}
+          <span className="pit-streaks pointer-events-none absolute inset-y-2 -left-3 w-10">
+            <i />
+            <i />
+            <i />
+          </span>
+          <CarMark className="pit-car absolute inset-0 h-full w-full" />
+        </span>
       </button>
 
       {mounted
@@ -188,6 +201,7 @@ export function AskPitWall() {
               >
                 <header className="flex items-start justify-between gap-4 border-b border-white/10 px-6 pb-5 pt-6">
                   <div className="grid gap-1.5">
+                    <CarMark className="mb-1 h-9 w-[100px] [animation:carIn_.9s_var(--ease-out-expo)_both]" />
                     <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#8a9099]">Team radio · PitWall data only</span>
                     <h2 id={title} className="type-voice text-[30px] leading-none">
                       Ask the pit wall
