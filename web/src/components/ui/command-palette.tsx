@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { type CSSProperties, type ReactNode, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useFollow } from "@/components/follow";
+import { openAsk } from "@/components/site/ask-pit-wall";
 import { openAlerts } from "@/components/ui/race-alerts";
 import { toast } from "@/components/ui/toaster";
 import { currentGrid, driver, site, team } from "@/lib/data";
@@ -123,6 +124,7 @@ export function CommandPalette({ home }: { home: boolean }) {
       };
     });
     const actions: Item[] = [
+      { id: "a-ask", group: "Actions", label: "Ask the pit wall", hint: "Questions answered from PitWall's data", keywords: "chat ai assistant question why", run: () => openAsk() },
       { id: "a-alerts", group: "Actions", label: "Race alerts", hint: "Odds in race week, and when the grid is set", keywords: "notify notification push bell", run: () => openAlerts() },
       { id: "a-sound", group: "Actions", label: "Sound on or off", hint: "M", keywords: "audio mute engine", run: () => void sound?.toggle() },
       { id: "a-sprint", group: "Actions", label: site.next_race?.sprint ? "Sprint odds" : "Team odds", hint: "Constructors for the next race", keywords: "constructor team sprint", run: () => go("odds") },
