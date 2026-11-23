@@ -30,6 +30,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://pitwallgp.vercel.app"),
   title: {
     default: "PitWall · F1 race and title forecasts",
     template: "%s · PitWall",

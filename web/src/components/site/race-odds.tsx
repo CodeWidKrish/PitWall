@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { type CSSProperties, useState } from "react";
 import { useFollow } from "@/components/follow";
 import { driver, type NextRace, type Odds, pct, team } from "@/lib/data";
@@ -139,6 +140,9 @@ export function RaceOdds({
                     Bars show where <strong className="font-semibold text-ink">{d.last_name}</strong> sits in this
                     weekend&apos;s field, from worst (empty) to best (full). These are inputs, not reasons: the model
                     weighs them together. Podium chance {pct(o.p_podium)}.
+                    <Link href={`/drivers/${o.driver_id}`} className="mt-4 flex w-fit items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ink underline decoration-rule underline-offset-4 hover:decoration-current">
+                      {d.last_name}&apos;s full profile <span aria-hidden="true">→</span>
+                    </Link>
                   </p>
                 </div>
               </div>

@@ -173,7 +173,7 @@ export function AskPitWall() {
 
       {mounted
         ? createPortal(
-            <div className={`fixed inset-0 z-[125] ${open ? "" : "pointer-events-none"}`} aria-hidden={!open}>
+            <div className={`fixed inset-0 z-[125] overflow-hidden ${open ? "" : "pointer-events-none"}`} aria-hidden={!open}>
               <div
                 className={`absolute inset-0 bg-[rgb(5_6_8/0.5)] backdrop-blur-[2px] transition-opacity duration-500 ${open ? "opacity-100" : "opacity-0"}`}
                 onClick={() => setOpen(false)}

@@ -6,7 +6,6 @@ import { createPortal } from "react-dom";
 import { useFollow } from "@/components/follow";
 import { openAsk } from "@/components/site/ask-pit-wall";
 import { openAlerts } from "@/components/ui/race-alerts";
-import { toast } from "@/components/ui/toaster";
 import { currentGrid, driver, site, team } from "@/lib/data";
 import { REPO_URL } from "@/lib/links";
 import { sound } from "@/lib/sound";
@@ -72,7 +71,7 @@ export function CommandPalette({ home }: { home: boolean }) {
   const listRef = useRef<HTMLUListElement>(null);
   const opener = useRef<HTMLElement | null>(null);
   const router = useRouter();
-  const { followId, setFollow } = useFollow();
+  const { followId } = useFollow();
   const listId = useId();
 
   // eslint-disable-next-line react-hooks/set-state-in-effect -- portal target exists only after mount
@@ -113,14 +112,11 @@ export function CommandPalette({ home }: { home: boolean }) {
         id: `d-${d.id}`,
         group: "Drivers",
         label: d.name,
-        hint: t.name,
+        hint: `${t.name} · profile`,
         badge: d.code,
         colour: t.colour,
         keywords: `${d.code} ${t.name} ${d.number ?? ""}`,
-        run: () => {
-          setFollow(d.id);
-          toast({ title: `Following ${d.name}`, body: "Their colour now runs through the whole site.", colour: t.colour });
-        },
+        run: () => router.push(`/drivers/${d.id}`),
       };
     });
     const actions: Item[] = [
@@ -136,7 +132,7 @@ export function CommandPalette({ home }: { home: boolean }) {
       { id: "p-github", group: "Pages", label: "Source on GitHub", hint: "CodeWidKrish/PitWall", run: () => window.open(REPO_URL, "_blank", "noopener") },
     ];
     return [...jump, ...actions, ...drivers, ...pages];
-  }, [go, router, setFollow]);
+  }, [go, router]);
 
   const results = useMemo(() => {
     if (!q.trim()) return items.filter((i) => i.group !== "Drivers" || i.id === `d-${followId}`);
