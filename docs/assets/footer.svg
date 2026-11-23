@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="180" viewBox="0 0 1200 180" role="img" aria-label="Built by Krish Hingu · PitWall · MIT License">
+  <defs>
+    <pattern id="cheq" width="24" height="24" patternUnits="userSpaceOnUse">
+      <rect width="12" height="12" fill="#ecedef"/><rect x="12" y="12" width="12" height="12" fill="#ecedef"/>
+    </pattern>
+    <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0b0c0e" stop-opacity="1"/>
+      <stop offset=".25" stop-color="#0b0c0e" stop-opacity="0"/>
+      <stop offset=".75" stop-color="#0b0c0e" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0b0c0e" stop-opacity="1"/>
+    </linearGradient>
+    <linearGradient id="w1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8f45ff"/><stop offset="1" stop-color="#14b3a4"/></linearGradient>
+    <linearGradient id="w2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a1a4d"/><stop offset="1" stop-color="#8f45ff"/></linearGradient>
+    <clipPath id="cl"><rect width="1200" height="180" rx="22"/></clipPath>
+    <style>
+      .flag { animation: wave 1.6s linear infinite; }
+      @keyframes wave { to { transform: translateX(-48px); } }
+      .a { animation: drift 9s ease-in-out infinite; }
+      .b { animation: drift 7s ease-in-out infinite reverse; }
+      @keyframes drift { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-140px); } }
+      .f { font: italic 800 22px 'Arial Narrow', 'Roboto Condensed', 'Helvetica Neue', Arial, sans-serif; fill: #ffffff; letter-spacing: .5px; }
+      .g { font: 600 12px Consolas, Menlo, 'DejaVu Sans Mono', monospace; fill: #e9e3ff; letter-spacing: 2px; }
+    </style>
+  </defs>
+  <g clip-path="url(#cl)">
+    <rect width="1200" height="180" fill="#0b0c0e"/>
+    <g class="flag" opacity=".85"><rect x="0" y="22" width="1260" height="24" fill="url(#cheq)"/></g>
+    <rect x="0" y="22" width="1200" height="24" fill="url(#fade)"/>
+    <g class="b" opacity=".6"><path fill="url(#w2)" d="M0 84 C 200 44, 400 124, 600 84 S 1000 44, 1200 84 S 1400 124, 1400 84 L 1400 180 L 0 180 Z"/></g>
+    <g class="a" opacity=".92"><path fill="url(#w1)" d="M0 108 C 200 148, 400 68, 600 108 S 1000 148, 1200 108 S 1400 68, 1400 108 L 1400 180 L 0 180 Z"/></g>
+    <text x="600" y="146" text-anchor="middle" class="f">Built by Krish Hingu</text>
+    <text x="600" y="168" text-anchor="middle" class="g">PITWALL · MIT LICENSE · 2026</text>
+  </g>
+</svg>
