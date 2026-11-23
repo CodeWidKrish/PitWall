@@ -6,7 +6,7 @@ import { type ReactNode, useEffect, useState } from "react";
  * Transparent over the hero; once you scroll it becomes a floating glass bar that
  * tucks away while you read down the page and returns as soon as you scroll up.
  */
-export function HeaderShell({ children }: { children: ReactNode }) {
+export function HeaderShell({ children, alwaysSolid = false }: { children: ReactNode; alwaysSolid?: boolean }) {
   const [solid, setSolid] = useState(false);
   const [hidden, setHidden] = useState(false);
 
@@ -14,7 +14,7 @@ export function HeaderShell({ children }: { children: ReactNode }) {
     let last = scrollY;
     const onScroll = () => {
       const y = scrollY;
-      setSolid(y > 60);
+      setSolid(alwaysSolid || y > 60);
       setHidden(y > 400 && y > last + 2);
       if (y < last - 2 || y < 120) setHidden(false);
       last = y;
@@ -22,7 +22,7 @@ export function HeaderShell({ children }: { children: ReactNode }) {
     onScroll();
     addEventListener("scroll", onScroll, { passive: true });
     return () => removeEventListener("scroll", onScroll);
-  }, []);
+  }, [alwaysSolid]);
 
   return (
     <header
@@ -32,7 +32,7 @@ export function HeaderShell({ children }: { children: ReactNode }) {
     >
       <div
         className={`mx-auto transition-[max-width,margin,background,border-color,border-radius,backdrop-filter] duration-700 ease-expo ${
-          solid
+          solid || alwaysSolid
             ? "mt-3 max-w-[min(1240px,calc(100vw-24px))] rounded-2xl border border-white/10 bg-[rgb(11_12_14/0.72)] backdrop-blur-xl backdrop-saturate-150"
             : "mt-0 max-w-full border border-transparent"
         }`}

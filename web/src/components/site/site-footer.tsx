@@ -213,7 +213,7 @@ export function SiteFooter() {
             <path d="M6 10V2M2.5 5.5 6 2l3.5 3.5" fill="none" stroke="currentColor" strokeWidth="1.4" />
           </svg>
         </a>
-        <p className="text-[10px] normal-case tracking-normal text-sub/70 md:col-span-3">
+        <p className="text-[10px] normal-case tracking-normal text-sub md:col-span-3">
           F1, FORMULA 1 and related marks are trademarks of Formula One Licensing B.V. PitWall is not affiliated with
           Formula 1, the FIA or any team. Predictions are for entertainment and analysis, not betting.
         </p>

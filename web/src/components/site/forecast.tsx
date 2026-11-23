@@ -147,7 +147,7 @@ export function Forecast() {
           </span>
           <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-sub">Drag or scroll sideways →</span>
         </div>
-        <ol className="rail pb-4" aria-label={`${f.season} calendar`}>
+        <ol className="rail pb-4" aria-label={`${f.season} calendar, scroll sideways`} tabIndex={0}>
           {f.calendar.map((r) => {
             const c = (circuits.circuits as unknown as Record<string, Circuit>)[r.circuit_id];
             return (
@@ -158,7 +158,7 @@ export function Forecast() {
                 <span className="flex items-center justify-between font-mono text-[11px] tracking-[0.14em] text-sub">
                   <span>ROUND {String(r.round).padStart(2, "0")}</span>
                   {r.has_sprint ? (
-                    <span className="rounded border border-current px-1.5 py-1 text-[9px] font-semibold text-accent">
+                    <span className="rounded border border-current px-1.5 py-1 text-[9px] font-semibold text-[#b38bff]">
                       SPRINT
                     </span>
                   ) : null}

@@ -305,7 +305,7 @@ export function RaceStage() {
                       ? "#1a8f55"
                       : banner.kind === "radio"
                         ? team(driver(banner.carId).team_now).colour
-                        : "#ff2a2a",
+                        : "#c4141f",
                 color: banner.kind === "radio" ? accentFor(team(driver(banner.carId).team_now).colour) : "#fff",
               }}
             >

@@ -161,7 +161,7 @@ export function PodiumGame({ race }: { race: NextRace }) {
           style={{ background: "repeating-conic-gradient(#0b0c0e 0 25%, #ecedef 0 50%) 0 0 / 36px 36px" }}
         />
         <span className="tag">{name} podium · your call</span>
-        <div className="mt-5 flex flex-wrap gap-2" aria-label="Drivers to place" role="list">
+        <div className="mt-5 flex flex-wrap gap-2" aria-label="Drivers to place" role="group">
           {race.odds.map((o) => {
             const d = driver(o.driver_id);
             const used = slots.includes(o.driver_id);
@@ -170,7 +170,6 @@ export function PodiumGame({ race }: { race: NextRace }) {
               <button
                 key={o.driver_id}
                 type="button"
-                role="listitem"
                 disabled={locked}
                 onPointerDown={(e) => startDrag(e, o.driver_id)}
                 onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), place(o.driver_id))}
@@ -235,7 +234,7 @@ export function PodiumGame({ race }: { race: NextRace }) {
       {/* Verdict */}
       <div className="grid content-start gap-6" aria-live="polite">
         <p className="font-display text-[clamp(84px,12vw,170px)] font-extrabold leading-[0.8] tracking-[-0.02em] [font-stretch:70%]">
-          <small className="type-voice mr-2 text-[0.26em] font-normal text-you">1 in</small>
+          <small className="type-voice mr-2 text-[0.26em] font-normal text-sub">1 in</small>
           {locked ? oneIn(yourP) : <span className="opacity-20">—</span>}
         </p>
         <p className="type-voice max-w-[24ch] text-[26px] leading-tight">{verdict}</p>

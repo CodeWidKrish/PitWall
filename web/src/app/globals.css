@@ -798,3 +798,14 @@ section[data-cam="board"] .hero-ticker {
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
+
+/* Status colours need deeper shades on the light ground to stay readable (WCAG AA). */
+.theme-day .pill.hit {
+  color: #0b6b39;
+}
+.theme-day .pill.miss {
+  color: #7a4f00;
+}
+.theme-day .pill.best {
+  color: #5f1fd1;
+}
