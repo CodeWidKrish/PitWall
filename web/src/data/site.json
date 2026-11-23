@@ -1,5 +1,5 @@
 {
- "built_at": "2026-11-23T04:05:19+00:00",
+ "built_at": "2026-11-23T11:12:02+00:00",
  "data_through": {
   "season": 2026,
   "round": 21,
@@ -2357,6 +2357,77 @@
   "start_utc": "2026-11-29T16:00:00+00:00",
   "has_sprint": false,
   "model_kind": "pl",
+  "stage": "pre_quali",
+  "pole": null,
+  "constructors": [
+   {
+    "team": "red_bull",
+    "p_win": 0.4084,
+    "p_podium": 0.8682,
+    "p_one_two": 0.0204
+   },
+   {
+    "team": "mercedes",
+    "p_win": 0.2846,
+    "p_podium": 0.8077,
+    "p_one_two": 0.0345
+   },
+   {
+    "team": "mclaren",
+    "p_win": 0.1941,
+    "p_podium": 0.6371,
+    "p_one_two": 0.007
+   },
+   {
+    "team": "ferrari",
+    "p_win": 0.0958,
+    "p_podium": 0.3682,
+    "p_one_two": 0.005
+   },
+   {
+    "team": "rb",
+    "p_win": 0.0104,
+    "p_podium": 0.0471,
+    "p_one_two": 0.0001
+   },
+   {
+    "team": "audi",
+    "p_win": 0.0029,
+    "p_podium": 0.0126,
+    "p_one_two": 0.0
+   },
+   {
+    "team": "alpine",
+    "p_win": 0.0024,
+    "p_podium": 0.0127,
+    "p_one_two": 0.0
+   },
+   {
+    "team": "haas",
+    "p_win": 0.0008,
+    "p_podium": 0.0027,
+    "p_one_two": 0.0
+   },
+   {
+    "team": "williams",
+    "p_win": 0.0004,
+    "p_podium": 0.0015,
+    "p_one_two": 0.0
+   },
+   {
+    "team": "aston_martin",
+    "p_win": 0.0003,
+    "p_podium": 0.0008,
+    "p_one_two": 0.0
+   },
+   {
+    "team": "cadillac",
+    "p_win": 0.0001,
+    "p_podium": 0.0003,
+    "p_one_two": 0.0
+   }
+  ],
+  "sprint": null,
   "last_winner": {
    "driver_id": "max_verstappen",
    "season": 2025
@@ -2441,6 +2512,8 @@
     "team": "red_bull",
     "p_win": 0.3939,
     "p_podium": 0.852,
+    "p_win_pre": 0.3939,
+    "quali_position": null,
     "inputs": {
      "elo": 1775.3269,
      "drv_finish_avg5": 1.6,
@@ -2456,6 +2529,8 @@
     "team": "mercedes",
     "p_win": 0.2194,
     "p_podium": 0.6752,
+    "p_win_pre": 0.2194,
+    "quali_position": null,
     "inputs": {
      "elo": 1675.1027,
      "drv_finish_avg5": 3.2,
@@ -2471,6 +2546,8 @@
     "team": "mclaren",
     "p_win": 0.1693,
     "p_podium": 0.579,
+    "p_win_pre": 0.1693,
+    "quali_position": null,
     "inputs": {
      "elo": 1733.556,
      "drv_finish_avg5": 3.4,
@@ -2486,6 +2563,8 @@
     "team": "mercedes",
     "p_win": 0.0641,
     "p_podium": 0.2574,
+    "p_win_pre": 0.0641,
+    "quali_position": null,
     "inputs": {
      "elo": 1684.2229,
      "drv_finish_avg5": 7.2,
@@ -2501,6 +2580,8 @@
     "team": "ferrari",
     "p_win": 0.0559,
     "p_podium": 0.2268,
+    "p_win_pre": 0.0559,
+    "quali_position": null,
     "inputs": {
      "elo": 1685.468,
      "drv_finish_avg5": 5.6,
@@ -2516,6 +2597,8 @@
     "team": "ferrari",
     "p_win": 0.0405,
     "p_podium": 0.1673,
+    "p_win_pre": 0.0405,
+    "quali_position": null,
     "inputs": {
      "elo": 1700.5666,
      "drv_finish_avg5": 5.2,
@@ -2531,6 +2614,8 @@
     "team": "mclaren",
     "p_win": 0.02,
     "p_podium": 0.0846,
+    "p_win_pre": 0.02,
+    "quali_position": null,
     "inputs": {
      "elo": 1674.815,
      "drv_finish_avg5": 6.8,
@@ -2546,6 +2631,8 @@
     "team": "red_bull",
     "p_win": 0.0184,
     "p_podium": 0.0781,
+    "p_win_pre": 0.0184,
+    "quali_position": null,
     "inputs": {
      "elo": 1558.9208,
      "drv_finish_avg5": 8.6,
@@ -2561,6 +2648,8 @@
     "team": "rb",
     "p_win": 0.0064,
     "p_podium": 0.0273,
+    "p_win_pre": 0.0064,
+    "quali_position": null,
     "inputs": {
      "elo": 1522.8846,
      "drv_finish_avg5": 8.8,
@@ -2576,6 +2665,8 @@
     "team": "rb",
     "p_win": 0.0048,
     "p_podium": 0.0206,
+    "p_win_pre": 0.0048,
+    "quali_position": null,
     "inputs": {
      "elo": 1507.8686,
      "drv_finish_avg5": 16.0,
@@ -2591,6 +2682,8 @@
     "team": "audi",
     "p_win": 0.0018,
     "p_podium": 0.0077,
+    "p_win_pre": 0.0018,
+    "quali_position": null,
     "inputs": {
      "elo": 1476.8204,
      "drv_finish_avg5": 10.8,
@@ -2606,6 +2699,8 @@
     "team": "alpine",
     "p_win": 0.0015,
     "p_podium": 0.0064,
+    "p_win_pre": 0.0015,
+    "quali_position": null,
     "inputs": {
      "elo": 1468.3707,
      "drv_finish_avg5": 11.4,
@@ -2621,6 +2716,8 @@
     "team": "alpine",
     "p_win": 0.0014,
     "p_podium": 0.0061,
+    "p_win_pre": 0.0014,
+    "quali_position": null,
     "inputs": {
      "elo": 1439.9944,
      "drv_finish_avg5": 15.2,
@@ -2636,6 +2733,8 @@
     "team": "audi",
     "p_win": 0.0012,
     "p_podium": 0.0052,
+    "p_win_pre": 0.0012,
+    "quali_position": null,
     "inputs": {
      "elo": 1451.1408,
      "drv_finish_avg5": 14.0,
@@ -2651,6 +2750,8 @@
     "team": "haas",
     "p_win": 0.0007,
     "p_podium": 0.0029,
+    "p_win_pre": 0.0007,
+    "quali_position": null,
     "inputs": {
      "elo": 1457.3529,
      "drv_finish_avg5": 16.8,
@@ -2666,6 +2767,8 @@
     "team": "williams",
     "p_win": 0.0002,
     "p_podium": 0.001,
+    "p_win_pre": 0.0002,
+    "quali_position": null,
     "inputs": {
      "elo": 1428.6518,
      "drv_finish_avg5": 16.4,
@@ -2681,6 +2784,8 @@
     "team": "williams",
     "p_win": 0.0002,
     "p_podium": 0.0007,
+    "p_win_pre": 0.0002,
+    "quali_position": null,
     "inputs": {
      "elo": 1464.7857,
      "drv_finish_avg5": 14.2,
@@ -2696,6 +2801,8 @@
     "team": "haas",
     "p_win": 0.0001,
     "p_podium": 0.0006,
+    "p_win_pre": 0.0001,
+    "quali_position": null,
     "inputs": {
      "elo": 1483.6201,
      "drv_finish_avg5": 18.0,
@@ -2711,6 +2818,8 @@
     "team": "aston_martin",
     "p_win": 0.0001,
     "p_podium": 0.0005,
+    "p_win_pre": 0.0001,
+    "quali_position": null,
     "inputs": {
      "elo": 1405.3011,
      "drv_finish_avg5": 19.0,
@@ -2726,6 +2835,8 @@
     "team": "aston_martin",
     "p_win": 0.0001,
     "p_podium": 0.0005,
+    "p_win_pre": 0.0001,
+    "quali_position": null,
     "inputs": {
      "elo": 1453.1658,
      "drv_finish_avg5": 16.8,
@@ -2741,6 +2852,8 @@
     "team": "cadillac",
     "p_win": 0.0,
     "p_podium": 0.0001,
+    "p_win_pre": 0.0,
+    "quali_position": null,
     "inputs": {
      "elo": 1352.2659,
      "drv_finish_avg5": 20.0,
@@ -2756,6 +2869,8 @@
     "team": "cadillac",
     "p_win": 0.0,
     "p_podium": 0.0001,
+    "p_win_pre": 0.0,
+    "quali_position": null,
     "inputs": {
      "elo": 1449.5711,
      "drv_finish_avg5": 18.2,

@@ -1,11 +1,13 @@
 name: Post-race update
 
-# After every Grand Prix: pull the new results, re-run the title simulations, rebuild the
-# site's data and commit it. The push redeploys the site. Runs daily (results can land late
-# and some races are on Saturdays) and does nothing unless a new race has been completed.
+# Through every race weekend: after qualifying the odds are re-run with the grid, after a
+# sprint its result is added, and after the Grand Prix the title simulations are re-run and
+# the next race takes over. Each run commits the site's data and the push redeploys it.
+# Runs daily (results can land late) and does nothing unless something new is in.
 on:
   schedule:
     - cron: "30 6 * * *" # every morning, 06:30 UTC
+    - cron: "30 20 * * 6" # Saturday evenings, after most qualifying sessions and sprints
     - cron: "30 21 * * 0" # and Sunday evenings, soon after most races
   workflow_dispatch:
     inputs:
@@ -47,7 +49,7 @@ jobs:
       - name: Build and check the data
         run: uv run pitwall data build
 
-      - name: Is there a new race?
+      - name: Is there anything new?
         id: check
         run: |
           uv run python - <<'EOF'
@@ -59,11 +61,27 @@ jobs:
           season = int(done["season"].max())
           latest = int(done[done["season"] == season]["round"].max())
           was = site["data_through"]
-          new = (season, latest) != (was["season"], was["round"])
-          print(f"data through {season} R{latest}; site shows {was['season']} R{was['round']}; new race: {new}")
+          race = (season, latest) != (was["season"], was["round"])
+          # Mid-weekend: qualifying or the sprint for the next race has come in.
+          weekend, label = False, f"{season} R{latest}"
+          nxt = site.get("next_race") or {}
+          if not race and nxt:
+              key = (nxt["season"], nxt["round"])
+              q = pd.read_parquet("data/processed/qualifying.parquet")
+              s = pd.read_parquet("data/processed/sprints.parquet")
+              has_q = not q[(q["season"] == key[0]) & (q["round"] == key[1])].empty
+              has_s = not s[(s["season"] == key[0]) & (s["round"] == key[1])].empty
+              sprint_done = bool((nxt.get("sprint") or {}).get("result"))
+              if has_q and nxt.get("stage") != "post_quali":
+                  weekend, label = True, f"{key[0]} R{key[1]} qualifying"
+              elif has_s and nxt.get("sprint") and not sprint_done:
+                  weekend, label = True, f"{key[0]} R{key[1]} sprint"
+          print(f"data through {season} R{latest}; site shows {was['season']} R{was['round']}; "
+                f"new race: {race}; weekend update: {weekend}")
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:
-              f.write(f"new={'true' if new else 'false'}\n")
-              f.write(f"label={season} R{latest}\n")
+              f.write(f"new={'true' if race else 'false'}\n")
+              f.write(f"weekend={'true' if weekend else 'false'}\n")
+              f.write(f"label={label}\n")
           EOF
 
       - name: Simulate both championships
@@ -73,13 +91,13 @@ jobs:
           uv run pitwall model simulate --season "$(uv run python -c 'from pitwall.config import Settings; print(Settings().forecast_season)')"
 
       - name: Export the site data
-        if: steps.check.outputs.new == 'true' || inputs.force
+        if: steps.check.outputs.new == 'true' || steps.check.outputs.weekend == 'true' || inputs.force
         run: |
           uv run pitwall site export
           uv run pitwall site photos
 
       - name: Commit and push
-        if: steps.check.outputs.new == 'true' || inputs.force
+        if: steps.check.outputs.new == 'true' || steps.check.outputs.weekend == 'true' || inputs.force
         working-directory: .
         run: |
           git config user.name "Krish Hingu"

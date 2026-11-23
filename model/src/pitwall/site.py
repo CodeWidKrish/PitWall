@@ -30,13 +30,22 @@ import pandas as pd
 import requests
 
 from pitwall.config import REPO_ROOT, Settings
-from pitwall.data.jolpica import JolpicaClient
+from pitwall.data.jolpica import JolpicaClient, JolpicaError
 from pitwall.features import POST_QUALI, PRE_QUALI, build_features
 from pitwall.model import fit, select_kind
 from pitwall.simulate import current_state, future_features
+from pitwall.weekend import (
+    constructor_odds,
+    read_ledger,
+    sprint_calibration,
+    sprint_odds,
+    update_ledger,
+    with_qualifying,
+)
 
 SITE_JSON = REPO_ROOT / "web" / "src" / "data" / "site.json"
 SIM_JSON = REPO_ROOT / "web" / "public" / "data" / "sim.json"
+LEDGER_JSON = REPO_ROOT / "web" / "src" / "data" / "ledger.json"
 PHOTO_DIR = REPO_ROOT / "web" / "public" / "drivers"
 CREDITS_JSON = REPO_ROOT / "web" / "src" / "data" / "photo-credits.json"
 USER_AGENT = "PitWall/0.1 (+https://github.com/CodeWidKrish/PitWall)"
@@ -63,7 +72,15 @@ def _driver_meta(settings: Settings, seasons: list[int]) -> dict[str, dict[str, 
     client = JolpicaClient(cache_dir=settings.jolpica_cache_dir)
     meta: dict[str, dict[str, Any]] = {}
     for season in seasons:
-        data = client.get(f"{season}/drivers")
+        try:
+            data = client.get(f"{season}/drivers")
+        except JolpicaError:
+            # The API is down: keep the details the site already shows rather than fail.
+            if not SITE_JSON.exists():
+                raise
+            old = json.loads(SITE_JSON.read_text(encoding="utf-8"))["drivers"]
+            keys = ("first_name", "last_name", "number", "nationality", "date_of_birth", "wikipedia")
+            return {d: {k: v.get(k) for k in keys} for d, v in old.items()}
         for d in data["MRData"]["DriverTable"]["Drivers"]:
             meta[d["driverId"]] = {
                 "first_name": d.get("givenName", ""),
@@ -183,7 +200,13 @@ def _race_calls(feats: pd.DataFrame, races: pd.DataFrame, season: int) -> list[d
 
 
 def _next_race(
-    entries: pd.DataFrame, races: pd.DataFrame, feats: pd.DataFrame, config: dict[str, Any] | None = None
+    entries: pd.DataFrame,
+    races: pd.DataFrame,
+    feats: pd.DataFrame,
+    config: dict[str, Any] | None = None,
+    qualifying: pd.DataFrame | None = None,
+    sprints: pd.DataFrame | None = None,
+    sprint_cal: dict[str, Any] | None = None,
 ) -> dict[str, Any] | None:
     from pitwall.simulate import preseason_state
 
@@ -204,6 +227,23 @@ def _next_race(
     pred = fit(done, PRE_QUALI, kind=kind).predict(rows)
     rows["p_win"] = pred["p_win"].to_numpy()
     rows["p_podium"] = pred["p_podium"].to_numpy()
+    rows["score"] = pred["score"].to_numpy()
+    pre_win = dict(zip(rows["driver_id"], rows["p_win"], strict=True))
+    pre_scores = rows["score"].to_numpy().copy()
+    pre_teams = rows["constructor_id"].tolist()
+
+    # Saturday: once qualifying is in, re-score with the grid and the qualifying gaps.
+    stage = "pre_quali"
+    post_rows = with_qualifying(rows, qualifying, season, nxt) if qualifying is not None else None
+    if post_rows is not None:
+        post_kind, _ = select_kind(done, POST_QUALI)
+        post = fit(done, POST_QUALI, kind=post_kind).predict(post_rows)
+        rows = post_rows.assign(
+            p_win=post["p_win"].to_numpy(),
+            p_podium=post["p_podium"].to_numpy(),
+            score=post["score"].to_numpy(),
+        )
+        stage, kind = "post_quali", post_kind
     rows = rows.sort_values("p_win", ascending=False)
     info = races[(races["season"] == season) & (races["round"] == nxt)].iloc[0].to_dict()
     # Last time this circuit was raced, who won.
@@ -225,6 +265,16 @@ def _next_race(
         else None,
         "has_sprint": bool(info["has_sprint"]),
         "model_kind": kind,
+        "stage": stage,
+        "pole": (
+            str(rows.loc[rows["quali_position"] == 1, "driver_id"].iloc[0])
+            if stage == "post_quali" and (rows["quali_position"] == 1).any()
+            else None
+        ),
+        "constructors": constructor_odds(rows["score"].to_numpy(), rows["constructor_id"].tolist()),
+        "sprint": _sprint_block(
+            info, season, nxt, pre_scores, pre_teams, rows_ids=list(pre_win), sprints=sprints, cal=sprint_cal
+        ),
         "last_winner": (
             {"driver_id": past["driver_id"].iloc[-1], "season": int(past["season"].iloc[-1])}
             if len(past)
@@ -238,10 +288,51 @@ def _next_race(
                 "team": r["constructor_id"],
                 "p_win": round(float(r["p_win"]), 4),
                 "p_podium": round(float(r["p_podium"]), 4),
+                "p_win_pre": round(float(pre_win[r["driver_id"]]), 4),
+                "quali_position": int(r["quali_position"]) if stage == "post_quali" else None,
                 "inputs": {f: _num(r[f]) for f, _, _ in INPUTS},
             }
             for _, r in rows.iterrows()
         ],
+    }
+
+
+def _sprint_block(
+    info: dict[Any, Any],
+    season: int,
+    rnd: int,
+    scores: Any,
+    teams: list[str],
+    rows_ids: list[str],
+    sprints: pd.DataFrame | None,
+    cal: dict[str, Any] | None,
+) -> dict[str, Any] | None:
+    """Sprint odds for a sprint weekend, and the sprint result once it has been run."""
+    if not info.get("has_sprint") or not cal or not cal.get("sprints"):
+        return None
+    p_win, p_podium = sprint_odds(scores, cal["temperature"])
+    order = sorted(range(len(rows_ids)), key=lambda i: -p_win[i])
+    result = None
+    if sprints is not None and not sprints.empty:
+        done = sprints[
+            (sprints["season"] == season) & (sprints["round"] == rnd) & sprints["position"].notna()
+        ]
+        if not done.empty:
+            podium = done.sort_values("position").head(3)["driver_id"].tolist()
+            result = {"winner": podium[0], "podium": podium}
+    return {
+        "odds": [
+            {
+                "driver_id": rows_ids[i],
+                "team": teams[i],
+                "p_win": round(float(p_win[i]), 4),
+                "p_podium": round(float(p_podium[i]), 4),
+            }
+            for i in order
+        ],
+        "constructors": constructor_odds(scores / cal["temperature"], teams),
+        "calibration": cal,
+        "result": result,
     }
 
 
@@ -324,6 +415,8 @@ def export(settings: Settings, out_path: Path = SITE_JSON) -> Path:
 
     entries = load(settings.data_dir, "entries")
     races = load(settings.data_dir, "races")
+    qualifying = load(settings.data_dir, "qualifying")
+    sprints = load(settings.data_dir, "sprints")
     standings = load(settings.data_dir, "standings")
     season = int(entries["season"].max())
     feats = build_features(entries, races)
@@ -332,6 +425,8 @@ def export(settings: Settings, out_path: Path = SITE_JSON) -> Path:
     forecast = json.loads(forecast_path.read_text(encoding="utf-8")) if forecast_path.exists() else None
     config_path = settings.config_dir / f"season-{settings.forecast_season}.json"
     config = json.loads(config_path.read_text(encoding="utf-8")) if config_path.exists() else None
+    sprint_cal = sprint_calibration(feats, sprints)
+    next_race = _next_race(entries, races, feats, config, qualifying, sprints, sprint_cal)
 
     season_block = _season_block(entries, races, standings, season)
     # Who has mathematically clinched, from `pitwall model simulate` for this season.
@@ -402,7 +497,7 @@ def export(settings: Settings, out_path: Path = SITE_JSON) -> Path:
         "teams": teams,
         "season": season_block,
         "races": _race_calls(feats, races, season),
-        "next_race": _next_race(entries, races, feats, config),
+        "next_race": next_race,
         "forecast": {
             "season": settings.forecast_season,
             "simulations": forecast["simulations"],
@@ -417,6 +512,10 @@ def export(settings: Settings, out_path: Path = SITE_JSON) -> Path:
     }
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(site, indent=1, ensure_ascii=False), encoding="utf-8")
+    # The live record: what was published before each race, and what happened.
+    ledger_path = out_path.parent / LEDGER_JSON.name
+    ledger = update_ledger(read_ledger(ledger_path), next_race, entries)
+    ledger_path.write_text(json.dumps(ledger, indent=1, ensure_ascii=False), encoding="utf-8")
     # The simulator's inputs are only needed by the what-if tool, so they are a separate
     # file the browser fetches on demand instead of part of every page load.
     if config:

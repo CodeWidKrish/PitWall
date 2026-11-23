@@ -1,0 +1,127 @@
+{
+ "since": "2026-11-23",
+ "calls": [
+  {
+   "season": 2026,
+   "round": 22,
+   "race_name": "Qatar Grand Prix",
+   "start_utc": "2026-11-29T16:00:00+00:00",
+   "result": null,
+   "pre": {
+    "published_at": "2026-11-23T04:05:19+00:00",
+    "odds": [
+     {
+      "driver_id": "max_verstappen",
+      "p_win": 0.3939,
+      "p_podium": 0.852
+     },
+     {
+      "driver_id": "antonelli",
+      "p_win": 0.2194,
+      "p_podium": 0.6752
+     },
+     {
+      "driver_id": "norris",
+      "p_win": 0.1693,
+      "p_podium": 0.579
+     },
+     {
+      "driver_id": "russell",
+      "p_win": 0.0641,
+      "p_podium": 0.2574
+     },
+     {
+      "driver_id": "hamilton",
+      "p_win": 0.0559,
+      "p_podium": 0.2268
+     },
+     {
+      "driver_id": "leclerc",
+      "p_win": 0.0405,
+      "p_podium": 0.1673
+     },
+     {
+      "driver_id": "piastri",
+      "p_win": 0.02,
+      "p_podium": 0.0846
+     },
+     {
+      "driver_id": "hadjar",
+      "p_win": 0.0184,
+      "p_podium": 0.0781
+     },
+     {
+      "driver_id": "lawson",
+      "p_win": 0.0064,
+      "p_podium": 0.0273
+     },
+     {
+      "driver_id": "arvid_lindblad",
+      "p_win": 0.0048,
+      "p_podium": 0.0206
+     },
+     {
+      "driver_id": "hulkenberg",
+      "p_win": 0.0018,
+      "p_podium": 0.0077
+     },
+     {
+      "driver_id": "gasly",
+      "p_win": 0.0015,
+      "p_podium": 0.0064
+     },
+     {
+      "driver_id": "colapinto",
+      "p_win": 0.0014,
+      "p_podium": 0.0061
+     },
+     {
+      "driver_id": "bortoleto",
+      "p_win": 0.0012,
+      "p_podium": 0.0052
+     },
+     {
+      "driver_id": "bearman",
+      "p_win": 0.0007,
+      "p_podium": 0.0029
+     },
+     {
+      "driver_id": "albon",
+      "p_win": 0.0002,
+      "p_podium": 0.001
+     },
+     {
+      "driver_id": "sainz",
+      "p_win": 0.0002,
+      "p_podium": 0.0007
+     },
+     {
+      "driver_id": "rafael_camara",
+      "p_win": 0.0001,
+      "p_podium": 0.0006
+     },
+     {
+      "driver_id": "stroll",
+      "p_win": 0.0001,
+      "p_podium": 0.0005
+     },
+     {
+      "driver_id": "alonso",
+      "p_win": 0.0001,
+      "p_podium": 0.0005
+     },
+     {
+      "driver_id": "bottas",
+      "p_win": 0.0,
+      "p_podium": 0.0001
+     },
+     {
+      "driver_id": "perez",
+      "p_win": 0.0,
+      "p_podium": 0.0001
+     }
+    ]
+   }
+  }
+ ]
+}
