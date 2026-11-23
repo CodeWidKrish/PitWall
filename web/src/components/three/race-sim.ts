@@ -107,6 +107,61 @@ export function makeCar(i: number, strength: number, rand: () => number = Math.r
   };
 }
 
+// Car footprint: 5.6 m long, and a car width plus a little air (0.19 drawing units ≈ 2.2 m).
+const CAR_LEN = 5.8;
+const CAR_WID = 0.19;
+
+/**
+ * Keep every pair of cars apart: side by side they keep a car width between them (the one
+ * that moved over yields), nose to tail the car behind stays a car length back.
+ */
+function separate(cars: SimCar[], tr: Track) {
+  for (let pass = 0; pass < 3; pass++) {
+    for (let a = 0; a < cars.length; a++)
+      for (let b = a + 1; b < cars.length; b++) {
+        const A = cars[a],
+          B = cars[b];
+        const ds = A.s - B.s;
+        const dl = A.lane - B.lane;
+        if (Math.abs(ds) >= CAR_LEN || Math.abs(dl) >= CAR_WID) continue;
+        if (Math.abs(ds) < CAR_LEN * 0.65) {
+          // alongside: open the gap sideways, staying inside the track
+          const dir = dl !== 0 ? Math.sign(dl) : A.i < B.i ? 1 : -1;
+          const need = (CAR_WID - Math.abs(dl)) / 2 + 0.001;
+          for (const [car, d] of [
+            [A, dir],
+            [B, -dir],
+          ] as [SimCar, number][]) {
+            const line = at(tr, tr.line, car.s) * car.lineScale;
+            car.side += d * need;
+            car.lane = line + car.side;
+            if (Math.abs(car.lane) > tr.edge) {
+              const over = Math.abs(car.lane) - tr.edge;
+              car.lane = Math.sign(car.lane) * tr.edge;
+              car.side = car.lane - line;
+              const other = car === A ? B : A; // the other car takes the rest
+              const oLine = at(tr, tr.line, other.s) * other.lineScale;
+              other.side -= d * over;
+              other.lane = Math.max(-tr.edge, Math.min(tr.edge, oLine + other.side));
+            }
+            car.sideTarget = car.side; // hold this line until the space clears
+          }
+        } else {
+          // nose to tail: the car behind drops back to a car length
+          const front = ds > 0 ? A : B,
+            back = ds > 0 ? B : A;
+          back.s = front.s - CAR_LEN;
+          back.v = Math.min(back.v, front.v);
+        }
+      }
+  }
+}
+
+/** True if moving `c` to `lane` would put it into another car's space. */
+function blocked(c: SimCar, lane: number, cars: SimCar[]) {
+  return cars.some((o) => o !== c && Math.abs(o.s - c.s) < CAR_LEN + 2 && Math.abs(o.lane - lane) < CAR_WID);
+}
+
 export interface Hooks {
   onLap?: (c: SimCar) => void;
   onMistake?: (c: SimCar) => void;
@@ -163,17 +218,15 @@ export function stepRace(cars: SimCar[], tr: Track, dt: number, t: number, hooks
     if (ahead && gapM < 5.5 && overlap) target = Math.min(target, ahead.v * 0.97); // never drive through a car
     if (c.v < target) c.v = Math.min(target, c.v + accel(F1, c.v, dragScale) * grip * dt);
     else c.v = Math.max(Math.max(0, target), c.v - brake(F1, c.v) * grip * dt);
-    c.side += (c.sideTarget - c.side) * Math.min(1, dt * 1.2);
+    const nextSide = c.side + (c.sideTarget - c.side) * Math.min(1, dt * 1.2);
+    const nextLane = Math.max(-tr.edge, Math.min(tr.edge, line * c.lineScale + nextSide));
+    // Look before moving over: never steer into a car that is alongside.
+    if (!blocked(c, nextLane, cars) || Math.abs(nextLane) < Math.abs(c.lane)) c.side = nextSide;
     c.lane = Math.max(-tr.edge, Math.min(tr.edge, line * c.lineScale + c.side));
     c.aLong = (c.v - vPrev) / dt;
     c.aLat = c.v * c.v * k;
     const before = Math.floor(c.s / tr.lap);
     c.s += c.v * dt;
-    // Two cars can never share the same piece of track: stay a car length behind if in line.
-    if (ahead && Math.abs(c.lane - ahead.lane) < 0.16 && c.s > ahead.s - 5.6 && c.s < ahead.s + 2) {
-      c.s = ahead.s - 5.6;
-      c.v = Math.min(c.v, ahead.v);
-    }
     if (Math.floor(c.s / tr.lap) > before && c.s > 0) {
       c.lap++;
       c.wear = Math.min(0.04, c.wear + 0.0025); // tyres lose a little grip every lap
@@ -181,4 +234,5 @@ export function stepRace(cars: SimCar[], tr: Track, dt: number, t: number, hooks
       hooks.onLap?.(c);
     }
   });
+  separate(cars, tr); // two cars never share the same piece of track
 }
