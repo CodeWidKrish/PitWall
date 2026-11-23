@@ -29,10 +29,11 @@
 **[🏁 Live site](https://pitwallgp.vercel.app)** &nbsp;•&nbsp;
 **[🎬 Demo](#-lights-out)** &nbsp;•&nbsp;
 **[📊 Track record](#-track-record)** &nbsp;•&nbsp;
-**[🧩 Features](#-whats-on-the-site)** &nbsp;•&nbsp;
+**[🌟 Features](#-features)** &nbsp;•&nbsp;
 **[🧠 How it works](#-how-it-works)** &nbsp;•&nbsp;
 **[🏎 Race physics](#-the-race-on-the-homepage)** &nbsp;•&nbsp;
 **[🚀 Run it](#-run-it-yourself)** &nbsp;•&nbsp;
+**[❓ FAQ](#-faq)** &nbsp;•&nbsp;
 **[📜 Credits](#-credits)**
 
 </div>
@@ -52,7 +53,7 @@
 
 <br>
 
-<img src="docs/assets/stats.svg" alt="151 races backtested, 58% winners called after qualifying, 89% winner in the model's top three, 10,000 seasons per forecast, zero car contact in the race tests" width="100%">
+<img src="docs/assets/stats.svg" alt="151 races backtested, 58% winners called after qualifying, 89% winner in the model's top three, 10,000 seasons per forecast, 98 to 324 km/h from corner to straight" width="100%">
 
 ## 💡 Why PitWall?
 
@@ -82,6 +83,30 @@
 </td>
 </tr>
 </table>
+
+## 🌟 Features
+
+| | Feature | Details |
+|:-:|---|---|
+| 🏆 | **Race odds** | Win and podium chance for every driver before every Grand Prix, re-run once the grid is known. |
+| 🧾 | **The inputs behind each number** | Elo, recent form, qualifying gap, reliability and circuit history, shown next to every driver. |
+| 🏁 | **Title forecast** | Both championships simulated 10,000 times, with retirements, form swings and clinch detection. |
+| 📒 | **Public record** | Every 2026 race: what the model said, who won, hit or miss. Misses stay on the page. |
+| 🏎 | **3D physics race** | The model's top ten race on a night circuit: braking zones, racing line, dirty air, tow, DRS, overtakes. |
+| 🎥 | **Three cameras** | Broadcast director, onboard with speed, gear and DRS, and a free orbit camera. Keys <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd>. |
+| 📻 | **Real sound** | Freely licensed trackside and grid recordings, plus team radio and race-control messages. |
+| 🎨 | **Car studio** | Any team's livery from one model via a shader, five tyre compounds, three lighting setups and part hotspots. |
+| 🎮 | **Beat the model** | Pick a podium; exact Plackett-Luce maths says how likely the model thinks your order is. |
+| 🔮 | **What-if simulator** | Change pace, drop a driver, add chaos: 10,000 seasons re-run in a Web Worker in about a second. |
+| 🗺 | **Calendar with circuits** | Every 2027 round with its circuit drawn, and a one-click calendar export for the next race. |
+| ⚙️ | **Updates itself** | A GitHub Action picks up results, re-simulates, commits and redeploys after every race. |
+
+## 🆕 What's new in v1.1.0: clean lines
+
+- 🛞 **Cars face where they drive.** They used to point along the centre of the track while crossing it for the racing line, so they looked as if they were sliding. Now each car turns in, clips the apex and unwinds, at a steering-limited rate.
+- 🛑 **Brake, turn, accelerate.** Speed comes from the lap model: from about **320 km/h** on the straights down to **98 km/h** in the hairpin, then back up on the exit.
+- 🧱 **Corners too tight for two:** the car behind concedes early and lifts, instead of being pushed backwards.
+- 📈 Fresh demo GIFs, and new animated architecture, track-record, season and physics graphics in this README.
 
 
 <img src="docs/assets/divider.svg" alt="" width="100%">
@@ -190,6 +215,20 @@ Give a team more pace over the winter, take a driver out from any round, add cha
 | 🎲 **Championships** | The remaining races and sprints are played 10,000 times with Gumbel-max sampling, retirements drawn from team and driver reliability, season-long form swings, and clinch detection. |
 | ⚙️ **Automation** | A GitHub Actions workflow checks for new results daily and on race Sundays. After a race it re-simulates, rebuilds the site data and commits it, which redeploys the site. At season end it rolls over to round 1 of the next season. |
 
+<details>
+<summary><b>🔍 Under the hood: the pipeline commands</b></summary>
+<br>
+
+| Step | Command | What it does |
+|---|---|---|
+| 1. Data | `pitwall data build` | Downloads every race, qualifying session and sprint since 2018, plus weather, with caching and retries. Rebuilds the standings and fails on any unexplained difference. |
+| 2. Backtest | `pitwall model backtest` | Walk-forward: each season is predicted by a model trained only on earlier seasons. Writes `model/reports/BACKTEST.md`. |
+| 3. Simulate | `pitwall model simulate` | Plays the remaining season 10,000 times and writes title odds. |
+| 4. Export | `pitwall site export` | Writes `web/src/data/site.json` and the simulator's inputs to `web/public/data/sim.json`. |
+| 5. Ship | GitHub Action `update.yml` | Runs 1–4 when a new result appears, commits as the repo owner, and Vercel redeploys. |
+
+</details>
+
 ## 🏎 The race on the homepage
 
 <img src="docs/assets/race-physics.svg" alt="Cars lapping a circuit with a DRS zone next to the speed envelope from the lap model" width="100%">
@@ -200,7 +239,7 @@ Give a team more pace over the winter, take a driver out from any round, add cha
 | 🛣 **Racing line** | Cars take outside, apex, outside, and move off line to defend or attack. |
 | 🌪 **Dirty air, tow and DRS** | Following closely costs grip in corners; the tow (about +5 km/h) and DRS (about +10 km/h) help on the straights. |
 | ⚔️ **Overtakes** | Side-by-side passes with a mirror check. A car only moves sideways into space that is actually free. |
-| 🧱 **No contact** | Every car's footprint is a rotated rectangle in the drawn scene, and a separating-axis test keeps them apart, in corners and at the start. Whole races run headlessly in Node: **0 contact frames across six 5-minute races**, with lap times spread about 2.4%, like a real field. |
+| 🧱 **Clean racing** | Every car's footprint is a rotated rectangle in the drawn scene, pointing where the car is really going, and a separating-axis test keeps them apart. A car never steers into one alongside, concedes a corner too tight for two, and lifts rather than driving into the car ahead. Whole races run headlessly in Node: **3 frames of light contact in 108,000** across six 5-minute races, all in the lap-1 scramble. |
 | 🎛 **Race craft** | Start reactions, driver form, tyre wear and the odd lock-up, so no two races look alike. |
 
 ## 🧰 Tech stack
@@ -279,6 +318,57 @@ PitWall/
 </table>
 
 Want the full story, including the decisions I'd defend in a review? Read the **[case study](docs/CASE_STUDY.md)**.
+
+## ❓ FAQ
+
+<details>
+<summary><b>Is this for betting?</b></summary>
+<br>
+No. PitWall is for analysis and fun. Its edge over a simple grid-position baseline is small, and bookmakers price in far more information.
+</details>
+
+<details>
+<summary><b>Why only 58% winners after qualifying?</b></summary>
+<br>
+Because F1 is uncertain: the pole-sitter's win rate alone gets 57%. A model claiming 80–90% would be overfitted or peeking at the future. PitWall's gain is in calibration (Brier 0.586 against 0.646), and the per-season chart above shows the seasons where it lost.
+</details>
+
+<details>
+<summary><b>How do you know the backtest is not leaking the future?</b></summary>
+<br>
+Features only use races before the one being predicted, and a test changes one race's result and checks that its own features do not move. The model kind for each season is picked from the two seasons before it.
+</details>
+
+<details>
+<summary><b>Is the 3D race a replay of the real race?</b></summary>
+<br>
+No. It is a simulation of the model's top ten on a fictional night circuit, driven by a lap-physics model, so it looks and moves like a race without claiming to predict laps.
+</details>
+
+<details>
+<summary><b>Where does the 3D car come from?</b></summary>
+<br>
+A CC BY 4.0 model, cleaned of every logo and number and repainted per team in a shader. It is served from Vercel Blob and is not in this repository.
+</details>
+
+## ⚠️ Known limits
+
+- The model knows nothing about upgrades, penalties announced after qualifying, or weather changes during the race.
+- Before qualifying it is only slightly better than an Elo baseline at picking the winner (47.7% against 47.0%).
+- In 2021, 2024, 2025 and 2026 it picked fewer winners after qualifying than the grid baseline.
+- The homepage race is a simulation for show: in rare lap-1 scrambles two cars can touch for a frame (3 frames in 108,000 in tests).
+- On phones with Data Saver on, the 3D car is skipped to save data.
+
+## 🗺 Roadmap
+
+- [x] Race odds before and after qualifying, with a public record
+- [x] 10,000-season title forecast and a what-if simulator
+- [x] 3D physics race, car studio and real sound
+- [x] Post-race automation with GitHub Actions
+- [ ] Sprint-race odds on the race page
+- [ ] Constructor odds per race
+- [ ] Track the model's calibration live through the 2027 season
+- [ ] Push notifications for the odds before each race
 
 ## 📜 Credits
 

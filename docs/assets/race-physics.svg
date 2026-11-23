@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" role="img" aria-label="Race physics: cars lap a circuit with a DRS zone, racing line, dirty air, tow and overtakes, next to the speed envelope from the lap model. Zero contact frames across six test races, 2.4% lap-time spread, DRS +10 km/h, tow +5 km/h">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="470" viewBox="0 0 1200 470" role="img" aria-label="Race physics: cars lap a circuit with a DRS zone, racing line, dirty air, tow and overtakes, next to the speed envelope from the lap model. 98 to 324 km/h from hairpin to straight, 3 contact frames in 108,000 across six test races, DRS +10 km/h, tow +5 km/h">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0c0e"/><stop offset=".6" stop-color="#121019"/><stop offset="1" stop-color="#0b0c0e"/></linearGradient>
     <linearGradient id="sector" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8f45ff"/><stop offset="1" stop-color="#b98cff"/></linearGradient>
@@ -44,7 +44,7 @@
   <circle r="6" fill="#ecedef" filter="url(#glow)"><animateMotion dur="9s" repeatCount="indefinite"><mpath href="#spd"/></animateMotion></circle>
   <text x="610" y="374" class="sm">corners: grip + downforce limit · straights: power vs drag · braking: grip limit</text>
   <g transform="translate(60 425)">
-    <g transform="translate(0 0)"><text class="num" style="font-size:26px;fill:#b98cff">0</text><text x="29" y="-2" class="sm">contact frames, 6 races</text></g><g transform="translate(280 0)"><text class="num" style="font-size:26px;fill:#b98cff">2.4%</text><text x="74" y="-2" class="sm">lap-time spread</text></g><g transform="translate(560 0)"><text class="num" style="font-size:26px;fill:#b98cff">+10</text><text x="59" y="-2" class="sm">km/h from DRS</text></g><g transform="translate(840 0)"><text class="num" style="font-size:26px;fill:#b98cff">+5</text><text x="44" y="-2" class="sm">km/h from the tow</text></g>
+    <g transform="translate(0 0)"><text class="num" style="font-size:26px;fill:#b98cff">98–324</text><text x="104" y="-2" class="sm">km/h, hairpin to straight</text></g><g transform="translate(280 0)"><text class="num" style="font-size:26px;fill:#b98cff">3</text><text x="29" y="-2" class="sm">contact frames in 108,000</text></g><g transform="translate(560 0)"><text class="num" style="font-size:26px;fill:#b98cff">+10</text><text x="59" y="-2" class="sm">km/h from DRS</text></g><g transform="translate(840 0)"><text class="num" style="font-size:26px;fill:#b98cff">+5</text><text x="44" y="-2" class="sm">km/h from the tow</text></g>
   </g>
   <rect x="0" y="464" width="1200" height="6" fill="url(#sector)"/>
   </g>

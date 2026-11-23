@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="170" viewBox="0 0 1200 170" role="img" aria-label="151 races backtested, 58% winners after quali, 89% winner in our top 3, 10,000 seasons per forecast, 0 car contact in tests">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="170" viewBox="0 0 1200 170" role="img" aria-label="151 races backtested, 58% winners after quali, 89% winner in our top 3, 10,000 seasons per forecast, 98 to 324 km/h from corner to straight">
   <defs>
     <linearGradient id="card" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#17161d"/><stop offset="1" stop-color="#0f1013"/></linearGradient>
     <linearGradient id="num" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ecedef"/><stop offset="1" stop-color="#b98cff"/></linearGradient>
@@ -26,5 +26,5 @@
     <text x="840" y="98" text-anchor="middle" class="n">10,000</text><text x="840" y="130" text-anchor="middle" class="l">SEASONS PER FORECAST</text></g>
   <g class="tile t5"><rect x="970" y="15" width="220" height="140" rx="16" fill="url(#card)" stroke="#ffffff" stroke-opacity=".08"/>
     <rect class="bar" x="994" y="34" width="172" height="4" rx="2" fill="#ff2a36" style="animation-delay:1.00s"/>
-    <text x="1080" y="98" text-anchor="middle" class="n">0</text><text x="1080" y="130" text-anchor="middle" class="l">CAR CONTACT IN TESTS</text></g>
+    <text x="1080" y="98" text-anchor="middle" class="n">98–324</text><text x="1080" y="130" text-anchor="middle" class="l">KM/H CORNER→STRAIGHT</text></g>
 </svg>

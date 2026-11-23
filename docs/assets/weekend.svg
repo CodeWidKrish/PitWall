@@ -23,8 +23,8 @@
   <rect width="1200" height="300" fill="url(#bg)"/><rect width="1200" height="300" fill="url(#grid)"/>
 
   <text x="60" y="56" class="h">ONE RACE WEEKEND ON PITWALL</text>
-  <line x1="70" y1="170" x2="880" y2="170" stroke="#2a2833" stroke-width="4" stroke-linecap="round"/>
-  <line x1="70" y1="170" x2="70" y2="170" stroke="#8f45ff" stroke-width="4" stroke-linecap="round"><animate attributeName="x2" values="70;880;880;70" keyTimes="0;.75;.95;1" dur="10s" repeatCount="indefinite"/></line>
+  <line x1="70" y1="170" x2="856" y2="170" stroke="#2a2833" stroke-width="4" stroke-linecap="round"/>
+  <line x1="70" y1="170" x2="70" y2="170" stroke="#8f45ff" stroke-width="4" stroke-linecap="round"><animate attributeName="x2" values="70;856;856;70" keyTimes="0;.75;.95;1" dur="10s" repeatCount="indefinite"/></line>
   <circle cx="70" cy="170" r="11" fill="#16151c" stroke="#2a2833" stroke-width="3"/>
   <circle cx="70" cy="170" r="7" fill="#8f45ff" opacity="0" filter="url(#glow)"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.00;0.02;.95;1" dur="10s" repeatCount="indefinite"/></circle>
   <g>
@@ -32,26 +32,26 @@
     <text x="70" y="144" class="ct">Odds published</text>
     <text x="70" y="210" class="cl">win + podium chance for all 22</text>
   </g>
-  <circle cx="340" cy="170" r="11" fill="#16151c" stroke="#2a2833" stroke-width="3"/>
-  <circle cx="340" cy="170" r="7" fill="#8f45ff" opacity="0" filter="url(#glow)"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.25;0.27;.95;1" dur="10s" repeatCount="indefinite"/></circle>
+  <circle cx="332" cy="170" r="11" fill="#16151c" stroke="#2a2833" stroke-width="3"/>
+  <circle cx="332" cy="170" r="7" fill="#8f45ff" opacity="0" filter="url(#glow)"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.25;0.27;.95;1" dur="10s" repeatCount="indefinite"/></circle>
   <g>
-    <text x="340" y="118" class="tg">SATURDAY</text>
-    <text x="340" y="144" class="ct">Grid is known</text>
-    <text x="340" y="210" class="cl">odds re-run with the qualifying gaps</text>
+    <text x="332" y="118" class="tg">SATURDAY</text>
+    <text x="332" y="144" class="ct">Grid is known</text>
+    <text x="332" y="210" class="cl">odds re-run with the qualifying gaps</text>
   </g>
-  <circle cx="610" cy="170" r="11" fill="#16151c" stroke="#2a2833" stroke-width="3"/>
-  <circle cx="610" cy="170" r="7" fill="#8f45ff" opacity="0" filter="url(#glow)"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.50;0.52;.95;1" dur="10s" repeatCount="indefinite"/></circle>
+  <circle cx="594" cy="170" r="11" fill="#16151c" stroke="#2a2833" stroke-width="3"/>
+  <circle cx="594" cy="170" r="7" fill="#8f45ff" opacity="0" filter="url(#glow)"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.50;0.52;.95;1" dur="10s" repeatCount="indefinite"/></circle>
   <g>
-    <text x="610" y="118" class="tg">SUNDAY</text>
-    <text x="610" y="144" class="ct">Lights out</text>
-    <text x="610" y="210" class="cl">the race decides</text>
+    <text x="594" y="118" class="tg">SUNDAY</text>
+    <text x="594" y="144" class="ct">Lights out</text>
+    <text x="594" y="210" class="cl">the race decides</text>
   </g>
-  <circle cx="880" cy="170" r="11" fill="#16151c" stroke="#2a2833" stroke-width="3"/>
-  <circle cx="880" cy="170" r="7" fill="#22c55e" opacity="0" filter="url(#glow)"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.75;0.77;.95;1" dur="10s" repeatCount="indefinite"/></circle>
+  <circle cx="856" cy="170" r="11" fill="#16151c" stroke="#2a2833" stroke-width="3"/>
+  <circle cx="856" cy="170" r="7" fill="#22c55e" opacity="0" filter="url(#glow)"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.75;0.77;.95;1" dur="10s" repeatCount="indefinite"/></circle>
   <g>
-    <text x="880" y="118" class="tg">SUNDAY NIGHT</text>
-    <text x="880" y="144" class="ct">Scored in public</text>
-    <text x="880" y="210" class="cl">hit or miss, title re-simulated, redeployed</text>
+    <text x="856" y="118" class="tg">SUNDAY NIGHT</text>
+    <text x="856" y="144" class="ct">Scored in public</text>
+    <text x="856" y="210" class="cl">hit or miss, re-simulated, redeployed</text>
   </g>
   <g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;.76;.8;.95;1" dur="10s" repeatCount="indefinite"/>
     <rect x="370" y="236" width="460" height="32" rx="16" fill="#16301f" stroke="#22c55e" stroke-opacity=".6"/>
