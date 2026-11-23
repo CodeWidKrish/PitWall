@@ -1,3 +1,4 @@
+import { CarStudio } from "@/components/site/car-studio";
 import { DriverPicker } from "@/components/site/driver-picker";
 import { Forecast } from "@/components/site/forecast";
 import { HeadToHead } from "@/components/site/head-to-head";
@@ -37,6 +38,36 @@ export default function Home() {
               lede="The whole site follows your driver: their team colour, their line on every chart, their row in every table. Your pick stays in this browser."
             />
             <DriverPicker />
+          </div>
+        </section>
+
+        <section id="car" className="theme-night section !pt-0" aria-labelledby="car-h">
+          <div className="wrap">
+            <SectionHead
+              id="car-h"
+              tag="The car · turntable"
+              lines={[
+                <span key="a">
+                  <D>Built</D> <V>for</V>
+                </span>,
+                <D key="b">355 km/h</D>,
+              ]}
+              lede="Walk around a modern F1 car. Paint it in any team's colours, switch tyres and lighting, and tap the pins to see what each part does."
+            />
+            <CarStudio />
+            <dl className="mt-10 grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4">
+              {[
+                ["~1,000 hp", "From a 1.6-litre V6 turbo hybrid"],
+                ["800 kg", "Minimum weight, with the driver"],
+                ["355 km/h", "Top speed in our race physics"],
+                ["6.3 g", "Braking from 300 km/h, from downforce"],
+              ].map(([v, k]) => (
+                <div key={k} className="grid gap-1.5 border-t border-rule pt-4">
+                  <dt className="order-2 text-sm text-sub">{k}</dt>
+                  <dd className="type-display order-1 text-[clamp(30px,3.6vw,46px)] leading-none">{v}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </section>
 

@@ -5,12 +5,13 @@ import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { SoundToggle } from "@/components/ui/sound-toggle";
 
-export const LINKS = [
+export const LINKS: { id: string; label: string; note: string; menuOnly?: boolean }[] = [
   { id: "drivers", label: "Drivers", note: "Pick who you ride with" },
+  { id: "car", label: "The car", note: "Walk around it" },
   { id: "odds", label: "The odds", note: "Every driver, next race" },
   { id: "game", label: "Play", note: "Beat the model" },
-  { id: "watch", label: "Watch", note: "Real cars, real sound" },
-  { id: "season", label: "2026", note: "The title, race by race" },
+  { id: "watch", label: "Watch", note: "Real cars, real sound", menuOnly: true },
+  { id: "season", label: "2026", note: "The title, race by race", menuOnly: true },
   { id: "forecast", label: "2027", note: "Who wins next year" },
   { id: "whatif", label: "What if", note: "Break the season" },
   { id: "record", label: "Record", note: "Every call, scored" },
@@ -96,7 +97,7 @@ export function SiteNav({ home }: { home: boolean }) {
       {home ? (
         <nav aria-label="Sections" className="hidden lg:block">
           <ul ref={list} className="relative flex gap-1 font-mono text-xs uppercase tracking-[0.12em]">
-            {LINKS.map((l) => (
+            {LINKS.filter((l) => !l.menuOnly).map((l) => (
               <li key={l.id}>
                 <a
                   href={`#${l.id}`}

@@ -14,6 +14,7 @@ import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { loadCarModel } from "@/components/three/car-model";
+import { accel, brake, curvature, F1, G, lapTime, speedProfile } from "@/components/three/physics";
 
 export type CamMode = "tv" | "board" | "orbit";
 
@@ -427,13 +428,6 @@ export function createRaceScene(
     frames.push({ p, t, s: V(-t.z, 0, t.x).normalize() });
   }
   const curv = frames.map((f, i) => f.t.angleTo(frames[(i + 6) % N].t));
-  const cornerF = Array.from({ length: N }, (_, i) => {
-    let s = 0;
-    for (let k = -10; k <= 10; k++) s += curv[(i + k + N) % N];
-    s /= 21;
-    return 1 - Math.min(1, s / 0.15) * 0.62;
-  });
-  const sfAt = (u: number) => cornerF[Math.floor(mod1(u) * N) % N];
 
   function ribbon(a: number, b: number, o: { y?: number; color?: (i: number) => T.Color } = {}) {
     const pos: number[] = [],
@@ -613,16 +607,35 @@ export function createRaceScene(
   const stripes = COMPOUND.map((h) => new T.MeshBasicMaterial({ color: h }));
   const paint = (hex: string, r = 0.24) => new T.MeshPhysicalMaterial({ color: hex, metalness: 0.5, roughness: r, clearcoat: 1, clearcoatRoughness: 0.05 });
   const SC = 0.46 / 5.4;
+  // ---- physics: a real-scale lap and the fastest speed envelope around it
+  const LAP_M = 3000; // drawn small, simulated at full scale: a 3 km lap averaging about 220 km/h
+  const kappa = curvature(
+    frames.slice(0, N).map((f) => ({ x: f.t.x, z: f.t.z })),
+    LAP_M / N,
+  );
+  const profile = speedProfile(F1, kappa, LAP_M);
+  const idealLap = lapTime(profile, LAP_M);
+  const at = (arr: Float32Array, s: number) => arr[Math.floor(mod1(s / LAP_M) * N) % N];
+  const TIME_SCALE = Math.max(3, idealLap / 22); // a lap on screen takes about 22 seconds
   interface Car {
     d: SceneCar;
     i: number;
     g: T.Group;
-    u: number;
+    u: number; // fraction of the lap, for cameras
+    s: number; // metres travelled
+    v: number; // m/s
     lap: number;
     lane: number;
-    spd: number;
+    laneTarget: number;
+    perf: number; // how much of the ideal envelope this car can use
+    wear: number; // tyre wear, 0 new
     lapStart: number;
     ers: number;
+    drs: boolean;
+    aLong: number;
+    aLat: number;
+    pitch: number;
+    roll: number;
     pos?: number;
   }
   const cars: Car[] = grid.map((d, i) => {
@@ -653,7 +666,27 @@ export function createRaceScene(
     g.add(blob);
     g.scale.setScalar(SC);
     scene.add(g);
-    return { d, i, g, u: 1 - i * 0.0105, lap: 0, lane: (i % 2 ? 1 : -1) * 0.17, spd: (1 / 15.5) * (0.9 + 0.1 * d.strength), lapStart: 0, ers: 0.7 };
+    const s0 = -i * 9 - 4; // grid slots 9 m apart, staggered left and right
+    return {
+      d,
+      i,
+      g,
+      u: mod1(s0 / LAP_M),
+      s: s0,
+      v: 0,
+      lap: 0,
+      lane: (i % 2 ? 1 : -1) * 0.17,
+      laneTarget: (i % 2 ? 1 : -1) * 0.17,
+      perf: 0.965 + 0.035 * d.strength,
+      wear: 0,
+      lapStart: 0,
+      ers: 0.7,
+      drs: false,
+      aLong: 0,
+      aLat: 0,
+      pitch: 0,
+      roll: 0,
+    };
   });
 
   // Swap in the realistic car once it has loaded; keep the code-built ones if it can't.
@@ -694,7 +727,6 @@ export function createRaceScene(
   let mode: CamMode = "tv";
   let launch = reduce ? 1 : 0;
   let launching = false;
-  const LAP_S = 91.5 / 15.5;
   let raceT = 0,
     towerT = 0,
     radioT = 7,
@@ -713,7 +745,7 @@ export function createRaceScene(
   ];
 
   function updateTower() {
-    ordered = cars.slice().sort((a, b) => b.u - a.u);
+    ordered = cars.slice().sort((a, b) => b.s - a.s);
     const lead = ordered[0];
     const rows = ordered.map((c, p) => {
       const prev = c.pos;
@@ -724,14 +756,15 @@ export function createRaceScene(
         const v = ordered[p + 1];
         ev.onBanner?.("overtake", `${c.d.code} passes ${v ? v.d.code : ""} for P${p + 1}`, c.d.id);
       }
-      return { id: c.d.id, gap: p === 0 ? "Leader" : `+${((lead.u - c.u) * 91.5).toFixed(3)}`, delta };
+      const gap = (lead.s - c.s) / Math.max(25, c.v);
+      return { id: c.d.id, gap: p === 0 ? "Leader" : `+${gap.toFixed(3)}`, delta };
     });
     ev.onTower?.(rows, Math.max(1, lead.lap));
   }
   function onLap(c: Car) {
-    const t = (raceT - c.lapStart) * LAP_S;
+    const t = raceT - c.lapStart;
     c.lapStart = raceT;
-    if (c.lap < 2 || t < 60) return;
+    if (c.lap < 2 || t < idealLap * 0.9) return;
     if (t < best.t) {
       best = { t, i: c.i };
       const m = Math.floor(t / 60);
@@ -824,7 +857,7 @@ export function createRaceScene(
   let visible = true;
   const io = new IntersectionObserver((es) => es.forEach((e) => (visible = e.isIntersecting)), { threshold: 0 });
   io.observe(host);
-  const GEARS = [0, 95, 135, 170, 205, 240, 275, 305, 999];
+  const GEARS = [0, 90, 130, 165, 200, 235, 270, 305, 999];
   let last = performance.now(),
     raf = 0,
     shake = 0,
@@ -837,21 +870,61 @@ export function createRaceScene(
     if (!visible || document.hidden) return;
     if (launching && launch < 1) launch = Math.min(1, launch + dt / 3);
     const L = launch * launch;
-    raceT += dt * L;
-    cars.forEach((c, k) => {
-      const jit = 1 + Math.sin(now / 900 + k * 1.7) * 0.035 + Math.sin(now / 2300 + k * 4.1) * 0.02;
-      const nu = c.u + c.spd * jit * dt * L * (0.5 + 0.62 * sfAt(c.u));
-      if (Math.floor(nu) > Math.floor(c.u)) {
-        c.lap++;
-        onLap(c);
-      }
-      c.u = nu;
-      const u = mod1(c.u);
-      const p = curve.getPointAt(u),
-        t = curve.getTangentAt(u),
-        s = tmp.set(-t.z, 0, t.x).normalize();
-      c.g.position.copy(p).addScaledVector(s, c.lane * (1 - Math.min(1, L) * 0.75));
+    const started = launching || reduce;
+    // Physics in real seconds, sped up so a lap fits the screen; two sub-steps keep it stable.
+    const sdt = (dt * TIME_SCALE) / 2;
+    for (let step = 0; step < 2; step++) {
+      if (started) raceT += sdt;
+      const byPos = cars.slice().sort((a, b) => b.s - a.s);
+      byPos.forEach((c, rank) => {
+        if (!started) return;
+        const ahead = rank > 0 ? byPos[rank - 1] : null;
+        const behind = byPos[rank + 1];
+        const gapM = ahead ? ahead.s - c.s : Infinity;
+        const k = at(kappa, c.s);
+        const straight = Math.abs(k) < 0.004;
+        // Slipstream within 60 m on a straight; DRS within a second, from lap 2.
+        const slip = straight && gapM < 60 ? 0.78 : 1;
+        c.drs = straight && c.lap >= 1 && gapM / Math.max(c.v, 1) < 1;
+        const dragScale = slip * (c.drs ? 0.82 : 1);
+        const grip = c.perf * (1 - c.wear);
+        // Corner speed scales with √grip; top speed with drag^-1/3 (power = drag × v).
+        let target = at(profile, c.s) * Math.sqrt(grip) * (straight ? Math.pow(dragScale, -1 / 3) : 1);
+        const vPrev = c.v;
+        if (c.v < target) c.v = Math.min(target, c.v + accel(F1, c.v, dragScale) * grip * sdt);
+        else c.v = Math.max(target, c.v - brake(F1, c.v) * sdt);
+        // Racing: pass on a straight with a tow or DRS, otherwise follow.
+        if (ahead && gapM < 10 && Math.abs(c.lane - ahead.lane) < 0.13) {
+          if (straight && slip < 1 && c.v >= ahead.v) c.laneTarget = ahead.lane > 0 ? -0.18 : 0.18;
+          else {
+            target = Math.min(target, ahead.v);
+            c.v = Math.min(c.v, ahead.v);
+          }
+        } else if (gapM > 30 && (!behind || c.s - behind.s > 30)) c.laneTarget = 0;
+        c.lane += (c.laneTarget - c.lane) * Math.min(1, sdt * 1.6);
+        c.aLong = (c.v - vPrev) / sdt;
+        c.aLat = c.v * c.v * k;
+        const before = Math.floor(c.s / LAP_M);
+        c.s += c.v * sdt;
+        if (Math.floor(c.s / LAP_M) > before && c.s > 0) {
+          c.lap++;
+          c.wear = Math.min(0.06, c.wear + 0.003); // tyres lose a little grip every lap
+          onLap(c);
+        }
+        c.u = mod1(c.s / LAP_M);
+      });
+    }
+    cars.forEach((c) => {
+      const p = curve.getPointAt(c.u),
+        t = curve.getTangentAt(c.u),
+        side = tmp.set(-t.z, 0, t.x).normalize();
+      c.g.position.copy(p).addScaledVector(side, c.lane);
       c.g.lookAt(c.g.position.x + t.x, c.g.position.y + t.y, c.g.position.z + t.z);
+      // The body pitches under braking and acceleration and rolls in corners (on its suspension).
+      c.pitch += (Math.max(-0.035, Math.min(0.02, -c.aLong / G * 0.007)) - c.pitch) * 0.2;
+      c.roll += (Math.max(-0.03, Math.min(0.03, (c.aLat / G) * 0.006)) - c.roll) * 0.2;
+      c.g.rotateX(c.pitch);
+      c.g.rotateZ(c.roll);
     });
     towerT += dt;
     if (towerT > 0.35) {
@@ -868,27 +941,26 @@ export function createRaceScene(
 
     // telemetry for the followed car (HUD and engine sound)
     const me = cars[follow];
-    const sf = sfAt(me.u) * Math.min(1, L);
+    const sf = Math.min(1, me.v / 95);
     telT += dt;
     if (telT > 0.05) {
       telT = 0;
-      const speed = Math.max(0, Math.round(72 * Math.min(1, L) + sf * 262 + Math.sin(now / 170) * 2));
+      const speed = Math.round(me.v * 3.6);
       let gr = 1;
       while (speed >= GEARS[gr] && gr < 8) gr++;
       const rpm = Math.min(1, Math.max(0, (speed - GEARS[gr - 1]) / (GEARS[gr] - GEARS[gr - 1])));
-      const p = ordered.indexOf(me),
-        ahead = ordered[p - 1],
-        gap = ahead ? (ahead.u - me.u) * 91.5 : 99;
-      me.ers = Math.min(1, Math.max(0.05, me.ers + (sf > 0.9 ? -0.05 * 0.07 : 0.05 * 0.05)));
+      const p = ordered.indexOf(me);
+      // ERS deploys on the straights and harvests under braking.
+      me.ers = Math.min(1, Math.max(0.05, me.ers + (me.aLong > 2 ? -0.004 : me.aLong < -5 ? 0.006 : 0.0005)));
       ev.onTelemetry?.({
         speed,
-        gear: launch < 0.02 ? "N" : gr,
+        gear: !started || me.v < 1 ? "N" : gr,
         rpm,
-        drs: sf > 0.9 && gap < 1.2,
+        drs: me.drs,
         ers: me.ers,
         position: p + 1,
-        lap: Math.max(1, me.lap),
-        throttle: launch < 0.02 ? 0.05 : Math.min(1, 0.25 + sf * 0.85),
+        lap: Math.max(1, me.lap + 1),
+        throttle: me.aLong > 0.5 ? 1 : me.aLong < -3 ? 0 : 0.4,
       });
     }
 
@@ -946,7 +1018,7 @@ export function createRaceScene(
       lerpP = 0.45;
       lerpL = 0.5;
       fov = 60;
-      shake += sf * sf * 0.35 * dt * 10;
+      shake += sf * sf * 0.35 * dt * 10 + Math.min(1, Math.abs(me.aLong) / 40) * dt * 4;
     } else {
       if (!drag) tTheta += dt * 0.045;
       theta += (tTheta - theta) * 0.07;

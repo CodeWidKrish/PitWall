@@ -48,7 +48,7 @@ function liveryMaterial(base: T.MeshStandardMaterial, primary: string, accent: s
         `#ifdef USE_MAP
           vec4 livery = texture2D( map, vMapUv );
           vec3 paintCol = mix( uPrimary * 0.38 + uDark * 0.5, uPrimary, livery.r );
-          paintCol = mix( paintCol, uAccent, livery.g );
+          paintCol = mix( paintCol, mix( uPrimary, uAccent, 0.55 ), livery.g ); // stripes: a lighter tint of the team colour
           diffuseColor.rgb *= paintCol;
         #endif`,
       );
