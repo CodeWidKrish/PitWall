@@ -103,10 +103,23 @@
 | 🏭 | **Constructor odds** | Win, podium and one-two chance per team, per race and per sprint. |
 | 📒 | **Live record** | Every published call is logged before lights out and scored after, with a reliability chart. |
 | 🔔 | **Race alerts** | Push notifications in race week and when the grid is set. |
+| 💬 | **Ask the pit wall** | A chat that answers only from PitWall's data through read-only tools (odds, driver inputs, record, what-ifs), and shows what it used. |
+| 🪪 | **Driver pages** | Every driver: odds with each input ranked against the field, points race by race, the model's record on them, and a share card. |
+| 📸 | **Shareable calls** | Your podium call unfurls into a picture card; your calls are scored against the model's after every race. |
+| 🌦 | **Race-day forecast** | Open-Meteo's forecast for lights out, next to the odds (context only). |
+| 📝 | **Post-race explainer** | Each scored call opens to what the model said and what happened. |
+| 🩺 | **Health and uptime** | `/api/health` and an hourly check that fails loudly if the site is down or a race goes unscored. |
 | ⌨️ | **Command palette** | <kbd>Ctrl</kbd> <kbd>K</kbd>: jump anywhere, follow a driver, switch on alerts. |
 | ⚙️ | **Updates itself** | A GitHub Action picks up qualifying, sprints and results, re-simulates, commits and redeploys. |
 
-## 🆕 What's new in v1.2.0: race weekend
+## 🆕 What's new in v1.3.0: the pit wall talks
+
+- 💬 **Ask the pit wall:** questions answered by `gpt-oss-120b` on Groq, but only through read-only tools over PitWall's own data. It ranks a driver's inputs against the field, runs what-ifs on the simulator, says when it doesn't have something, and refuses betting advice.
+- 🪪 **Driver pages** for the whole grid, each with a generated preview card for sharing.
+- 📸 **Podium calls as pictures**, and a running score of your calls against the model's.
+- 🌦 **Race-day forecast**, 📝 **post-race explainers**, and 🩺 **health checks** with hourly uptime monitoring.
+
+## 🆕 v1.2.0: race weekend
 
 - 🕒 **Saturday update.** Once qualifying is in, the odds are re-run with the grid and the gaps to pole and teammate, and each driver shows how far their chance moved.
 - 🏁 **Sprint odds** on sprint weekends, with their own scale fitted on 30 past sprints, behind a Grand Prix / Sprint switch.
@@ -384,6 +397,10 @@ A CC BY 4.0 model, cleaned of every logo and number and repainted per team in a 
 - [x] Constructor odds per race
 - [x] A live ledger that scores every published call through the rest of 2026 and all of 2027
 - [x] Push notifications for the odds before each race
+- [x] A grounded chat over PitWall's data
+- [x] Driver pages and shareable podium cards
+- [ ] Bookmaker odds next to the model's (needs a licensed odds feed)
+- [ ] Free-practice long-run pace as an input
 - [ ] Sprint qualifying as an input to the sprint odds
 - [ ] Grid penalties applied to the Saturday re-run
 
