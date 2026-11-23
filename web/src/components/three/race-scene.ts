@@ -12,9 +12,11 @@ import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass.js";
+import { BokehPass } from "three/examples/jsm/postprocessing/BokehPass.js";
 import { OutputPass } from "three/examples/jsm/postprocessing/OutputPass.js";
 import { loadCarModel } from "@/components/three/car-model";
-import { accel, brake, curvature, F1, G, lapTime, speedProfile } from "@/components/three/physics";
+import { G } from "@/components/three/physics";
+import { buildTrack, makeCar, type SimCar, stepRace } from "@/components/three/race-sim";
 
 export type CamMode = "tv" | "board" | "orbit";
 
@@ -39,7 +41,7 @@ export interface Telemetry {
 
 export interface SceneEvents {
   onTower?: (rows: { id: string; gap: string; delta: -1 | 0 | 1 }[], lap: number) => void;
-  onBanner?: (kind: "overtake" | "fastest" | "radio", text: string, carId: string) => void;
+  onBanner?: (kind: "overtake" | "fastest" | "radio" | "info", text: string, carId: string) => void;
   onTelemetry?: (t: Telemetry) => void;
   onShot?: (label: string) => void;
   onPassBy?: (closeness: number) => void; // a car went past a trackside camera
@@ -385,8 +387,8 @@ export function createRaceScene(
   const tex = textures();
   const PR = Math.min(devicePixelRatio || 1, small ? 1.5 : 2);
   renderer.setPixelRatio(PR);
-  renderer.toneMapping = T.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 0.95;
+  renderer.toneMapping = T.NeutralToneMapping; // true team colours, soft highlights under the floodlights
+  renderer.toneMappingExposure = 1.05;
   renderer.shadowMap.enabled = !small;
   renderer.shadowMap.type = T.PCFSoftShadowMap;
   const scene = new T.Scene();
@@ -607,36 +609,26 @@ export function createRaceScene(
   const stripes = COMPOUND.map((h) => new T.MeshBasicMaterial({ color: h }));
   const paint = (hex: string, r = 0.24) => new T.MeshPhysicalMaterial({ color: hex, metalness: 0.5, roughness: r, clearcoat: 1, clearcoatRoughness: 0.05 });
   const SC = 0.46 / 5.4;
-  // ---- physics: a real-scale lap and the fastest speed envelope around it
+  // ---- physics: a real-scale lap, its speed envelope and racing line (see race-sim.ts)
   const LAP_M = 3000; // drawn small, simulated at full scale: a 3 km lap averaging about 220 km/h
-  const kappa = curvature(
+  const raceTrack = buildTrack(
     frames.slice(0, N).map((f) => ({ x: f.t.x, z: f.t.z })),
-    LAP_M / N,
+    frames.slice(0, N).map((f) => ({ x: f.s.x, z: f.s.z })),
+    LAP_M,
+    HW,
   );
-  const profile = speedProfile(F1, kappa, LAP_M);
-  const idealLap = lapTime(profile, LAP_M);
-  const at = (arr: Float32Array, s: number) => arr[Math.floor(mod1(s / LAP_M) * N) % N];
+  const idealLap = raceTrack.ideal;
   const TIME_SCALE = Math.max(3, idealLap / 22); // a lap on screen takes about 22 seconds
-  interface Car {
+  interface Car extends SimCar {
     d: SceneCar;
-    i: number;
     g: T.Group;
     u: number; // fraction of the lap, for cameras
-    s: number; // metres travelled
-    v: number; // m/s
-    lap: number;
-    lane: number;
-    laneTarget: number;
-    perf: number; // how much of the ideal envelope this car can use
-    wear: number; // tyre wear, 0 new
-    lapStart: number;
     ers: number;
-    drs: boolean;
-    aLong: number;
-    aLat: number;
     pitch: number;
     roll: number;
     pos?: number;
+    spin?: { disc: T.Object3D; glow: T.MeshBasicMaterial | null; radius: number; front: boolean }[];
+    angle: number;
   }
   const cars: Car[] = grid.map((d, i) => {
     const g = new T.Group();
@@ -666,26 +658,16 @@ export function createRaceScene(
     g.add(blob);
     g.scale.setScalar(SC);
     scene.add(g);
-    const s0 = -i * 9 - 4; // grid slots 9 m apart, staggered left and right
+    const sim = makeCar(i, d.strength);
     return {
+      ...sim,
       d,
-      i,
       g,
-      u: mod1(s0 / LAP_M),
-      s: s0,
-      v: 0,
-      lap: 0,
-      lane: (i % 2 ? 1 : -1) * 0.17,
-      laneTarget: (i % 2 ? 1 : -1) * 0.17,
-      perf: 0.965 + 0.035 * d.strength,
-      wear: 0,
-      lapStart: 0,
+      u: ((sim.s / LAP_M) % 1 + 1) % 1,
       ers: 0.7,
-      drs: false,
-      aLong: 0,
-      aLat: 0,
       pitch: 0,
       roll: 0,
+      angle: Math.random() * 6,
     };
   });
 
@@ -697,9 +679,53 @@ export function createRaceScene(
     if (!model || disposed) return;
     // Add the realistic cars hidden, compile their shaders in the background, then swap,
     // so the switch never stalls a frame.
+    // Motion-blurred rim discs that spin with the road speed, and brake discs that glow.
+    const blurCanvas = document.createElement("canvas");
+    blurCanvas.width = blurCanvas.height = 128;
+    {
+      const x = blurCanvas.getContext("2d")!;
+      const g = x.createRadialGradient(64, 64, 6, 64, 64, 64);
+      g.addColorStop(0, "rgba(40,42,48,0.95)");
+      g.addColorStop(0.25, "rgba(120,124,132,0.55)");
+      g.addColorStop(0.7, "rgba(60,62,68,0.65)");
+      g.addColorStop(0.94, "rgba(20,21,24,0.9)");
+      g.addColorStop(1, "rgba(0,0,0,0)");
+      x.fillStyle = g;
+      x.fillRect(0, 0, 128, 128);
+      x.strokeStyle = "rgba(200,205,215,0.18)";
+      for (let a = 0; a < 5; a++) {
+        const t = (a / 5) * Math.PI * 2;
+        x.lineWidth = 7;
+        x.beginPath();
+        x.arc(64, 64, 34, t, t + 0.9);
+        x.stroke();
+      }
+    }
+    const blurTex = new T.CanvasTexture(blurCanvas);
+    blurTex.colorSpace = T.SRGBColorSpace;
     const real = cars.map((c) => {
       const inst = model.instance(c.d.colour, c.d.accent === "#0E1013" ? "#16181c" : "#f2f3f5");
       inst.visible = false;
+      c.spin = model.wheels.map((w) => {
+        const side = w.outer > w.centre.x ? 1 : -1;
+        const hub = new T.Group();
+        hub.position.set(w.outer + side * 0.006, w.centre.y, w.centre.z);
+        hub.rotation.y = (side * Math.PI) / 2;
+        const disc = new T.Mesh(
+          new T.CircleGeometry(w.radius * 0.66, 32),
+          new T.MeshBasicMaterial({ map: blurTex, transparent: true, opacity: 0, depthWrite: false }),
+        );
+        hub.add(disc);
+        let glow: T.MeshBasicMaterial | null = null;
+        if (w.front) {
+          glow = new T.MeshBasicMaterial({ color: new T.Color(4, 1.1, 0.25), transparent: true, opacity: 0, toneMapped: false, depthWrite: false });
+          const g = new T.Mesh(new T.RingGeometry(w.radius * 0.28, w.radius * 0.42, 24), glow);
+          g.position.z = -0.004;
+          hub.add(g);
+        }
+        inst.add(hub);
+        return { disc, glow, radius: w.radius, front: w.front };
+      });
       c.g.add(inst);
       return inst;
     });
@@ -838,6 +864,12 @@ export function createRaceScene(
 
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
+  // Long-lens broadcast shots get a shallow depth of field, like a real trackside camera.
+  const bokeh = small ? null : new BokehPass(scene, camera, { focus: 3, aperture: 0.0025, maxblur: 0.006 });
+  if (bokeh) {
+    bokeh.enabled = false;
+    composer.addPass(bokeh);
+  }
   if (!small) composer.addPass(new UnrealBloomPass(new T.Vector2(512, 512), 0.2, 0.4, 0.97));
   composer.addPass(new OutputPass());
   function size() {
@@ -875,44 +907,16 @@ export function createRaceScene(
     const sdt = (dt * TIME_SCALE) / 2;
     for (let step = 0; step < 2; step++) {
       if (started) raceT += sdt;
-      const byPos = cars.slice().sort((a, b) => b.s - a.s);
-      byPos.forEach((c, rank) => {
-        if (!started) return;
-        const ahead = rank > 0 ? byPos[rank - 1] : null;
-        const behind = byPos[rank + 1];
-        const gapM = ahead ? ahead.s - c.s : Infinity;
-        const k = at(kappa, c.s);
-        const straight = Math.abs(k) < 0.004;
-        // Slipstream within 60 m on a straight; DRS within a second, from lap 2.
-        const slip = straight && gapM < 60 ? 0.78 : 1;
-        c.drs = straight && c.lap >= 1 && gapM / Math.max(c.v, 1) < 1;
-        const dragScale = slip * (c.drs ? 0.82 : 1);
-        const grip = c.perf * (1 - c.wear);
-        // Corner speed scales with √grip; top speed with drag^-1/3 (power = drag × v).
-        let target = at(profile, c.s) * Math.sqrt(grip) * (straight ? Math.pow(dragScale, -1 / 3) : 1);
-        const vPrev = c.v;
-        if (c.v < target) c.v = Math.min(target, c.v + accel(F1, c.v, dragScale) * grip * sdt);
-        else c.v = Math.max(target, c.v - brake(F1, c.v) * sdt);
-        // Racing: pass on a straight with a tow or DRS, otherwise follow.
-        if (ahead && gapM < 10 && Math.abs(c.lane - ahead.lane) < 0.13) {
-          if (straight && slip < 1 && c.v >= ahead.v) c.laneTarget = ahead.lane > 0 ? -0.18 : 0.18;
-          else {
-            target = Math.min(target, ahead.v);
-            c.v = Math.min(c.v, ahead.v);
-          }
-        } else if (gapM > 30 && (!behind || c.s - behind.s > 30)) c.laneTarget = 0;
-        c.lane += (c.laneTarget - c.lane) * Math.min(1, sdt * 1.6);
-        c.aLong = (c.v - vPrev) / sdt;
-        c.aLat = c.v * c.v * k;
-        const before = Math.floor(c.s / LAP_M);
-        c.s += c.v * sdt;
-        if (Math.floor(c.s / LAP_M) > before && c.s > 0) {
-          c.lap++;
-          c.wear = Math.min(0.06, c.wear + 0.003); // tyres lose a little grip every lap
-          onLap(c);
-        }
-        c.u = mod1(c.s / LAP_M);
-      });
+      if (started) {
+        stepRace(cars, raceTrack, sdt, raceT, {
+          onLap: (c) => onLap(c as Car),
+          onMistake: (c) => {
+            const car = c as Car;
+            if (car.i === follow || (car.pos ?? 9) < 4) ev.onBanner?.("info", `${car.d.code} locks up and runs wide`, car.d.id);
+          },
+        });
+        cars.forEach((c) => (c.u = ((c.s / LAP_M) % 1 + 1) % 1));
+      }
     }
     cars.forEach((c) => {
       const p = curve.getPointAt(c.u),
@@ -925,6 +929,16 @@ export function createRaceScene(
       c.roll += (Math.max(-0.03, Math.min(0.03, (c.aLat / G) * 0.006)) - c.roll) * 0.2;
       c.g.rotateX(c.pitch);
       c.g.rotateZ(c.roll);
+      if (c.spin) {
+        c.angle += (c.v / Math.max(0.2, c.spin[0].radius)) * dt * TIME_SCALE;
+        const blur = Math.min(0.92, c.v / 35);
+        const braking = Math.max(0, Math.min(1, (-c.aLong - 15) / 25));
+        for (const w of c.spin) {
+          w.disc.rotation.z = c.angle % (Math.PI * 2);
+          (w.disc as T.Mesh<T.BufferGeometry, T.MeshBasicMaterial>).material.opacity = blur;
+          if (w.glow) w.glow.opacity += (braking * 0.9 - w.glow.opacity) * 0.15;
+        }
+      }
     });
     towerT += dt;
     if (towerT > 0.35) {
@@ -1044,6 +1058,11 @@ export function createRaceScene(
     camera.updateProjectionMatrix();
     camera.position.copy(camPos);
     camera.lookAt(look);
+    if (bokeh) {
+      const tele = mode === "tv" && !!shot && (shot.k === "trackside" || shot.k === "pan" || shot.k === "low");
+      bokeh.enabled = tele;
+      if (tele && shot) (bokeh.uniforms as Record<string, { value: number }>).focus.value = camera.position.distanceTo(shot.tgt.g.position);
+    }
     if (mode === "tv" && shot) {
       tmp.copy(shot.tgt.g.position).project(camera);
       const off = Math.abs(tmp.x) > 1.05 || Math.abs(tmp.y) > 1.05 || tmp.z > 1;

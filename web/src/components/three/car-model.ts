@@ -16,8 +16,94 @@ import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.j
 export const CAR_MODEL_URL = process.env.NEXT_PUBLIC_CAR_MODEL_URL || "/models/pitwall-car.glb";
 const LENGTH_M = 5.39;
 
+export interface Wheel {
+  centre: T.Vector3; // in the car's own space (metres)
+  radius: number;
+  outer: number; // x of the outer sidewall face
+  front: boolean;
+}
+
 export interface CarModel {
   instance: (primary: string, accent: string) => T.Group;
+  wheels: Wheel[];
+}
+
+/** Boxes of all meshes whose material name starts with `prefix`, in `root`'s space. */
+function partBox(root: T.Object3D, prefix: string) {
+  root.updateMatrixWorld(true);
+  const box = new T.Box3();
+  const v = new T.Vector3();
+  const inv = new T.Matrix4().copy(root.matrixWorld).invert();
+  root.traverse((o) => {
+    if (!(o instanceof T.Mesh)) return;
+    const name = (o.material as T.Material).name ?? "";
+    if (!name.startsWith(prefix)) return;
+    const pos = o.geometry.attributes.position as T.BufferAttribute;
+    const m = new T.Matrix4().multiplyMatrices(inv, o.matrixWorld);
+    for (let i = 0; i < pos.count; i += 2) box.expandByPoint(v.fromBufferAttribute(pos, i).applyMatrix4(m));
+  });
+  return box;
+}
+
+/** The four wheels, found from the tyre meshes split into quadrants. */
+function findWheels(root: T.Object3D): Wheel[] {
+  root.updateMatrixWorld(true);
+  const inv = new T.Matrix4().copy(root.matrixWorld).invert();
+  const all = new T.Box3().setFromObject(root).applyMatrix4(inv);
+  const c = all.getCenter(new T.Vector3());
+  const quads = [0, 1, 2, 3].map(() => new T.Box3());
+  const v = new T.Vector3();
+  root.traverse((o) => {
+    if (!(o instanceof T.Mesh)) return;
+    if (!((o.material as T.Material).name ?? "").startsWith("tyre")) return;
+    const pos = o.geometry.attributes.position as T.BufferAttribute;
+    const m = new T.Matrix4().multiplyMatrices(inv, o.matrixWorld);
+    for (let i = 0; i < pos.count; i += 3) {
+      v.fromBufferAttribute(pos, i).applyMatrix4(m);
+      quads[(v.x > c.x ? 1 : 0) + (v.z > c.z ? 2 : 0)].expandByPoint(v);
+    }
+  });
+  return quads
+    .filter((b) => !b.isEmpty())
+    .map((b) => {
+      const centre = b.getCenter(new T.Vector3());
+      return {
+        centre,
+        radius: (b.max.y - b.min.y) / 2,
+        outer: centre.x > c.x ? b.max.x : b.min.x,
+        front: centre.z > c.z,
+      };
+    });
+}
+
+/** A driver's helmet, visor and neck support, sized for a real head (metres). */
+function makeDriver(primary: string, accent: string) {
+  const g = new T.Group();
+  const shellMat = new T.MeshPhysicalMaterial({ color: accent, roughness: 0.18, metalness: 0.1, clearcoat: 1, clearcoatRoughness: 0.04 });
+  const stripeMat = new T.MeshPhysicalMaterial({ color: primary, roughness: 0.2, clearcoat: 1, clearcoatRoughness: 0.05 });
+  const visorMat = new T.MeshPhysicalMaterial({
+    color: 0x0a0b10,
+    roughness: 0.05,
+    metalness: 0.4,
+    clearcoat: 1,
+    iridescence: 1,
+    iridescenceIOR: 1.6,
+    iridescenceThicknessRange: [250, 600],
+  });
+  const shell = new T.Mesh(new T.SphereGeometry(0.135, 40, 28), shellMat);
+  shell.scale.set(1, 1.02, 1.14);
+  const visor = new T.Mesh(new T.SphereGeometry(0.1375, 40, 12, Math.PI / 2 - 1.05, 2.1, 1.18, 0.5), visorMat);
+  visor.scale.copy(shell.scale);
+  const stripe = new T.Mesh(new T.TorusGeometry(0.1372, 0.016, 8, 48, Math.PI), stripeMat);
+  stripe.rotation.y = Math.PI / 2;
+  stripe.scale.set(1, 1.02, 1.14);
+  const hans = new T.Mesh(new T.CylinderGeometry(0.11, 0.15, 0.08, 24), new T.MeshStandardMaterial({ color: 0x141518, roughness: 0.6 }));
+  hans.position.y = -0.15;
+  g.add(shell, visor, stripe, hans);
+  g.traverse((o) => {
+    if (o instanceof T.Mesh) o.castShadow = true;
+  });
+  return g;
 }
 
 function liveryMaterial(base: T.MeshStandardMaterial, primary: string, accent: string) {
@@ -106,6 +192,11 @@ export async function loadCarModel(small: boolean): Promise<CarModel | null> {
     const loader = new GLTFLoader().setMeshoptDecoder(MeshoptDecoder);
     const gltf = await loader.loadAsync(CAR_MODEL_URL);
     const base = normalise(gltf.scene);
+    const wheels = findWheels(base);
+    // The driver's head sits above the seat belts, just behind their centre.
+    const belts = partBox(base, "belts");
+    const seat = belts.isEmpty() ? null : belts.getCenter(new T.Vector3());
+    const headY = belts.isEmpty() ? 0 : belts.max.y + 0.11;
     base.traverse((o) => {
       if (o instanceof T.Mesh) {
         o.castShadow = !small;
@@ -124,8 +215,15 @@ export async function loadCarModel(small: boolean): Promise<CarModel | null> {
           const mat = o.material as T.MeshStandardMaterial;
           if (mat.userData?.livery || mat.name.startsWith("livery")) o.material = liveryMaterial(mat, primary, accent);
         });
+        if (seat) {
+          const driver = makeDriver(primary, accent === "#16181c" ? "#f4f5f7" : accent);
+          driver.position.set(seat.x, headY, seat.z - 0.06);
+          driver.userData.driver = true;
+          g.add(driver);
+        }
         return g;
       },
+      wheels,
     };
   } catch {
     return null;

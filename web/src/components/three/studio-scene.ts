@@ -8,7 +8,7 @@ import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment
 import { loadCarModel } from "@/components/three/car-model";
 
 export type Lighting = "studio" | "night" | "sunset";
-export type View = "hero" | "front" | "side" | "top" | "rear";
+export type View = "hero" | "front" | "side" | "top" | "rear" | "driver";
 
 export interface Hotspot {
   id: string;
@@ -41,6 +41,7 @@ const VIEWS: Record<View, { theta: number; phi: number; r: number }> = {
   side: { theta: Math.PI / 2, phi: 1.45, r: 7.8 },
   top: { theta: 0.4, phi: 0.25, r: 8.6 },
   rear: { theta: Math.PI - 0.6, phi: 1.25, r: 7.8 },
+  driver: { theta: 0.75, phi: 1.05, r: 2.4 },
 };
 
 export async function createStudio(
@@ -58,7 +59,8 @@ export async function createStudio(
   }
   const small = innerWidth < 760;
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, small ? 1.5 : 2));
-  renderer.toneMapping = T.ACESFilmicToneMapping;
+  renderer.toneMapping = T.NeutralToneMapping; // true-to-life colours with soft highlights
+  renderer.toneMappingExposure = 1.0;
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = T.PCFSoftShadowMap;
   renderer.setClearColor(0x000000, 0);
@@ -165,8 +167,14 @@ export async function createStudio(
     tR = r,
     auto = true,
     drag: { x: number; y: number; t: number; p: number } | null = null;
-  const look = centre.clone();
-  look.y = size.y * 0.35;
+  const lookCar = centre.clone();
+  lookCar.y = size.y * 0.35;
+  let driverAt = lookCar.clone();
+  car.traverse((o) => {
+    if (o.userData.driver) driverAt = o.getWorldPosition(new T.Vector3());
+  });
+  const look = lookCar.clone();
+  let lookTarget = lookCar;
 
   const down = (e: PointerEvent) => {
     drag = { x: e.clientX, y: e.clientY, t: tTheta, p: tPhi };
@@ -214,6 +222,7 @@ export async function createStudio(
     theta += (tTheta - theta) * 0.06;
     phi += (tPhi - phi) * 0.06;
     r += (tR - r) * 0.06;
+    look.lerp(lookTarget, 0.06);
     camera.position.set(
       look.x + Math.sin(theta) * Math.sin(phi) * r,
       look.y + Math.cos(phi) * r,
@@ -266,6 +275,7 @@ export async function createStudio(
       tTheta = target.theta + k * Math.PI * 2;
       tPhi = target.phi;
       tR = target.r * (host.clientWidth < 700 ? 1.35 : 1);
+      lookTarget = v === "driver" ? driverAt : lookCar;
     },
     dispose() {
       cancelAnimationFrame(raf);

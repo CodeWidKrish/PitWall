@@ -23,6 +23,7 @@ const VIEWS: { k: View; label: string }[] = [
   { k: "side", label: "Side" },
   { k: "top", label: "Top" },
   { k: "rear", label: "Rear" },
+  { k: "driver", label: "Driver" },
 ];
 const NOTES: Record<string, { title: string; body: string }> = {
   wing: {
