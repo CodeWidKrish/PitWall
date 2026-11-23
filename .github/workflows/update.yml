@@ -76,6 +76,16 @@ jobs:
                   weekend, label = True, f"{key[0]} R{key[1]} qualifying"
               elif has_s and nxt.get("sprint") and not sprint_done:
                   weekend, label = True, f"{key[0]} R{key[1]} sprint"
+              elif not nxt.get("start_utc"):
+                  # Next season's official calendar: export once its start times are out.
+                  import requests
+                  try:
+                      url = f"https://api.jolpi.ca/ergast/f1/{key[0]}.json"
+                      races = requests.get(url, timeout=30).json()["MRData"]["RaceTable"]["Races"]
+                      if any(r.get("time") for r in races):
+                          weekend, label = True, f"{key[0]} calendar"
+                  except Exception as exc:
+                      print(f"calendar check skipped: {exc}")
           print(f"data through {season} R{latest}; site shows {was['season']} R{was['round']}; "
                 f"new race: {race}; weekend update: {weekend}")
           with open(os.environ["GITHUB_OUTPUT"], "a") as f:

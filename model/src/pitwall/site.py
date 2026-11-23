@@ -207,6 +207,7 @@ def _next_race(
     qualifying: pd.DataFrame | None = None,
     sprints: pd.DataFrame | None = None,
     sprint_cal: dict[str, Any] | None = None,
+    schedule: pd.DataFrame | None = None,
 ) -> dict[str, Any] | None:
     from pitwall.simulate import preseason_state
 
@@ -217,6 +218,16 @@ def _next_race(
         if not config:
             return None
         state, race_rows = preseason_state(entries, config)
+        if schedule is not None and not schedule.empty:
+            # The official calendar, once published, gives real dates, start times and venues.
+            official = schedule.set_index("round")
+            for col in ("date", "race_start_utc", "circuit_name", "locality", "has_sprint"):
+                if col in official:
+                    race_rows[col] = (
+                        race_rows["round"]
+                        .map(official[col])
+                        .where(race_rows["round"].isin(official.index), race_rows.get(col))
+                    )
         races = pd.concat([races, race_rows], ignore_index=True)
         season = int(config["season"])
     fut = future_features(entries, races, state)
@@ -257,8 +268,10 @@ def _next_race(
         "round": nxt,
         "race_name": str(info["race_name"]),
         "circuit_id": str(info["circuit_id"]),
-        "circuit_name": str(info.get("circuit_name") or info["circuit_id"]),
-        "locality": str(info.get("locality") or info["country"]),
+        "circuit_name": str(info["circuit_name"])
+        if pd.notna(info.get("circuit_name"))
+        else str(info["circuit_id"]),
+        "locality": str(info["locality"]) if pd.notna(info.get("locality")) else str(info["country"]),
         "country": str(info["country"]),
         "start_utc": pd.Timestamp(info["race_start_utc"]).tz_localize("UTC").isoformat()
         if pd.notna(info.get("race_start_utc"))
@@ -295,6 +308,17 @@ def _next_race(
             for _, r in rows.iterrows()
         ],
     }
+
+
+def _schedule(settings: Settings, season: int) -> pd.DataFrame | None:
+    """The official calendar for `season` from the API, or None if it isn't out (or the API is down)."""
+    from pitwall.data.parse import races_frame
+
+    try:
+        sched = races_frame(JolpicaClient(cache_dir=settings.jolpica_cache_dir).races(f"{season}"))
+    except JolpicaError:
+        return None
+    return sched if not sched.empty else None
 
 
 def _sprint_block(
@@ -426,7 +450,16 @@ def export(settings: Settings, out_path: Path = SITE_JSON) -> Path:
     config_path = settings.config_dir / f"season-{settings.forecast_season}.json"
     config = json.loads(config_path.read_text(encoding="utf-8")) if config_path.exists() else None
     sprint_cal = sprint_calibration(feats, sprints)
-    next_race = _next_race(entries, races, feats, config, qualifying, sprints, sprint_cal)
+    next_race = _next_race(
+        entries,
+        races,
+        feats,
+        config,
+        qualifying,
+        sprints,
+        sprint_cal,
+        _schedule(settings, settings.forecast_season),
+    )
 
     season_block = _season_block(entries, races, standings, season)
     # Who has mathematically clinched, from `pitwall model simulate` for this season.
