@@ -2,7 +2,7 @@
 
 **Building an F1 forecaster that publishes its odds before every race and keeps score in public.**
 
-Live site: [pit-wall-mu-eight.vercel.app](https://pit-wall-mu-eight.vercel.app) · Code: this repository
+Live site: [pitwallgp.vercel.app](https://pitwallgp.vercel.app) · Code: this repository
 
 ## The problem
 

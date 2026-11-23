@@ -1,6 +1,6 @@
 <div align="center">
 
-<a href="https://pit-wall-mu-eight.vercel.app"><img src="docs/assets/banner.svg" alt="PitWall: who wins the next Grand Prix, and who takes the title?" width="100%"></a>
+<a href="https://pitwallgp.vercel.app"><img src="docs/assets/banner.svg" alt="PitWall: who wins the next Grand Prix, and who takes the title?" width="100%"></a>
 
 <img src="docs/assets/typing.svg" alt="Win and podium odds for every driver, before every race · 10,000 simulated seasons behind every title forecast · A physics race on the homepage · Every call scored in public, misses included" width="760">
 
@@ -9,7 +9,7 @@
 <a href="https://github.com/CodeWidKrish/PitWall/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/CodeWidKrish/PitWall/ci.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=CI" alt="CI status"></a>
 <a href="https://github.com/CodeWidKrish/PitWall/actions/workflows/update.yml"><img src="https://img.shields.io/github/actions/workflow/status/CodeWidKrish/PitWall/update.yml?branch=main&style=for-the-badge&logo=githubactions&logoColor=white&label=post-race%20update" alt="Post-race update status"></a>
 <a href="https://github.com/CodeWidKrish/PitWall/releases"><img src="https://img.shields.io/github/v/release/CodeWidKrish/PitWall?style=for-the-badge&color=8f45ff" alt="Latest release"></a>
-<a href="https://pit-wall-mu-eight.vercel.app"><img src="https://img.shields.io/badge/live-on%20Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live site"></a>
+<a href="https://pitwallgp.vercel.app"><img src="https://img.shields.io/badge/live-on%20Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live site"></a>
 <br>
 <img src="https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js 16">
 <img src="https://img.shields.io/badge/React-19-149eca?style=for-the-badge&logo=react&logoColor=white" alt="React 19">
@@ -26,7 +26,7 @@
 
 <br><br>
 
-**[🏁 Live site](https://pit-wall-mu-eight.vercel.app)** &nbsp;•&nbsp;
+**[🏁 Live site](https://pitwallgp.vercel.app)** &nbsp;•&nbsp;
 **[🎬 Demo](#-lights-out)** &nbsp;•&nbsp;
 **[📊 Track record](#-track-record)** &nbsp;•&nbsp;
 **[🧩 Features](#-whats-on-the-site)** &nbsp;•&nbsp;
@@ -45,7 +45,7 @@
 ## 🎬 Lights out
 
 <div align="center">
-<a href="https://pit-wall-mu-eight.vercel.app"><img src="docs/assets/hero.gif" alt="The PitWall homepage: the lights go out and the model's top ten race on a 3D night circuit, with the race-control banner, the model's top three and a countdown to the next race" width="900"></a>
+<a href="https://pitwallgp.vercel.app"><img src="docs/assets/hero.gif" alt="The PitWall homepage: the lights go out and the model's top ten race on a 3D night circuit, with the race-control banner, the model's top three and a countdown to the next race" width="900"></a>
 
 <sub>The homepage, recorded from the live site. The cars are the model's top ten for the next race, driven by a physics model, not an animation path.</sub>
 </div>
@@ -266,7 +266,7 @@ Want the full story, including the decisions I'd defend in a review? Read the **
 ## 📜 Credits
 
 - **Results:** [Jolpica F1 API](https://github.com/jolpica/jolpica-f1). **Weather:** [Open-Meteo](https://open-meteo.com/).
-- **Driver photos, footage and engine recordings:** Wikimedia Commons, each under its own free licence; authors and licences are on the site's [credits page](https://pit-wall-mu-eight.vercel.app/credits).
+- **Driver photos, footage and engine recordings:** Wikimedia Commons, each under its own free licence; authors and licences are on the site's [credits page](https://pitwallgp.vercel.app/credits).
 - **3D car:** "2026 Mercedes W17" by Dave Love (Tyler_Dave) on Sketchfab, CC BY 4.0. Logos, number and tyre lettering removed and repainted per team; the model file is not in this repository.
 - **Circuit layouts:** [f1-circuits](https://github.com/bacinger/f1-circuits) by Tomislav Bacinger, MIT.
 - **Race highlights:** by FORMULA 1, linked on YouTube.
@@ -287,7 +287,7 @@ Want the full story, including the decisions I'd defend in a review? Read the **
 Diploma in Computer Engineering · SBMPOC, Mumbai
 
 <a href="https://github.com/CodeWidKrish"><img src="https://img.shields.io/badge/GitHub-CodeWidKrish-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub: CodeWidKrish"></a>
-<a href="https://pit-wall-mu-eight.vercel.app"><img src="https://img.shields.io/badge/Try-PitWall-8f45ff?style=for-the-badge&logo=vercel&logoColor=white" alt="Try PitWall"></a>
+<a href="https://pitwallgp.vercel.app"><img src="https://img.shields.io/badge/Try-PitWall-8f45ff?style=for-the-badge&logo=vercel&logoColor=white" alt="Try PitWall"></a>
 
 If PitWall made race day more fun, please give it a ⭐
 
