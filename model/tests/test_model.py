@@ -249,7 +249,9 @@ def test_next_race_rolls_over_to_next_season() -> None:
             {"round": 1, "race_name": "Opener", "circuit_id": "c1", "country": "X", "has_sprint": False},
             {"round": 2, "race_name": "Second", "circuit_id": "c2", "country": "X", "has_sprint": False},
         ],
-        "lineup": [{"constructor_id": f"t{i // 2}", "driver_id": f"d{i}", "status": "confirmed"} for i in range(8)],
+        "lineup": [
+            {"constructor_id": f"t{i // 2}", "driver_id": f"d{i}", "status": "confirmed"} for i in range(8)
+        ],
     }
     f = build_features(e, races)
     nxt = _next_race(e, races, f, config)
