@@ -1,0 +1,93 @@
+name: Post-race update
+
+# After every Grand Prix: pull the new results, re-run the title simulations, rebuild the
+# site's data and commit it. The push redeploys the site. Runs daily (results can land late
+# and some races are on Saturdays) and does nothing unless a new race has been completed.
+on:
+  schedule:
+    - cron: "30 6 * * *" # every morning, 06:30 UTC
+    - cron: "30 21 * * 0" # and Sunday evenings, soon after most races
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Rebuild the site data even if no new race is in
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: post-race-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    defaults:
+      run:
+        working-directory: model
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Restore API caches
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pitwall
+          key: pitwall-api-${{ github.run_id }}
+          restore-keys: pitwall-api-
+
+      - run: uv sync --python 3.12
+
+      - name: Build and check the data
+        run: uv run pitwall data build
+
+      - name: Is there a new race?
+        id: check
+        run: |
+          uv run python - <<'EOF'
+          import json, os
+          import pandas as pd
+          site = json.load(open("../web/src/data/site.json", encoding="utf-8"))
+          done = pd.read_parquet("data/processed/entries.parquet")
+          done = done[done["position"].notna()]
+          season = int(done["season"].max())
+          latest = int(done[done["season"] == season]["round"].max())
+          was = site["data_through"]
+          new = (season, latest) != (was["season"], was["round"])
+          print(f"data through {season} R{latest}; site shows {was['season']} R{was['round']}; new race: {new}")
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+              f.write(f"new={'true' if new else 'false'}\n")
+              f.write(f"label={season} R{latest}\n")
+          EOF
+
+      - name: Simulate both championships
+        if: steps.check.outputs.new == 'true' || inputs.force
+        run: |
+          uv run pitwall model simulate
+          uv run pitwall model simulate --season "$(uv run python -c 'from pitwall.config import Settings; print(Settings().forecast_season)')"
+
+      - name: Export the site data
+        if: steps.check.outputs.new == 'true' || inputs.force
+        run: |
+          uv run pitwall site export
+          uv run pitwall site photos
+
+      - name: Commit and push
+        if: steps.check.outputs.new == 'true' || inputs.force
+        working-directory: .
+        run: |
+          git config user.name "Krish Hingu"
+          git config user.email "186566738+CodeWidKrish@users.noreply.github.com"
+          git add web/src/data web/public/data web/public/drivers model/reports
+          if git diff --cached --quiet; then
+            echo "Nothing changed."
+            exit 0
+          fi
+          git commit -m "data: update after ${{ steps.check.outputs.label }}"
+          git push

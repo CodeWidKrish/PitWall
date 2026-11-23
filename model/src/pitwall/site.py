@@ -182,11 +182,20 @@ def _race_calls(feats: pd.DataFrame, races: pd.DataFrame, season: int) -> list[d
     return out
 
 
-def _next_race(entries: pd.DataFrame, races: pd.DataFrame, feats: pd.DataFrame) -> dict[str, Any] | None:
+def _next_race(
+    entries: pd.DataFrame, races: pd.DataFrame, feats: pd.DataFrame, config: dict[str, Any] | None = None
+) -> dict[str, Any] | None:
+    from pitwall.simulate import preseason_state
+
     season = int(entries["season"].max())
     state = current_state(entries, races, season)
     if state.future.empty:
-        return None
+        # Season over: roll on to round 1 of next season, from its calendar and line-up.
+        if not config:
+            return None
+        state, race_rows = preseason_state(entries, config)
+        races = pd.concat([races, race_rows], ignore_index=True)
+        season = int(config["season"])
     fut = future_features(entries, races, state)
     nxt = int(fut["round"].min())
     rows = fut[fut["round"] == nxt].copy()
@@ -196,7 +205,7 @@ def _next_race(entries: pd.DataFrame, races: pd.DataFrame, feats: pd.DataFrame) 
     rows["p_win"] = pred["p_win"].to_numpy()
     rows["p_podium"] = pred["p_podium"].to_numpy()
     rows = rows.sort_values("p_win", ascending=False)
-    info = races[(races["season"] == season) & (races["round"] == nxt)].iloc[0]
+    info = races[(races["season"] == season) & (races["round"] == nxt)].iloc[0].to_dict()
     # Last time this circuit was raced, who won.
     past = entries[(entries["circuit_id"] == info["circuit_id"]) & entries["won"]].sort_values("date")
     field_stats = {
@@ -208,11 +217,11 @@ def _next_race(entries: pd.DataFrame, races: pd.DataFrame, feats: pd.DataFrame) 
         "round": nxt,
         "race_name": str(info["race_name"]),
         "circuit_id": str(info["circuit_id"]),
-        "circuit_name": str(info["circuit_name"]),
-        "locality": str(info["locality"]),
+        "circuit_name": str(info.get("circuit_name") or info["circuit_id"]),
+        "locality": str(info.get("locality") or info["country"]),
         "country": str(info["country"]),
         "start_utc": pd.Timestamp(info["race_start_utc"]).tz_localize("UTC").isoformat()
-        if pd.notna(info["race_start_utc"])
+        if pd.notna(info.get("race_start_utc"))
         else None,
         "has_sprint": bool(info["has_sprint"]),
         "model_kind": kind,
@@ -393,7 +402,7 @@ def export(settings: Settings, out_path: Path = SITE_JSON) -> Path:
         "teams": teams,
         "season": season_block,
         "races": _race_calls(feats, races, season),
-        "next_race": _next_race(entries, races, feats),
+        "next_race": _next_race(entries, races, feats, config),
         "forecast": {
             "season": settings.forecast_season,
             "simulations": forecast["simulations"],

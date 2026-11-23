@@ -236,3 +236,25 @@ def test_top3_is_stable_with_a_dominant_driver() -> None:
         p = top3_probs(w)
     assert np.isfinite(p).all()
     assert p[0] == pytest.approx(1.0) and p.sum() == pytest.approx(3.0)
+
+
+def test_next_race_rolls_over_to_next_season() -> None:
+    from pitwall.site import _next_race
+
+    e, races = league(seasons=range(2018, 2022))
+    races["race_name"], races["country"], races["circuit_name"] = "R", "X", "C"
+    config = {
+        "season": 2022,
+        "calendar": [
+            {"round": 1, "race_name": "Opener", "circuit_id": "c1", "country": "X", "has_sprint": False},
+            {"round": 2, "race_name": "Second", "circuit_id": "c2", "country": "X", "has_sprint": False},
+        ],
+        "lineup": [{"constructor_id": f"t{i // 2}", "driver_id": f"d{i}", "status": "confirmed"} for i in range(8)],
+    }
+    f = build_features(e, races)
+    nxt = _next_race(e, races, f, config)
+    assert nxt is not None
+    assert (nxt["season"], nxt["round"], nxt["race_name"]) == (2022, 1, "Opener")
+    assert nxt["start_utc"] is None  # dates for next season are not published yet
+    assert sum(o["p_win"] for o in nxt["odds"]) == pytest.approx(1, abs=1e-3)
+    assert _next_race(e, races, f, None) is None
