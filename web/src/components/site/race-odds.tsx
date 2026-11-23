@@ -2,13 +2,31 @@
 
 import { type CSSProperties, useState } from "react";
 import { useFollow } from "@/components/follow";
-import { driver, type NextRace, pct, team } from "@/lib/data";
+import { driver, type NextRace, type Odds, pct, team } from "@/lib/data";
 
 function fmt(key: string, v: number | null): string {
   if (v === null) return "—";
   if (key === "elo") return Math.round(v).toString();
   if (key.includes("rate")) return pct(v, 0);
   return v.toFixed(1);
+}
+
+/** How far a chance moved once the grid was set, in percentage points. */
+function Move({ now, was }: { now: number; was: number }) {
+  const d = (now - was) * 100;
+  if (Math.abs(d) < 0.05) return <span aria-label="unchanged after qualifying">· =</span>;
+  const up = d > 0;
+  return (
+    <span
+      className={`inline-flex items-center gap-0.5 rounded-full px-1.5 ${up ? "bg-gain/15 text-gain" : "bg-drop/15 text-drop"}`}
+      aria-label={`${up ? "up" : "down"} ${Math.abs(d).toFixed(1)} points after qualifying`}
+    >
+      <svg viewBox="0 0 8 8" className={`size-2 ${up ? "" : "rotate-180"}`} aria-hidden="true">
+        <path d="M4 1 7 6H1Z" fill="currentColor" />
+      </svg>
+      {Math.abs(d).toFixed(1)}
+    </span>
+  );
 }
 
 /** Where a value sits in the field, 0 (worst) to 1 (best). */
@@ -22,14 +40,25 @@ function standing(v: number | null, min: number | null, max: number | null, high
  * Win and podium odds for every driver at the next race. Opening a row shows the
  * model's inputs for that driver against the rest of the field.
  */
-export function RaceOdds({ race }: { race: NextRace }) {
+export function RaceOdds({
+  race,
+  odds = race.odds,
+  moved = false,
+  label = "win",
+}: {
+  race: NextRace;
+  odds?: Odds[];
+  /** Show how each driver's chance moved once the grid was set. */
+  moved?: boolean;
+  label?: string;
+}) {
   const { followId } = useFollow();
   const [open, setOpen] = useState<string | null>(null);
-  const top = race.odds[0]?.p_win ?? 1;
+  const top = odds[0]?.p_win ?? 1;
 
   return (
     <div className="border-t border-rule" data-reveal="list">
-      {race.odds.map((o, i) => {
+      {odds.map((o, i) => {
         const d = driver(o.driver_id);
         const t = team(o.team);
         const isOpen = open === o.driver_id;
@@ -55,12 +84,18 @@ export function RaceOdds({ race }: { race: NextRace }) {
               </span>
               <span className="grid min-w-0">
                 <span className="type-voice truncate text-[22px] leading-[1.1]">{d.name}</span>
-                <small className="font-mono text-[10px] uppercase leading-normal tracking-[0.14em] text-sub">{t.name}</small>
+                <small className="flex flex-wrap items-center gap-x-2 font-mono text-[10px] uppercase leading-normal tracking-[0.14em] text-sub">
+                  {t.name}
+                  {moved && o.quali_position ? <span className="text-ink">· Starts P{o.quali_position}</span> : null}
+                  {moved && o.p_win_pre !== undefined ? <Move now={o.p_win} was={o.p_win_pre} /> : null}
+                </small>
               </span>
               <span className="h-2.5 overflow-hidden rounded-full bg-rule max-md:hidden">
                 <i className="bar-fill" style={{ "--w": `${(o.p_win / top) * 100}%` } as CSSProperties} />
               </span>
-              <span className="type-data text-right text-[22px]">{pct(o.p_win)}</span>
+              <span className="type-data text-right text-[22px]" aria-label={`${pct(o.p_win)} ${label} chance`}>
+                {pct(o.p_win)}
+              </span>
               <span className="type-data text-right text-xs text-sub max-md:hidden">
                 {pct(o.p_podium, 0)}
                 <br />

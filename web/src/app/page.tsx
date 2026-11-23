@@ -4,12 +4,13 @@ import { Forecast } from "@/components/site/forecast";
 import { HeadToHead } from "@/components/site/head-to-head";
 import { Hero } from "@/components/site/hero";
 import { PodiumGame } from "@/components/site/podium-game";
-import { RaceOdds } from "@/components/site/race-odds";
+import { LiveRecord } from "@/components/site/live-record";
 import { Record } from "@/components/site/record";
 import { Season } from "@/components/site/season";
 import { SiteFooter } from "@/components/site/site-footer";
 import { SiteHeader } from "@/components/site/site-header";
 import { Watch } from "@/components/site/watch";
+import { WeekendOdds } from "@/components/site/weekend-odds";
 import { WhatIf } from "@/components/site/what-if";
 import { D, SectionHead, V } from "@/components/ui/reveal";
 import { currentGrid, shortRaceName, site } from "@/lib/data";
@@ -85,9 +86,11 @@ export default function Home() {
                     <D>one</D> <V>Sunday</V>
                   </span>,
                 ]}
-                lede={`Win and podium chances at ${race.circuit_name}, before qualifying. Open any driver to see the numbers the model read.`}
+                lede={`Win and podium chances at ${race.circuit_name}, ${
+                  race.stage === "post_quali" ? "re-run now the grid is set" : "before qualifying"
+                }${race.sprint ? ", for the sprint and the Grand Prix" : ""}. Open any driver to see the numbers the model read.`}
               />
-              <RaceOdds race={race} />
+              <WeekendOdds race={race} />
             </div>
           </section>
         ) : null}
@@ -165,6 +168,8 @@ export default function Home() {
             <WhatIf />
           </div>
         </section>
+
+        <LiveRecord />
 
         <Record />
       </main>

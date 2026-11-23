@@ -1,0 +1,35 @@
+name: Race alerts
+
+# Every three hours, ask the live site whether a race alert is due (the odds in race week,
+# or the grid being set) and send it to subscribers. The site decides and sends each alert
+# once per race, so running this often is harmless.
+on:
+  schedule:
+    - cron: "15 */3 * * *"
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: Show what would be sent without sending it
+        type: boolean
+        default: true
+
+permissions: {}
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Send any alert that is due
+        env:
+          ALERTS_SECRET: ${{ secrets.ALERTS_SECRET }}
+          DRY: ${{ inputs.dry && '1' || '0' }}
+        run: |
+          if [ -z "$ALERTS_SECRET" ]; then
+            echo "ALERTS_SECRET is not set; race alerts are not switched on yet."
+            exit 0
+          fi
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $ALERTS_SECRET" \
+            "https://pitwallgp.vercel.app/api/alerts/send?dry=$DRY"
+          echo

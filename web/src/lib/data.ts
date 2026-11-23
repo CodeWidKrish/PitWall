@@ -76,7 +76,31 @@ export interface Odds {
   team: string;
   p_win: number;
   p_podium: number;
+  /** Win chance before qualifying; equal to p_win until the grid is set. */
+  p_win_pre?: number;
+  quali_position?: number | null;
   inputs: Record<string, number | null>;
+}
+
+export interface TeamOdds {
+  team: string;
+  p_win: number;
+  p_podium: number;
+  p_one_two: number;
+}
+
+export interface SprintBlock {
+  odds: { driver_id: string; team: string; p_win: number; p_podium: number }[];
+  constructors: TeamOdds[];
+  calibration: {
+    temperature: number;
+    sprints: number;
+    seasons?: number[];
+    favourite_won?: number;
+    winner_in_top3?: number;
+    brier?: number;
+  };
+  result: { winner: string; podium: string[] } | null;
 }
 
 export interface NextRace {
@@ -90,6 +114,11 @@ export interface NextRace {
   start_utc: string | null;
   has_sprint: boolean;
   model_kind: string;
+  /** "pre_quali" from the Monday after the last race; "post_quali" once the grid is set. */
+  stage?: "pre_quali" | "post_quali";
+  pole?: string | null;
+  constructors?: TeamOdds[];
+  sprint?: SprintBlock | null;
   last_winner: { driver_id: string; season: number } | null;
   inputs: InputDef[];
   field: Record<string, { min: number | null; max: number | null; mean: number | null }>;

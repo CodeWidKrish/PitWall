@@ -26,7 +26,7 @@ export function SoundToggle() {
       data-cursor={on ? "Mute" : "Sound"}
       data-magnetic
       title="Sound (M)"
-      className="group inline-flex items-center gap-2.5 rounded-full border border-current px-3.5 py-2.5 font-mono text-[11px] font-semibold uppercase tracking-[0.12em]"
+      className="group inline-flex h-11 items-center justify-center gap-2.5 rounded-full border border-current px-3.5 max-sm:w-11 max-sm:px-0 font-mono text-[11px] font-semibold uppercase tracking-[0.12em]"
     >
       <span className="flex h-3 items-end gap-[2px]" aria-hidden="true">
         {[0, 1, 2, 3].map((i) => (
@@ -40,7 +40,7 @@ export function SoundToggle() {
           />
         ))}
       </span>
-      <span>Sound {on ? "on" : "off"}</span>
+      <span className="max-sm:sr-only">Sound {on ? "on" : "off"}</span>
     </button>
   );
 }

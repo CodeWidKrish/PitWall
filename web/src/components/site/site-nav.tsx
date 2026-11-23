@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { CommandPalette } from "@/components/ui/command-palette";
+import { RaceAlerts } from "@/components/ui/race-alerts";
 import { SoundToggle } from "@/components/ui/sound-toggle";
 
 export const LINKS: { id: string; label: string; note: string; menuOnly?: boolean }[] = [
@@ -14,6 +16,7 @@ export const LINKS: { id: string; label: string; note: string; menuOnly?: boolea
   { id: "season", label: "2026", note: "The title, race by race", menuOnly: true },
   { id: "forecast", label: "2027", note: "Who wins next year" },
   { id: "whatif", label: "What if", note: "Break the season" },
+  { id: "live", label: "Live", note: "This season's calls, scored", menuOnly: true },
   { id: "record", label: "Record", note: "Every call, scored" },
 ];
 
@@ -103,7 +106,7 @@ export function SiteNav({ home }: { home: boolean }) {
                   href={`#${l.id}`}
                   data-id={l.id}
                   aria-current={active === l.id ? "location" : undefined}
-                  className={`block rounded-full px-3 py-2 transition-colors duration-300 ${
+                  className={`block whitespace-nowrap rounded-full px-3 py-2 transition-colors duration-300 ${
                     active === l.id ? "text-white" : "text-white/60 hover:text-white"
                   }`}
                 >
@@ -121,6 +124,8 @@ export function SiteNav({ home }: { home: boolean }) {
       ) : null}
 
       <div className="flex items-center gap-2">
+        <CommandPalette home={home} />
+        <RaceAlerts />
         <SoundToggle />
         <button
           type="button"
@@ -193,9 +198,22 @@ export function SiteNav({ home }: { home: boolean }) {
               </li>
             ))}
           </ol>
-          <p className="font-mono text-[11px] uppercase leading-relaxed tracking-[0.12em] text-[#8a9099]">
-            Independent F1 forecasts · not affiliated with Formula 1
-          </p>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <button
+              type="button"
+              tabIndex={open ? 0 : -1}
+              onClick={() => {
+                setOpen(false);
+                setTimeout(() => dispatchEvent(new Event("pitwall:palette")), 450);
+              }}
+              className="inline-flex h-11 items-center gap-3 rounded-full border border-white/30 px-4 font-mono text-[11px] uppercase tracking-[0.12em]"
+            >
+              Search drivers and sections
+            </button>
+            <p className="font-mono text-[11px] uppercase leading-relaxed tracking-[0.12em] text-[#8a9099]">
+              Independent F1 forecasts · not affiliated with Formula 1
+            </p>
+          </div>
         </div>
       </div>,
             document.body,

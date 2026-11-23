@@ -775,6 +775,34 @@ section[data-cam="board"] .hero-ticker {
   transform: translateX(20px);
   background: #fff;
 }
+.switch[aria-checked="true"] {
+  background: var(--accent);
+}
+.switch[aria-checked="true"]::after {
+  transform: translateX(20px);
+  background: #fff;
+}
+.switch[disabled] {
+  opacity: 0.5;
+  cursor: progress;
+}
+@keyframes ring {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  10%,
+  30% {
+    transform: rotate(14deg);
+  }
+  20%,
+  40% {
+    transform: rotate(-12deg);
+  }
+  50% {
+    transform: rotate(0);
+  }
+}
 .btn[disabled] {
   opacity: 0.4;
   cursor: not-allowed;

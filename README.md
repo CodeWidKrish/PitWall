@@ -99,9 +99,23 @@
 | 🎮 | **Beat the model** | Pick a podium; exact Plackett-Luce maths says how likely the model thinks your order is. |
 | 🔮 | **What-if simulator** | Change pace, drop a driver, add chaos: 10,000 seasons re-run in a Web Worker in about a second. |
 | 🗺 | **Calendar with circuits** | Every 2027 round with its circuit drawn, and a one-click calendar export for the next race. |
-| ⚙️ | **Updates itself** | A GitHub Action picks up results, re-simulates, commits and redeploys after every race. |
+| 🕒 | **Saturday update** | Odds re-run once the grid is set, with each driver's move shown. |
+| 🏭 | **Constructor odds** | Win, podium and one-two chance per team, per race and per sprint. |
+| 📒 | **Live record** | Every published call is logged before lights out and scored after, with a reliability chart. |
+| 🔔 | **Race alerts** | Push notifications in race week and when the grid is set. |
+| ⌨️ | **Command palette** | <kbd>Ctrl</kbd> <kbd>K</kbd>: jump anywhere, follow a driver, switch on alerts. |
+| ⚙️ | **Updates itself** | A GitHub Action picks up qualifying, sprints and results, re-simulates, commits and redeploys. |
 
-## 🆕 What's new in v1.1.0: clean lines
+## 🆕 What's new in v1.2.0: race weekend
+
+- 🕒 **Saturday update.** Once qualifying is in, the odds are re-run with the grid and the gaps to pole and teammate, and each driver shows how far their chance moved.
+- 🏁 **Sprint odds** on sprint weekends, with their own scale fitted on 30 past sprints, behind a Grand Prix / Sprint switch.
+- 🏭 **Constructor odds:** each team's chance to win, to get a car on the podium and to finish one-two, from 20,000 simulated finishing orders.
+- 📒 **Live record:** every forecast is written to [`ledger.json`](web/src/data/ledger.json) before lights out and scored after the race, with a live reliability chart. Its git history shows nothing is rewritten.
+- 🔔 **Race alerts:** browser push notifications in race week and when the grid is set. No account; the subscription is kept in a private store and deleted when you switch off.
+- ⌨️ **Command palette:** <kbd>Ctrl</kbd> <kbd>K</kbd> to jump to any section, follow any driver or switch on alerts.
+
+## 🆕 v1.1.0: clean lines
 
 - 🛞 **Cars face where they drive.** They used to point along the centre of the track while crossing it for the racing line, so they looked as if they were sliding. Now each car turns in, clips the apex and unwinds, at a steering-limited rate.
 - 🛑 **Brake, turn, accelerate.** Speed comes from the lap model: from about **320 km/h** on the straights down to **98 km/h** in the hairpin, then back up on the exit.
@@ -365,10 +379,13 @@ A CC BY 4.0 model, cleaned of every logo and number and repainted per team in a 
 - [x] 10,000-season title forecast and a what-if simulator
 - [x] 3D physics race, car studio and real sound
 - [x] Post-race automation with GitHub Actions
-- [ ] Sprint-race odds on the race page
-- [ ] Constructor odds per race
-- [ ] Track the model's calibration live through the 2027 season
-- [ ] Push notifications for the odds before each race
+- [x] Odds re-run on Saturday once the grid is set
+- [x] Sprint-race odds on the race page
+- [x] Constructor odds per race
+- [x] A live ledger that scores every published call through the rest of 2026 and all of 2027
+- [x] Push notifications for the odds before each race
+- [ ] Sprint qualifying as an input to the sprint odds
+- [ ] Grid penalties applied to the Saturday re-run
 
 ## 📜 Credits
 
