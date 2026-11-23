@@ -12,6 +12,7 @@ import { SiteHeader } from "@/components/site/site-header";
 import { Watch } from "@/components/site/watch";
 import { WeekendOdds } from "@/components/site/weekend-odds";
 import { WhatIf } from "@/components/site/what-if";
+import { YourCalls } from "@/components/site/your-calls";
 import { D, SectionHead, V } from "@/components/ui/reveal";
 import { currentGrid, shortRaceName, site } from "@/lib/data";
 
@@ -110,6 +111,7 @@ export default function Home() {
                 lede="Drag three drivers onto the podium, or tap to fill the next step. Lock it in and see how likely the model thinks your call is."
               />
               <PodiumGame race={race} />
+              <YourCalls />
             </div>
           </section>
         ) : null}

@@ -4,26 +4,9 @@ import { type CSSProperties, type PointerEvent as RPointerEvent, useEffect, useM
 import { useFollow } from "@/components/follow";
 import { toast } from "@/components/ui/toaster";
 import { driver, type NextRace, pct, shortRaceName, team } from "@/lib/data";
+import { callUrl, oneIn, podiumChance } from "@/lib/podium";
 
 type Slots = [string | null, string | null, string | null];
-
-/** Chance of an exact podium order under the model (Plackett-Luce on win odds). */
-function podiumChance(odds: Map<string, number>, picks: string[]) {
-  let rest = [...odds.values()].reduce((a, b) => a + b, 0);
-  let p = 1;
-  for (const id of picks) {
-    const w = odds.get(id) ?? 0;
-    p *= w / rest;
-    rest -= w;
-  }
-  return p;
-}
-
-function oneIn(p: number) {
-  if (p <= 0) return "—";
-  const n = 1 / p;
-  return n < 10 ? n.toFixed(1) : Math.round(n).toLocaleString("en-GB");
-}
 
 /**
  * Beat the model: drag three drivers onto the podium (or tap to fill the next step),
@@ -126,12 +109,17 @@ export function PodiumGame({ race }: { race: NextRace }) {
   };
   const share = async () => {
     const codes = picks.map((p) => driver(p).code).join(" · ");
-    const text = `My ${name} GP podium: ${codes}. PitWall's model gives it 1 in ${oneIn(yourP)}. ${location.origin}`;
+    const url = `${location.origin}${callUrl(picks)}`;
+    const text = `My ${name} GP podium: ${codes}. PitWall's model gives it 1 in ${oneIn(yourP)}. Can you beat it?`;
     try {
-      if (navigator.share) await navigator.share({ text });
+      // On phones, share the picture itself where the share sheet allows files.
+      const img = await fetch(`/api/card${callUrl(picks).slice(5)}`).then((r) => (r.ok ? r.blob() : null)).catch(() => null);
+      const file = img ? new File([img], `pitwall-${codes.replace(/ · /g, "-").toLowerCase()}.png`, { type: "image/png" }) : null;
+      if (file && navigator.canShare?.({ files: [file] })) await navigator.share({ files: [file], text: `${text} ${url}` });
+      else if (navigator.share) await navigator.share({ text, url });
       else {
-        await navigator.clipboard.writeText(text);
-        toast({ title: "Copied your call", body: "Paste it anywhere to challenge a friend." });
+        await navigator.clipboard.writeText(`${text} ${url}`);
+        toast({ title: "Link copied", body: "It opens with a picture of your podium." });
       }
     } catch {
       /* cancelled */
