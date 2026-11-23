@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Archivo, IBM_Plex_Mono, Instrument_Serif } from "next/font/google";
 import { FollowProvider } from "@/components/follow";
 import { Chrome } from "@/components/motion/chrome";
-import { Intro } from "@/components/motion/intro";
 import { Toaster } from "@/components/ui/toaster";
 import { preconnect } from "react-dom";
 import "./globals.css";
@@ -75,7 +74,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           >
             Skip to content
           </a>
-          <Intro />
           <Chrome />
           {children}
           <Toaster />

@@ -809,3 +809,14 @@ section[data-cam="board"] .hero-ticker {
 .theme-day .pill.best {
   color: #5f1fd1;
 }
+
+@keyframes heroIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

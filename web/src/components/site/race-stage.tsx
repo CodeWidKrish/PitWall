@@ -48,7 +48,6 @@ export function RaceStage() {
   const bannerId = useRef(0);
   const launched = useRef(false);
   const heroVisible = useRef(true);
-  const [introDone, setIntroDone] = useState(false);
 
   const grid: SceneCar[] = useMemo(() => {
     const odds = site.next_race?.odds ?? [];
@@ -132,18 +131,12 @@ export function RaceStage() {
   useEffect(() => {
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const timers: ReturnType<typeof setTimeout>[] = [];
-    if (!reduce && !window.__pitwallIntroDone) {
-      // Start the lights once the intro curtain has lifted.
-      const go = () => setIntroDone(true);
-      addEventListener("pitwall:intro-done", go, { once: true });
-      return () => removeEventListener("pitwall:intro-done", go);
-    }
     if (reduce) {
       launched.current = true;
       timers.push(setTimeout(() => setLights(6), 0));
       return () => timers.forEach(clearTimeout);
     }
-    for (let k = 1; k <= 5; k++) timers.push(setTimeout(() => setLights(k), 600 + k * 750));
+    for (let k = 1; k <= 5; k++) timers.push(setTimeout(() => setLights(k), 250 + k * 520));
     timers.push(
       setTimeout(
         () => {
@@ -153,11 +146,11 @@ export function RaceStage() {
           sound?.launch();
           showBanner({ kind: "info", text: "Lights out and away we go", carId: grid[0]?.id ?? "" });
         },
-        600 + 5 * 750 + 700 + Math.random() * 900,
+        250 + 5 * 520 + 350 + Math.random() * 600,
       ),
     );
     return () => timers.forEach(clearTimeout);
-  }, [grid, showBanner, introDone]);
+  }, [grid, showBanner]);
 
   useEffect(() => {
     if (inGrid) ctrl.current?.setFollow(followId);
@@ -413,7 +406,7 @@ export function RaceStage() {
       ) : null}
 
       {/* Camera switch */}
-      <div className="absolute bottom-[78px] right-[max(20px,calc((100vw-1280px)/2+20px))] z-[6] grid justify-items-end gap-2.5 max-md:bottom-auto max-md:right-auto max-md:left-5 max-md:top-[84px]">
+      <div className="absolute right-[max(20px,calc((100vw-1280px)/2+20px))] top-[92px] z-[6] grid justify-items-end gap-2.5 max-md:right-auto max-md:left-5 max-md:top-[84px] max-md:justify-items-start">
         {shot && lights === 6 ? (
           <span className="flex items-center gap-2 rounded-[5px] border border-white/10 bg-[rgb(10_11_13/0.7)] px-2.5 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-[#ecedef] max-md:hidden">
             <i className="size-1.5 rounded-full bg-[#ff2a2a] [animation:blink_1.2s_infinite]" />

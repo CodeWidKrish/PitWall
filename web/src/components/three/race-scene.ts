@@ -614,8 +614,11 @@ export function createRaceScene(
   const raceTrack = buildTrack(
     frames.slice(0, N).map((f) => ({ x: f.t.x, z: f.t.z })),
     frames.slice(0, N).map((f) => ({ x: f.s.x, z: f.s.z })),
+    frames.slice(0, N).map((f) => ({ x: f.p.x, z: f.p.z })),
     LAP_M,
     HW,
+    // the drawn car: 0.46 units long, 0.17 wide; the drawn lap is shorter than the simulated one
+    { length: 0.46, width: 0.17, unitsPerMetre: curve.getLength() / LAP_M },
   );
   const idealLap = raceTrack.ideal;
   const TIME_SCALE = Math.max(3, idealLap / 22); // a lap on screen takes about 22 seconds
@@ -658,7 +661,7 @@ export function createRaceScene(
     g.add(blob);
     g.scale.setScalar(SC);
     scene.add(g);
-    const sim = makeCar(i, d.strength);
+    const sim = makeCar(i, d.strength, raceTrack);
     return {
       ...sim,
       d,
@@ -782,7 +785,7 @@ export function createRaceScene(
         const v = ordered[p + 1];
         ev.onBanner?.("overtake", `${c.d.code} passes ${v ? v.d.code : ""} for P${p + 1}`, c.d.id);
       }
-      const gap = (lead.s - c.s) / Math.max(25, c.v);
+      const gap = (lead.s - c.s) / (LAP_M / idealLap); // distance behind at average lap pace
       return { id: c.d.id, gap: p === 0 ? "Leader" : `+${gap.toFixed(3)}`, delta };
     });
     ev.onTower?.(rows, Math.max(1, lead.lap));

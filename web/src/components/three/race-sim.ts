@@ -13,6 +13,12 @@ export interface Track {
   profile: Float32Array; // fastest speed at each point, m/s
   line: Float32Array; // racing line offset at each point, drawing units (+ = side vector)
   ideal: number; // lap time on the ideal envelope, s
+  carLen: number; // a car's drawn length plus a safety margin, in metres along the lap
+  carWid: number; // a car's drawn width plus a little air, in drawing units
+  pts: { x: number; z: number }[]; // centre line, drawing units
+  tans: { x: number; z: number }[];
+  sides: { x: number; z: number }[];
+  half: { len: number; wid: number }; // half the drawn car footprint, with a little air
 }
 
 const mod1 = (u: number) => ((u % 1) + 1) % 1;
@@ -22,8 +28,10 @@ export const at = (tr: Track, arr: Float32Array, s: number) => arr[Math.floor(mo
 export function buildTrack(
   tangents: { x: number; z: number }[],
   sides: { x: number; z: number }[],
+  points: { x: number; z: number }[],
   lap: number,
   halfWidth: number,
+  car: { length: number; width: number; unitsPerMetre: number },
 ): Track {
   const n = tangents.length;
   const kappa = curvature(tangents, lap / n);
@@ -59,7 +67,23 @@ export function buildTrack(
     const v = qs[i] - 0.55 * (qs[(i + lead) % n] + qs[(i - lead + n) % n]);
     raw[i] = Math.tanh(v * 55) * edge;
   }
-  return { n, lap, edge, kappa, profile, line: smooth(raw, 12), ideal: lapTime(profile, lap) };
+  return {
+    n,
+    lap,
+    edge,
+    kappa,
+    profile,
+    line: smooth(raw, 12),
+    ideal: lapTime(profile, lap),
+    // The circuit is drawn shorter than it is simulated, so spacing must use the car's drawn
+    // size converted into lap metres (plus room for the shorter inside line in corners).
+    carLen: (car.length * 1.15) / car.unitsPerMetre,
+    carWid: car.width * 1.15,
+    pts: points,
+    tans: tangents,
+    sides,
+    half: { len: (car.length / 2) * 1.08, wid: (car.width / 2) * 1.12 },
+  };
 }
 
 export interface SimCar {
@@ -82,8 +106,8 @@ export interface SimCar {
   lapStart: number;
 }
 
-export function makeCar(i: number, strength: number, rand: () => number = Math.random): SimCar {
-  const s0 = -i * 8 - 3; // grid slots 8 m apart, staggered left and right
+export function makeCar(i: number, strength: number, tr: Track, rand: () => number = Math.random): SimCar {
+  const s0 = -(i + 0.5) * tr.carLen * 1.35; // grid slots a car length and a half apart, staggered
   const gridSide = (i % 2 ? 1 : -1) * 0.16;
   return {
     i,
@@ -107,13 +131,57 @@ export function makeCar(i: number, strength: number, rand: () => number = Math.r
   };
 }
 
-// Car footprint: 5.6 m long, and a car width plus a little air (0.19 drawing units ≈ 2.2 m).
-const CAR_LEN = 5.8;
-const CAR_WID = 0.19;
+
+interface Pose {
+  cx: number;
+  cz: number;
+  fx: number;
+  fz: number;
+}
+
+/** Where a car is drawn: centre and heading on screen, for a given lateral offset. */
+function pose(tr: Track, s: number, lane: number): Pose {
+  const f = mod1(s / tr.lap) * tr.n;
+  const i = Math.floor(f) % tr.n,
+    j = (i + 1) % tr.n,
+    w = f - Math.floor(f);
+  const lerp = (a: { x: number; z: number }[], k: "x" | "z") => a[i][k] * (1 - w) + a[j][k] * w;
+  const tx = lerp(tr.tans, "x"),
+    tz = lerp(tr.tans, "z"),
+    l = Math.hypot(tx, tz) || 1;
+  const fx = tx / l,
+    fz = tz / l;
+  // side vector is (-t.z, t.x), the same as the renderer uses
+  return { cx: lerp(tr.pts, "x") - fz * lane, cz: lerp(tr.pts, "z") + fx * lane, fx, fz };
+}
+
+/** Do two drawn car footprints overlap? (separating axis test on rotated rectangles) */
+function touching(a: Pose, b: Pose, h: Track["half"]) {
+  const axes = [
+    [a.fx, a.fz],
+    [-a.fz, a.fx],
+    [b.fx, b.fz],
+    [-b.fz, b.fx],
+  ];
+  for (const [ax, az] of axes) {
+    const ext = (p: Pose) => h.len * Math.abs(p.fx * ax + p.fz * az) + h.wid * Math.abs(-p.fz * ax + p.fx * az);
+    const d = Math.abs((a.cx - b.cx) * ax + (a.cz - b.cz) * az);
+    if (d > ext(a) + ext(b)) return false;
+  }
+  return true;
+}
+
+/** Distance from B to A along the lap, wrapped to the nearest copy (handles lapping). */
+const wrapGap = (tr: Track, a: number, b: number) => {
+  let d = (a - b) % tr.lap;
+  if (d > tr.lap / 2) d -= tr.lap;
+  if (d < -tr.lap / 2) d += tr.lap;
+  return d;
+};
 
 /**
- * Keep every pair of cars apart: side by side they keep a car width between them (the one
- * that moved over yields), nose to tail the car behind stays a car length back.
+ * Keep every pair of cars apart, checked on the cars as drawn. Alongside, they open the gap
+ * sideways inside the track; nose to tail, the car behind drops back until it is clear.
  */
 function separate(cars: SimCar[], tr: Track) {
   for (let pass = 0; pass < 3; pass++) {
@@ -121,45 +189,46 @@ function separate(cars: SimCar[], tr: Track) {
       for (let b = a + 1; b < cars.length; b++) {
         const A = cars[a],
           B = cars[b];
-        const ds = A.s - B.s;
-        const dl = A.lane - B.lane;
-        if (Math.abs(ds) >= CAR_LEN || Math.abs(dl) >= CAR_WID) continue;
-        if (Math.abs(ds) < CAR_LEN * 0.65) {
-          // alongside: open the gap sideways, staying inside the track
-          const dir = dl !== 0 ? Math.sign(dl) : A.i < B.i ? 1 : -1;
-          const need = (CAR_WID - Math.abs(dl)) / 2 + 0.001;
+        const ds = wrapGap(tr, A.s, B.s);
+        if (Math.abs(ds) > tr.carLen * 3) continue;
+        const pa = pose(tr, A.s, A.lane),
+          pb = pose(tr, B.s, B.lane);
+        if (!touching(pa, pb, tr.half)) continue;
+        // how far apart they are along A's heading vs across it
+        const along = (pa.cx - pb.cx) * pa.fx + (pa.cz - pb.cz) * pa.fz;
+        const front = ds >= 0 ? A : B,
+          back = ds >= 0 ? B : A;
+        if (Math.abs(along) < tr.half.len * 1.1) {
+          // alongside: move apart sideways, staying inside the track
+          const dl = A.lane - B.lane;
+          const dir = Math.abs(dl) > 1e-4 ? Math.sign(dl) : A.i < B.i ? 1 : -1;
           for (const [car, d] of [
             [A, dir],
             [B, -dir],
           ] as [SimCar, number][]) {
             const line = at(tr, tr.line, car.s) * car.lineScale;
-            car.side += d * need;
-            car.lane = line + car.side;
-            if (Math.abs(car.lane) > tr.edge) {
-              const over = Math.abs(car.lane) - tr.edge;
-              car.lane = Math.sign(car.lane) * tr.edge;
-              car.side = car.lane - line;
-              const other = car === A ? B : A; // the other car takes the rest
-              const oLine = at(tr, tr.line, other.s) * other.lineScale;
-              other.side -= d * over;
-              other.lane = Math.max(-tr.edge, Math.min(tr.edge, oLine + other.side));
-            }
-            car.sideTarget = car.side; // hold this line until the space clears
+            car.lane = Math.max(-tr.edge, Math.min(tr.edge, car.lane + d * tr.carWid * 0.08));
+            car.side = car.lane - line;
+            car.sideTarget = car.side;
           }
+          // if they are against the edge and still touching, the one behind yields
+          if (touching(pose(tr, A.s, A.lane), pose(tr, B.s, B.lane), tr.half)) back.s -= tr.carLen * 0.04;
         } else {
-          // nose to tail: the car behind drops back to a car length
-          const front = ds > 0 ? A : B,
-            back = ds > 0 ? B : A;
-          back.s = front.s - CAR_LEN;
+          // nose to tail: the car behind drops back until it is clear
+          for (let k = 0; k < 80 && touching(pose(tr, front.s, front.lane), pose(tr, back.s, back.lane), tr.half); k++)
+            back.s -= tr.carLen * 0.025;
           back.v = Math.min(back.v, front.v);
         }
       }
   }
 }
 
-/** True if moving `c` to `lane` would put it into another car's space. */
-function blocked(c: SimCar, lane: number, cars: SimCar[]) {
-  return cars.some((o) => o !== c && Math.abs(o.s - c.s) < CAR_LEN + 2 && Math.abs(o.lane - lane) < CAR_WID);
+/** True if moving `c` to `lane` would put it into another car's drawn space. */
+function blocked(c: SimCar, lane: number, cars: SimCar[], tr: Track) {
+  const me = pose(tr, c.s, lane);
+  return cars.some(
+    (o) => o !== c && Math.abs(wrapGap(tr, o.s, c.s)) < tr.carLen * 3 && touching(me, pose(tr, o.s, o.lane), tr.half),
+  );
 }
 
 export interface Hooks {
@@ -196,23 +265,23 @@ export function stepRace(cars: SimCar[], tr: Track, dt: number, t: number, hooks
     // Corner speed scales with √grip; top speed with drag^-1/3 (power = drag × v).
     let target = at(tr, tr.profile, c.s) * Math.sqrt(grip) * (straight ? Math.pow(dragScale, -1 / 3) : 1);
     const vPrev = c.v;
-    const minGap = 7 + c.v * 0.14; // about 0.14 s at speed, a car length when slow
+    const minGap = tr.carLen * 1.25 + c.v * 0.14; // a car length plus about 0.14 s at speed
     const line = at(tr, tr.line, c.s);
     const myLat = line * c.lineScale + c.side;
     const aheadLat = ahead ? at(tr, tr.line, ahead.s) * ahead.lineScale + ahead.side : 0;
-    const overlap = !!ahead && Math.abs(myLat - aheadLat) < 0.17;
-    if (ahead && gapM < minGap + 25 && overlap) {
+    const overlap = !!ahead && Math.abs(myLat - aheadLat) < tr.carWid;
+    if (ahead && gapM < minGap + tr.carLen * 1.5 && overlap) {
       const canPass = straight && c.v > ahead.v + 0.5 && (c.drs || slip < 0.99);
       if (canPass) {
-        const want = aheadLat > 0 ? aheadLat - 0.2 : aheadLat + 0.2;
+        const want = aheadLat > 0 ? aheadLat - tr.carWid * 1.08 : aheadLat + tr.carWid * 1.08;
         c.sideTarget = Math.max(-tr.edge, Math.min(tr.edge, want)) - line * c.lineScale;
-      } else if (gapM < minGap + 8) {
+      } else if (gapM < minGap + tr.carLen * 0.6) {
         target = Math.min(target, ahead.v + (gapM - minGap) * 0.6); // hold station, don't tailgate
       }
-    } else if (!ahead || gapM > minGap + 30) {
+    } else if (!ahead || gapM > minGap + tr.carLen * 1.8) {
       // Clear air ahead: back onto the racing line, but only once the car just passed is clear.
       const behind = byPos[rank + 1];
-      const mirrorsClear = !behind || c.s - behind.s > 12;
+      const mirrorsClear = !behind || c.s - behind.s > tr.carLen * 1.3;
       if (mirrorsClear) c.sideTarget = 0;
     }
     if (ahead && gapM < 5.5 && overlap) target = Math.min(target, ahead.v * 0.97); // never drive through a car
@@ -221,7 +290,7 @@ export function stepRace(cars: SimCar[], tr: Track, dt: number, t: number, hooks
     const nextSide = c.side + (c.sideTarget - c.side) * Math.min(1, dt * 1.2);
     const nextLane = Math.max(-tr.edge, Math.min(tr.edge, line * c.lineScale + nextSide));
     // Look before moving over: never steer into a car that is alongside.
-    if (!blocked(c, nextLane, cars) || Math.abs(nextLane) < Math.abs(c.lane)) c.side = nextSide;
+    if (!blocked(c, nextLane, cars, tr) || Math.abs(nextLane) < Math.abs(c.lane)) c.side = nextSide;
     c.lane = Math.max(-tr.edge, Math.min(tr.edge, line * c.lineScale + c.side));
     c.aLong = (c.v - vPrev) / dt;
     c.aLat = c.v * c.v * k;
