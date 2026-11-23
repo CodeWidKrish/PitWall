@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { Countdown } from "@/components/site/countdown";
 import { RaceStage } from "@/components/site/race-stage";
+import { CountUp } from "@/components/ui/count-up";
 import { Portrait } from "@/components/ui/portrait";
 import { Line } from "@/components/ui/reveal";
 import { driver, pct, shortRaceName, site, team } from "@/lib/data";
@@ -49,7 +50,7 @@ export function Hero() {
         </div>
         <div className="mt-3.5 flex items-end justify-between gap-3">
           <p className="flex items-start font-display text-[100px] font-extrabold leading-[0.82] tracking-[-0.02em] [font-stretch:70%]">
-            {(fav.p_win * 100).toFixed(1)}
+            <CountUp value={fav.p_win * 100} decimals={1} />
             <small className="type-voice ml-1 text-[0.42em] text-accent">%</small>
           </p>
           <Portrait d={d} live sizes="80px" className="aspect-[3/4] w-[72px] flex-none rounded-lg" />

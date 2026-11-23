@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { CountUp } from "@/components/ui/count-up";
 import { D, SectionHead, V } from "@/components/ui/reveal";
 import { driver, pct, site } from "@/lib/data";
 import { highlightFor, watchUrl } from "@/lib/footage";
@@ -57,7 +58,7 @@ export function Record() {
         <div className="grid gap-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)]">
           <div>
             <p className="font-display text-[clamp(110px,15vw,220px)] font-extrabold leading-[0.8] tracking-[-0.02em] [font-stretch:70%]">
-              {Math.round(post.model.winner_hit * 100)}
+              <CountUp value={post.model.winner_hit * 100} />
               <small className="type-voice ml-1 text-[0.3em] text-accent">%</small>
             </p>
             <p className="type-voice mt-4 max-w-[24ch] text-2xl leading-tight">

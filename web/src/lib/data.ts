@@ -155,6 +155,7 @@ export interface Site {
     calendar: { round: number; race_name: string; circuit_id: string; country: string; has_sprint: boolean }[];
     sources: Record<string, string>;
   } | null;
+  sim?: unknown; // inputs for the in-browser season simulator, see lib/sim.ts
   record: {
     built_at: string;
     test_seasons: number[];

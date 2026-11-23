@@ -8,9 +8,11 @@ import { SoundToggle } from "@/components/ui/sound-toggle";
 export const LINKS = [
   { id: "drivers", label: "Drivers", note: "Pick who you ride with" },
   { id: "odds", label: "The odds", note: "Every driver, next race" },
+  { id: "game", label: "Play", note: "Beat the model" },
   { id: "watch", label: "Watch", note: "Real cars, real sound" },
   { id: "season", label: "2026", note: "The title, race by race" },
   { id: "forecast", label: "2027", note: "Who wins next year" },
+  { id: "whatif", label: "What if", note: "Break the season" },
   { id: "record", label: "Record", note: "Every call, scored" },
 ];
 

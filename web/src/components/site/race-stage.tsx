@@ -53,7 +53,9 @@ export function RaceStage() {
   const grid: SceneCar[] = useMemo(() => {
     const odds = site.next_race?.odds ?? [];
     const top = odds[0]?.p_win ?? 1;
-    return odds.slice(0, 10).map((o) => {
+    // Phones race the top six to keep the frame rate up; larger screens race the top ten.
+    const count = typeof window !== "undefined" && innerWidth < 760 ? 6 : 10;
+    return odds.slice(0, count).map((o) => {
       const d = driver(o.driver_id);
       const colour = team(o.team).colour;
       return { id: d.id, code: d.code, colour, accent: accentFor(colour), strength: Math.sqrt(o.p_win / top) };

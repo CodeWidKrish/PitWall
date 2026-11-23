@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { CountUp } from "@/components/ui/count-up";
 import { D, SectionHead, V } from "@/components/ui/reveal";
 import circuits from "@/data/circuits.json";
 import { Portrait } from "@/components/ui/portrait";
@@ -55,7 +56,7 @@ export function Forecast() {
               <div>
                 <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-sub">Title favourite</span>
                 <p className="mt-2 font-display text-[clamp(84px,11vw,150px)] font-extrabold leading-[0.8] tracking-[-0.02em] [font-stretch:70%]">
-                  {(f.drivers[0].p_title * 100).toFixed(0)}
+                  <CountUp value={f.drivers[0].p_title * 100} />
                   <small className="type-voice ml-1 text-[0.32em] text-accent">%</small>
                 </p>
                 <p className="type-voice mt-2 text-2xl">{favourite.name}</p>

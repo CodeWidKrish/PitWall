@@ -235,6 +235,59 @@ def _next_race(entries: pd.DataFrame, races: pd.DataFrame, feats: pd.DataFrame) 
     }
 
 
+def _sim_inputs(
+    entries: pd.DataFrame, races: pd.DataFrame, feats: pd.DataFrame, config: dict[str, Any]
+) -> dict[str, Any]:
+    """What the browser needs to re-run next season's title simulation itself.
+
+    Mirrors `pitwall model simulate` for a pre-season forecast: the same model, per-race
+    strengths (log weights), retirement chances and form swing, so the what-if tool
+    starts from the published odds.
+    """
+    from pitwall.simulate import (
+        PRESEASON_SCALE,
+        SPRINT_DNF_FACTOR,
+        _dnf_chance,
+        preseason_state,
+        swing,
+    )
+
+    state, race_rows = preseason_state(entries, config)
+    all_races = pd.concat([races, race_rows], ignore_index=True)
+    fut = future_features(entries, all_races, state)
+    done = feats[feats["position"].notna()]
+    kind, _ = select_kind(done, PRE_QUALI)
+    model = fit(done, PRE_QUALI, kind=kind)
+    drivers = list(state.lineup["driver_id"])
+    teams = list(state.lineup["constructor_id"])
+    recent = entries[(entries["season"] >= int(entries["season"].max()) - 1) & entries["position"].notna()]
+    league_dnf = float(recent["dnf"].mean()) if len(recent) else 0.1
+    rounds = []
+    for _, race in fut.groupby("round", sort=True):
+        rnd = int(race["round"].iloc[0])
+        race = race.set_index("driver_id").reindex(drivers).reset_index()
+        rounds.append(
+            {
+                "round": rnd,
+                "sprint": bool(race["has_sprint"].iloc[0]),
+                "log_w": [round(float(v), 4) for v in model.scores(race)],
+                "p_dnf": [round(float(v), 4) for v in _dnf_chance(race, league_dnf)],
+            }
+        )
+    team_s, drv_s = swing(PRESEASON_SCALE)
+    return {
+        "season": int(config["season"]),
+        "drivers": drivers,
+        "teams": teams,
+        "rounds": rounds,
+        "team_sigma": team_s,
+        "driver_sigma": drv_s,
+        "sprint_dnf_factor": SPRINT_DNF_FACTOR,
+        "race_points": [25, 18, 15, 12, 10, 8, 6, 4, 2, 1],
+        "sprint_points": [8, 7, 6, 5, 4, 3, 2, 1],
+    }
+
+
 def _record(reports_dir: Path) -> dict[str, Any] | None:
     path = reports_dir / "backtest.json"
     if not path.exists():
@@ -351,6 +404,7 @@ def export(settings: Settings, out_path: Path = SITE_JSON) -> Path:
         if forecast
         else None,
         "record": _record(settings.reports_dir),
+        "sim": _sim_inputs(entries, races, feats, config) if config else None,
     }
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(site, indent=1, ensure_ascii=False), encoding="utf-8")
