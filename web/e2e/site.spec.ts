@@ -159,7 +159,9 @@ test.describe("interactions", () => {
 
   test("the command palette finds a driver and opens their page", async ({ page, isMobile }) => {
     test.skip(isMobile, "the Search button is in the menu on phones");
-    await page.goto("/");
+    // The palette is in the header on every page. Test browsers draw the home page's 3D
+    // race in software, which starves page changes there, so this uses a page without it.
+    await page.goto("/methodology");
     await hydrated(page);
     await page.getByRole("button", { name: /Search and jump/ }).click();
     const dialog = page.getByRole("dialog", { name: "Search and jump" });

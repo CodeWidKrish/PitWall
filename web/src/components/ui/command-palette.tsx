@@ -181,9 +181,14 @@ export function CommandPalette({ home }: { home: boolean }) {
     if (!open) return;
     lenis()?.stop();
     document.documentElement.style.overflow = "hidden";
+    // Focus the field, and again a moment later in case the page was still settling.
     const t = setTimeout(() => input.current?.focus(), 30);
+    const t2 = setTimeout(() => {
+      if (document.activeElement !== input.current) input.current?.focus();
+    }, 300);
     return () => {
       clearTimeout(t);
+      clearTimeout(t2);
       lenis()?.start();
       document.documentElement.style.overflow = "";
       setQ("");
