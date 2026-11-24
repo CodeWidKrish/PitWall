@@ -113,12 +113,17 @@
 | ⌨️ | **Command palette** | <kbd>Ctrl</kbd> <kbd>K</kbd>: jump anywhere, follow a driver, switch on alerts. |
 | ⚙️ | **Updates itself** | A GitHub Action picks up qualifying, sprints and results, re-simulates, commits and redeploys. |
 
-## 🆕 What's new in v1.5.0: smooth, light and tested
+## 🆕 What's new in v1.6.0: the finish
+
+- ♿ **Accessibility pass:** every page audited with axe on a laptop and a phone. Text on team colours picks black or white for contrast, the closed phone menu is hidden from screen readers, and lists and landmarks are correct.
+- 🧭 **A real 404 page** that points back to the race, the odds and the drivers, and a home-screen icon for iPhones.
+
+## 🆕 v1.5.0: smooth, light and tested
 
 - 🧈 **Smooth scrolling:** a per-frame layout pass is gone; measured 8 → 55 fps on a laptop and about 50 fps on a throttled phone.
 - 📱 **Lighter on phones:** the detailed 3D car downloads only after the page has loaded, and not at all on slow connections; the page loads first with about 1 MB.
 - 🖼 **Share card for the homepage:** the next race and the model's top three, rebuilt with every update.
-- 🧪 **End-to-end tests:** 31 Playwright checks on a laptop and a phone run in CI on every push: pages load without errors or sideways scrolling, the odds, podium game, chat, command palette, share cards and APIs work.
+- 🧪 **End-to-end tests:** 33 Playwright checks on a laptop and a phone run in CI on every push: pages load without errors or sideways scrolling, the odds, podium game, chat, command palette, share cards and APIs work.
 
 ## 🆕 v1.4.0: real cars everywhere
 
