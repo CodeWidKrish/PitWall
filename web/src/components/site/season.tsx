@@ -60,7 +60,16 @@ export function Season() {
               <div className="flex flex-col justify-between gap-6 p-6">
                 <div className="flex flex-wrap items-center gap-3">
                   <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-sub">{c.kicker}</span>
-                  <span className={`pill ${c.note === "Still open" ? "mute" : "hit"}`}>{c.note}</span>
+                  <span className={`pill ${c.note === "Still open" ? "mute" : "hit"}`}>
+                    {c.note === "Mathematically decided" ? (
+                      <>
+                        <span className="max-sm:hidden">Mathematically decided</span>
+                        <span className="sm:hidden">Decided</span>
+                      </>
+                    ) : (
+                      c.note
+                    )}
+                  </span>
                 </div>
                 <div>
                   <p className="type-voice text-[clamp(34px,4vw,52px)] leading-none">{c.who}</p>

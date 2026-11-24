@@ -16,27 +16,35 @@ export function Chrome() {
   // Smooth scroll, and in-page anchors that glide instead of jump.
   useEffect(() => {
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const lenis = reduce ? null : new Lenis({ lerp: 0.1, wheelMultiplier: 1 });
+    // Smooth wheel scrolling on laptops; phones and touchpads-as-touch keep native scrolling,
+    // which is already smooth and runs off the main thread.
+    const touch = matchMedia("(hover: none) and (pointer: coarse)").matches;
+    const lenis = reduce || touch ? null : new Lenis({ lerp: 0.12, wheelMultiplier: 1, syncTouch: false });
     (window as unknown as { __lenis?: Lenis | null }).__lenis = lenis;
     let raf = 0;
-    let skew = 0;
-    let lastSkew = "";
-    const root = document.documentElement;
+    // The page height is measured only when it changes, never during a scroll frame:
+    // reading it every frame forced a full layout of the page on each one.
+    let max = 1;
+    const measure = () => {
+      max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(document.body);
+    let shown = -1;
+    const paint = () => {
+      const p = Math.min(1, Math.max(0, scrollY / max));
+      if (Math.abs(p - shown) < 0.001) return;
+      shown = p;
+      if (progress.current) progress.current.style.transform = `scaleX(${p})`;
+    };
     const frame = (t: number) => {
       lenis?.raf(t);
-      // Headlines lean into fast scrolling and settle when it stops.
-      const v = lenis ? lenis.velocity : 0;
-      skew += (Math.max(-6, Math.min(6, v * -0.12)) - skew) * 0.12;
-      const shown = skew.toFixed(2);
-      if (shown !== lastSkew) {
-        lastSkew = shown;
-        root.style.setProperty("--skew", `${shown}deg`);
-      }
-      const max = document.documentElement.scrollHeight - innerHeight;
-      if (progress.current) progress.current.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
       raf = requestAnimationFrame(frame);
     };
-    raf = requestAnimationFrame(frame);
+    if (lenis) raf = requestAnimationFrame(frame);
+    addEventListener("scroll", paint, { passive: true });
+    paint();
     const onClick = (e: MouseEvent) => {
       const a = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href^="#"]');
       if (!a) return;
@@ -45,12 +53,14 @@ export function Chrome() {
       if (!el) return;
       e.preventDefault();
       if (lenis) lenis.scrollTo(el, { offset: 0, duration: 1.4 });
-      else el.scrollIntoView();
+      else el.scrollIntoView({ behavior: "smooth" });
       history.replaceState(null, "", `#${id}`);
     };
     document.addEventListener("click", onClick);
     return () => {
       cancelAnimationFrame(raf);
+      ro.disconnect();
+      removeEventListener("scroll", paint);
       document.removeEventListener("click", onClick);
       lenis?.destroy();
     };
@@ -71,7 +81,16 @@ export function Chrome() {
     );
     const watch = () => document.querySelectorAll("[data-reveal]:not(.is-in)").forEach((el) => io.observe(el));
     watch();
-    const mo = new MutationObserver(watch);
+    // The race overlay and countdowns change the page many times a second: look for new
+    // reveal targets at most once a frame, and only when elements were added.
+    let queued = 0;
+    const mo = new MutationObserver((records) => {
+      if (queued || !records.some((r) => r.addedNodes.length)) return;
+      queued = requestAnimationFrame(() => {
+        queued = 0;
+        watch();
+      });
+    });
     mo.observe(document.body, { childList: true, subtree: true });
     return () => {
       io.disconnect();
@@ -123,17 +142,21 @@ export function Chrome() {
       ring.current?.classList.toggle("big", !!t);
       if (label.current) label.current.textContent = t?.dataset.cursor ?? "";
     };
+    // The ring eases after the pointer and the loop sleeps once it has caught up.
     const loop = () => {
       rx += (x - rx) * 0.18;
       ry += (y - ry) * 0.18;
       if (ring.current) ring.current.style.transform = `translate3d(${rx}px,${ry}px,0)`;
       if (dot.current) dot.current.style.transform = `translate3d(${x}px,${y}px,0)`;
-      raf = requestAnimationFrame(loop);
+      raf = Math.abs(x - rx) + Math.abs(y - ry) > 0.3 ? requestAnimationFrame(loop) : 0;
     };
-    addEventListener("pointermove", move);
-    raf = requestAnimationFrame(loop);
+    const wake = (e: PointerEvent) => {
+      move(e);
+      if (!raf) raf = requestAnimationFrame(loop);
+    };
+    addEventListener("pointermove", wake);
     return () => {
-      removeEventListener("pointermove", move);
+      removeEventListener("pointermove", wake);
       cancelAnimationFrame(raf);
     };
   }, []);

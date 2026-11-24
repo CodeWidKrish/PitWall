@@ -91,7 +91,7 @@ export function SiteNav({ home }: { home: boolean }) {
     setTimeout(() => {
       const l = lenis();
       if (l) l.scrollTo(el, { duration: 1.4 });
-      else el.scrollIntoView();
+      else el.scrollIntoView({ behavior: "smooth" });
     }, 420);
   };
 

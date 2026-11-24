@@ -33,7 +33,7 @@ export function HeaderShell({ children, alwaysSolid = false }: { children: React
       <div
         className={`mx-auto transition-[max-width,margin,background,border-color,border-radius,backdrop-filter] duration-700 ease-expo ${
           solid || alwaysSolid
-            ? "mt-3 max-w-[min(1240px,calc(100vw-24px))] rounded-2xl border border-white/10 bg-[rgb(11_12_14/0.72)] backdrop-blur-xl backdrop-saturate-150"
+            ? "mt-3 max-w-[min(1240px,calc(100vw-24px))] rounded-2xl border border-white/10 bg-[rgb(11_12_14/0.94)] md:bg-[rgb(11_12_14/0.72)] md:backdrop-blur-xl md:backdrop-saturate-150"
             : "mt-0 max-w-full border border-transparent"
         }`}
       >

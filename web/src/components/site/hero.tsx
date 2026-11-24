@@ -68,7 +68,7 @@ export function Hero() {
           {/* the model's top three */}
           <aside
             aria-label="The model's favourites"
-            className="hero-fav pointer-events-auto rounded-2xl border border-white/10 bg-[rgb(14_15_18/0.6)] p-4 backdrop-blur-xl [animation:heroIn_1.1s_var(--ease-out-expo)_0.5s_both] max-sm:hidden"
+            className="hero-fav pointer-events-auto rounded-2xl border border-white/10 bg-[rgb(14_15_18/0.6)] p-4 backdrop-blur-xl [animation:heroIn_1.1s_var(--ease-out-expo)_0.5s_both] max-lg:hidden"
           >
             <div className="mb-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-[#8a9099]">
               <span>Model&apos;s favourites</span>

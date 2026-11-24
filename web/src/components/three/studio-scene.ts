@@ -61,7 +61,8 @@ export async function createStudio(
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, small ? 1.5 : 2));
   renderer.toneMapping = T.NeutralToneMapping; // true-to-life colours with soft highlights
   renderer.toneMappingExposure = 1.0;
-  renderer.shadowMap.enabled = true;
+  // Soft shadows cost extra shader programs and a second pass: phones go without.
+  renderer.shadowMap.enabled = !small;
   renderer.shadowMap.type = T.PCFSoftShadowMap;
   renderer.setClearColor(0x000000, 0);
   const scene = new T.Scene();
@@ -194,9 +195,13 @@ export async function createStudio(
   canvas.addEventListener("pointerup", up);
   canvas.addEventListener("pointercancel", up);
 
+  let hostW = host.clientWidth,
+    hostH = host.clientHeight;
   const resize = () => {
     const w = host.clientWidth,
       h = host.clientHeight;
+    hostW = w;
+    hostH = h;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
@@ -209,6 +214,11 @@ export async function createStudio(
   io.observe(host);
 
   await renderer.compileAsync(scene, camera).catch(() => {});
+  // One render now, while the section is still arriving, so any remaining shader work
+  // happens here rather than in the first visible frame.
+  renderer.render(scene, camera);
+  let lastSpots = "",
+    tick = 0;
 
   const tmp = new T.Vector3();
   let raf = 0,
@@ -230,16 +240,27 @@ export async function createStudio(
     );
     camera.lookAt(look);
     renderer.render(scene, camera);
-    const w = host.clientWidth,
-      h = host.clientHeight;
-    onSpots(
-      Object.entries(SPOTS).map(([id, [fx, fy, fz]]) => {
-        tmp.set(box.min.x + size.x * fx, box.min.y + size.y * fy, box.min.z + size.z * fz);
-        const facing = tmp.clone().sub(centre).normalize().dot(camera.position.clone().sub(centre).normalize());
-        tmp.project(camera);
-        return { id, x: (tmp.x * 0.5 + 0.5) * w, y: (-tmp.y * 0.5 + 0.5) * h, visible: tmp.z < 1 && facing > -0.25 };
-      }),
-    );
+    // Move the part pins at most every other frame, and only when they have moved a pixel:
+    // each update re-renders the studio's controls.
+    if (small && ++tick % 2) return;
+    const w = hostW,
+      h = hostH;
+    const spots = Object.entries(SPOTS).map(([id, [fx, fy, fz]]) => {
+      tmp.set(box.min.x + size.x * fx, box.min.y + size.y * fy, box.min.z + size.z * fz);
+      const facing = tmp.clone().sub(centre).normalize().dot(camera.position.clone().sub(centre).normalize());
+      tmp.project(camera);
+      return {
+        id,
+        x: Math.round((tmp.x * 0.5 + 0.5) * w),
+        y: Math.round((-tmp.y * 0.5 + 0.5) * h),
+        visible: tmp.z < 1 && facing > -0.25,
+      };
+    });
+    const sig = spots.map((p) => `${p.x},${p.y},${p.visible ? 1 : 0}`).join(";");
+    if (sig !== lastSpots) {
+      lastSpots = sig;
+      onSpots(spots);
+    }
   };
   raf = requestAnimationFrame(frame);
 

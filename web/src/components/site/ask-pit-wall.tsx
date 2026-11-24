@@ -68,6 +68,33 @@ export function AskPitWall() {
   const launcher = useRef<HTMLButtonElement>(null);
   const title = useId();
   const { followId } = useFollow();
+  // On phones and tablets the button steps aside while you scroll down through content, and comes
+  // back as soon as you scroll up or stop near the end.
+  const [tucked, setTucked] = useState(false);
+  useEffect(() => {
+    let last = scrollY;
+    let idle: ReturnType<typeof setTimeout> | undefined;
+    // Over the opening race the hero's own buttons are enough.
+    const overHero = () => scrollY < innerHeight * 0.55;
+    const onScroll = () => {
+      const y = scrollY;
+      if (innerWidth >= 1024) return setTucked(false);
+      const end = y + innerHeight > document.documentElement.scrollHeight - 200;
+      if ((y > last + 6 && !end) || overHero()) setTucked(true);
+      else if (y < last - 6 || end) setTucked(false);
+      last = y;
+      clearTimeout(idle);
+      idle = setTimeout(() => setTucked(overHero()), 700);
+    };
+    onScroll();
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", onScroll);
+    return () => {
+      clearTimeout(idle);
+      removeEventListener("scroll", onScroll);
+      removeEventListener("resize", onScroll);
+    };
+  }, []);
   const followed = driver(followId);
   const teamId = followed.team_now ?? followed.team_next ?? "red_bull";
   const teamColour = team(teamId).colour;
@@ -168,9 +195,9 @@ export function AskPitWall() {
         aria-label="Ask the pit wall"
         title="Ask the pit wall"
         style={{ "--tc": teamColour } as CSSProperties}
-        className={`pit-launch group fixed bottom-[max(20px,env(safe-area-inset-bottom))] right-5 z-[90] flex h-[62px] items-center rounded-full border border-white/12 bg-[linear-gradient(180deg,rgb(24_25_30/0.94),rgb(10_11_13/0.96))] pl-3 pr-2 text-[#ecedef] shadow-[0_24px_60px_-22px_rgb(0_0_0/0.95),inset_0_1px_0_rgb(255_255_255/0.07)] backdrop-blur-xl transition-[transform,opacity,box-shadow,border-color] duration-500 ease-expo hover:-translate-y-0.5 hover:border-white/25 ${
-          open ? "pointer-events-none translate-y-4 opacity-0" : ""
-        }`}
+        className={`pit-launch group fixed bottom-[max(20px,env(safe-area-inset-bottom))] right-5 z-[90] flex h-[62px] items-center rounded-full border border-white/12 bg-[linear-gradient(180deg,rgb(24_25_30/0.94),rgb(10_11_13/0.96))] pl-3 pr-2 text-[#ecedef] shadow-[0_24px_60px_-22px_rgb(0_0_0/0.95),inset_0_1px_0_rgb(255_255_255/0.07)] transition-[transform,opacity,box-shadow,border-color] duration-500 ease-expo hover:-translate-y-0.5 hover:border-white/25 ${
+          open || tucked ? "pointer-events-none translate-y-[140%] opacity-0" : ""
+        } max-sm:right-3 max-sm:h-[50px] max-sm:pl-2`}
       >
         {/* label slides out on hover and focus */}
         <span
@@ -179,7 +206,7 @@ export function AskPitWall() {
         >
           Ask the pit wall
         </span>
-        <span className="relative block h-[46px] w-[150px]" aria-hidden="true">
+        <span className="relative block h-[46px] w-[150px] max-sm:h-[38px] max-sm:w-[112px]" aria-hidden="true">
           {/* the team colour glowing on the track under the car */}
           <span className="pit-glow pointer-events-none absolute inset-x-1 bottom-0 h-5 rounded-[50%]" />
           {/* speed lines behind the car */}

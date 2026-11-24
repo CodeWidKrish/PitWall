@@ -56,7 +56,7 @@ export function HeadToHead() {
 
   const options = grid.map((d) => (
     <option key={d.id} value={d.id}>
-      {d.name} · {team(d.team_now).name}
+      {d.code} · {d.last_name || d.name}
     </option>
   ));
   const fmt = (m: Metric, v: number | null) => (v === null ? "—" : m.fmt ? m.fmt(v) : String(v));
