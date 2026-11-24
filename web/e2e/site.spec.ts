@@ -167,6 +167,8 @@ test.describe("interactions", () => {
     const box = dialog.getByRole("combobox");
     await expect(box).toBeFocused();
     await box.fill(fav.code);
+    // The highlighted result is the driver before Enter is pressed.
+    await expect(dialog.getByRole("option", { selected: true })).toContainText(fav.name);
     await page.keyboard.press("Enter");
     await expect(page).toHaveURL(new RegExp(`/drivers/${race.odds[0].driver_id}`));
   });
