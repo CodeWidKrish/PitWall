@@ -49,6 +49,9 @@
   --sub: var(--day-sub);
   --rule: var(--day-rule);
   --panel: var(--day-panel);
+  /* Darker gain and drop on light backgrounds, for readable contrast. */
+  --gain: #0b7a43;
+  --drop: #8a5a00;
   color-scheme: light;
   background: var(--paper);
   color: var(--ink);

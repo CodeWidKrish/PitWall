@@ -3,7 +3,7 @@
 import type { CSSProperties } from "react";
 import { useFollow } from "@/components/follow";
 import { Portrait } from "@/components/ui/portrait";
-import { currentGrid, pct, site, team } from "@/lib/data";
+import { currentGrid, pct, site, team, inkOn } from "@/lib/data";
 
 /** The 2026 grid as portraits. Picking one recolours the page in that team's colour. */
 export function DriverPicker() {
@@ -60,10 +60,10 @@ export function DriverPicker() {
             </span>
             <span
               aria-hidden="true"
-              className={`absolute left-3 top-3 z-[2] rounded-full px-2 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-[#0b0c0e] transition-opacity duration-300 ${
+              className={`absolute left-3 top-3 z-[2] rounded-full px-2 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.14em] transition-opacity duration-300 ${
                 on ? "opacity-100" : "opacity-0"
               }`}
-              style={{ background: t.colour }}
+              style={{ background: t.colour, color: inkOn(t.colour) }}
             >
               Following
             </span>

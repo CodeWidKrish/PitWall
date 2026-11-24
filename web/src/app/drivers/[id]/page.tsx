@@ -110,22 +110,24 @@ export default async function DriverPage({ params }: PageProps<"/drivers/[id]">)
                   {odds.quali_position ? `, starting P${odds.quali_position}` : ""}.
                 </p>
               </div>
-              <dl className="grid content-start gap-3.5" data-reveal="list">
+              <div className="grid content-start gap-3.5">
+              <ul className="grid content-start gap-3.5" data-reveal="list" aria-label="The inputs the model reads">
                 {race.inputs.map((inp, i) => {
                   const f = inField(race, id, inp.key, inp.higher_is_better);
                   return (
-                    <div key={inp.key} className="grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_64px_70px] items-center gap-3 border-b border-rule pb-3.5 text-sm">
-                      <dt>{inp.label}</dt>
+                    <li key={inp.key} className="grid grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_64px_70px] items-center gap-3 border-b border-rule pb-3.5 text-sm">
+                      <span>{inp.label}</span>
                       <span className="h-2 overflow-hidden rounded-full bg-rule" aria-hidden="true">
                         {f.share !== null ? <i className="bar-fill" style={{ "--w": `${Math.max(4, f.share * 100)}%`, "--i": i } as CSSProperties} /> : null}
                       </span>
-                      <dd className="type-data text-right">{fmt(inp.key, f.value)}</dd>
+                      <span className="type-data text-right">{fmt(inp.key, f.value)}</span>
                       <span className="text-right font-mono text-[10px] uppercase tracking-[0.1em] text-sub">{f.rank ? `${ordinal(f.rank)} / ${f.of}` : ""}</span>
-                    </div>
+                    </li>
                   );
                 })}
+              </ul>
                 <p className="pt-2 text-sm text-sub">Where {d.last_name} sits in this weekend&apos;s field on each input the model reads. It weighs them together.</p>
-              </dl>
+              </div>
             </div>
           </section>
         ) : null}

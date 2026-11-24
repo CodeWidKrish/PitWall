@@ -147,6 +147,8 @@ export function SiteNav({ home }: { home: boolean }) {
         ? createPortal(
       <div
         id="menu"
+        inert={!open}
+        aria-hidden={!open}
         role="dialog"
         aria-modal="true"
         aria-label="Menu"

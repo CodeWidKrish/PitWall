@@ -297,7 +297,7 @@ export function CommandPalette({ home }: { home: boolean }) {
           <path d="m10.5 10.5 3 3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
         </svg>
         <span className="hidden xl:inline">Search</span>
-        <kbd className="hidden rounded border border-current/40 px-1.5 py-0.5 text-[10px] opacity-70 xl:inline">⌘K</kbd>
+        <kbd className="hidden rounded border border-current px-1.5 py-0.5 text-[10px] xl:inline">⌘K</kbd>
       </button>
 
       {mounted

@@ -3,7 +3,7 @@
 import { type CSSProperties, useId, useLayoutEffect, useRef, useState } from "react";
 import { RaceOdds } from "@/components/site/race-odds";
 import { TeamCar } from "@/components/ui/team-car";
-import { driver, type NextRace, type Odds, pct, type TeamOdds, team } from "@/lib/data";
+import { driver, inkOn, type NextRace, type Odds, pct, type TeamOdds, team } from "@/lib/data";
 
 type Session = "race" | "sprint";
 
@@ -208,7 +208,7 @@ function TeamOddsBoard({ teams, session }: { teams: TeamOdds[]; session: Session
               className={`bar-fill relative grid min-w-0 place-items-center !rounded-none transition-opacity duration-300 ${hover && hover !== t.team ? "opacity-35" : ""}`}
               style={{ "--c": tm.colour, "--w": "100%", width: `${t.p_win * 100}%`, transitionDelay: `${i * 70}ms` } as CSSProperties}
             >
-              {t.p_win > 0.08 ? <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em] text-[#0b0c0e]">{tm.short}</span> : null}
+              {t.p_win > 0.08 ? <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.1em]" style={{ color: inkOn(tm.colour) }}>{tm.short}</span> : null}
             </span>
           );
         })}

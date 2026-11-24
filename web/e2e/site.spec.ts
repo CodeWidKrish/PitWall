@@ -94,6 +94,14 @@ test.describe("pages", () => {
     expect(img.headers()["content-type"]).toContain("image/png");
   });
 
+  test("an unknown page says so and offers ways back", async ({ page }) => {
+    const res = await page.goto("/no-such-page");
+    expect(res?.status()).toBe(404);
+    await expect(page.getByRole("heading", { level: 1 })).toContainText(/racing line/i);
+    await expect(page.getByRole("link", { name: /Home/ }).first()).toBeVisible();
+    await noSidewaysScroll(page);
+  });
+
   test("a shared podium call opens with its odds", async ({ page }) => {
     const picks = race.odds.slice(0, 3).map((o) => o.driver_id).join(",");
     await page.goto(`/call?r=${race.season}-${race.round}&p=${picks}`);

@@ -66,7 +66,8 @@ export function Hero() {
           </div>
 
           {/* the model's top three */}
-          <aside
+          <div
+            role="group"
             aria-label="The model's favourites"
             className="hero-fav pointer-events-auto rounded-2xl border border-white/10 bg-[rgb(14_15_18/0.6)] p-4 backdrop-blur-xl [animation:heroIn_1.1s_var(--ease-out-expo)_0.5s_both] max-lg:hidden"
           >
@@ -101,7 +102,7 @@ export function Hero() {
               Podium for {driver(top[0].driver_id).code}: {pct(top[0].p_podium, 0)}. The race behind is a physics
               simulation of the top ten.
             </p>
-          </aside>
+          </div>
         </div>
       </div>
     </section>
