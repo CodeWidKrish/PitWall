@@ -137,7 +137,13 @@ export function CommandPalette({ home }: { home: boolean }) {
   const results = useMemo(() => {
     if (!q.trim()) return items.filter((i) => i.group !== "Drivers" || i.id === `d-${followId}`);
     const hits = items
-      .map((i) => ({ i, s: Math.max(fuzzy(q, i.label), fuzzy(q, `${i.keywords ?? ""} ${i.hint ?? ""}`) - 3) }))
+      // Typing a driver's code (VER, NOR) goes straight to that driver.
+      .map((i) => ({
+        i,
+        s:
+          Math.max(fuzzy(q, i.label), fuzzy(q, `${i.keywords ?? ""} ${i.hint ?? ""}`) - 3) +
+          (i.badge && i.badge.toLowerCase() === q.trim().toLowerCase() ? 60 : 0),
+      }))
       .filter((r) => r.s >= 0)
       .sort((a, b) => b.s - a.s)
       .slice(0, 14);

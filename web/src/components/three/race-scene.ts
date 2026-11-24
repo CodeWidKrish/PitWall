@@ -676,7 +676,19 @@ export function createRaceScene(
 
   // Swap in the realistic car once it has loaded; keep the code-built ones if it can't.
   let disposed = false;
-  void loadCarModel(small).then((model) => {
+  // On phones the detailed car waits until the page has loaded and the browser is idle,
+  // so the first view never waits on it; the code-built cars race until then.
+  const pageReady = small
+    ? new Promise<void>((resolve) => {
+        const later = () =>
+          "requestIdleCallback" in window
+            ? window.requestIdleCallback(() => setTimeout(resolve, 1200), { timeout: 4000 })
+            : setTimeout(resolve, 2500);
+        if (document.readyState === "complete") later();
+        else addEventListener("load", later, { once: true });
+      })
+    : Promise.resolve();
+  void pageReady.then(() => (disposed ? null : loadCarModel(small))).then((model) => {
     window.__pitwallModelReady = true;
     window.dispatchEvent(new Event("pitwall:model"));
     if (!model || disposed) return;

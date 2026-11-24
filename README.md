@@ -18,7 +18,8 @@
 <img src="https://img.shields.io/badge/Python-3.12-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.12">
 <img src="https://img.shields.io/badge/LightGBM-ranker-14b3a4?style=for-the-badge" alt="LightGBM">
 <br>
-<img src="https://img.shields.io/badge/tests-56%20passing-2ea043?style=for-the-badge&logo=pytest&logoColor=white" alt="56 tests passing">
+<img src="https://img.shields.io/badge/model%20tests-60%20passing-2ea043?style=for-the-badge&logo=pytest&logoColor=white" alt="60 model tests passing">
+<img src="https://img.shields.io/badge/e2e-Playwright%20·%20laptop%20%2B%20phone-2ea043?style=for-the-badge&logo=playwright&logoColor=white" alt="End-to-end tests with Playwright on a laptop and a phone">
 <img src="https://img.shields.io/badge/mypy-strict-1f5082?style=for-the-badge" alt="mypy strict">
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-8f45ff?style=for-the-badge" alt="MIT License"></a>
 <a href="https://github.com/CodeWidKrish/PitWall/stargazers"><img src="https://img.shields.io/github/stars/CodeWidKrish/PitWall?style=for-the-badge&logo=github&color=f6c177" alt="GitHub stars"></a>
@@ -112,7 +113,14 @@
 | ⌨️ | **Command palette** | <kbd>Ctrl</kbd> <kbd>K</kbd>: jump anywhere, follow a driver, switch on alerts. |
 | ⚙️ | **Updates itself** | A GitHub Action picks up qualifying, sprints and results, re-simulates, commits and redeploys. |
 
-## 🆕 What's new in v1.4.0: real cars everywhere
+## 🆕 What's new in v1.5.0: smooth, light and tested
+
+- 🧈 **Smooth scrolling:** a per-frame layout pass is gone; measured 8 → 55 fps on a laptop and about 50 fps on a throttled phone.
+- 📱 **Lighter on phones:** the detailed 3D car downloads only after the page has loaded, and not at all on slow connections; the page loads first with about 1 MB.
+- 🖼 **Share card for the homepage:** the next race and the model's top three, rebuilt with every update.
+- 🧪 **End-to-end tests:** 31 Playwright checks on a laptop and a phone run in CI on every push: pages load without errors or sideways scrolling, the odds, podium game, chat, command palette, share cards and APIs work.
+
+## 🆕 v1.4.0: real cars everywhere
 
 - 🏎 **Every team's car, rendered from the site's own 3D model** in its livery colours (side on and three-quarter), as small transparent WebP images.
 - 💬 The chat button is now the real car in the colours of the driver you follow: it drives in, rumbles and leaves speed lines on hover.
@@ -314,6 +322,7 @@ Give a team more pace over the winter, take a driver out from any round, add cha
 cd web
 npm install
 npm run dev            # http://localhost:3000
+npm run build && npm run test:e2e   # end-to-end tests, on a laptop and a phone
 ```
 
 ```bash
@@ -324,7 +333,7 @@ uv run pitwall data build          # download and verify the data
 uv run pitwall model backtest      # season-by-season backtest
 uv run pitwall model simulate      # championship odds
 uv run pitwall site export         # the data the website shows
-uv run pytest                      # 56 tests
+uv run pytest                      # 60 tests
 ```
 
 > [!TIP]

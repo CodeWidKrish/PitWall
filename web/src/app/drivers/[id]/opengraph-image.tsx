@@ -1,7 +1,6 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { pct, shortRaceName, site } from "@/lib/data";
+import { publicDataUrl } from "@/lib/og-photo";
 import { profile, profileIds } from "@/lib/profile";
 
 export const size = { width: 1200, height: 630 };
@@ -18,18 +17,7 @@ export default async function Image({ params }: { params: Promise<{ id: string }
   const p = profile(id);
   if (!p) return new ImageResponse(<div style={{ display: "flex", width: "100%", height: "100%", background: "#0b0c0e" }} />, size);
   const { d, t, race, odds, standing } = p;
-  let photo: string | null = null;
-  if (d.photo) {
-    try {
-      const buf = await readFile(join(process.cwd(), "public", "drivers", d.photo));
-      const ext = d.photo.toLowerCase().endsWith(".png") ? "png" : d.photo.toLowerCase().endsWith(".webp") ? "webp" : "jpeg";
-      photo = `data:image/${ext};base64,${buf.toString("base64")}`;
-    } catch {
-      // Public files may not be on disk where the image is rendered: fetch them instead.
-      const res = await fetch(`https://pitwallgp.vercel.app/drivers/${d.photo}`).catch(() => null);
-      if (res?.ok) photo = `data:${res.headers.get("content-type") ?? "image/jpeg"};base64,${Buffer.from(await res.arrayBuffer()).toString("base64")}`;
-    }
-  }
+  const photo = d.photo ? await publicDataUrl(`drivers/${d.photo}`) : null;
   const stat = (v: string, k: string) => (
     <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
       <div style={{ fontSize: 64, fontWeight: 800, color: "#ecedef", letterSpacing: -2 }}>{v}</div>

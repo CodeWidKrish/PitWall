@@ -183,9 +183,10 @@ function normalise(root: T.Object3D) {
 }
 
 export async function loadCarModel(small: boolean): Promise<CarModel | null> {
-  // Respect data saver: keep the lightweight code-built cars.
-  const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-  if (conn?.saveData) return null;
+  // Respect data saver and slow connections: keep the lightweight code-built cars rather
+  // than download 2 MB of car.
+  const conn = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  if (conn?.saveData || /(^|-)(2g|3g)$/.test(conn?.effectiveType ?? "")) return null;
   try {
     const head = await fetch(CAR_MODEL_URL, { method: "HEAD" });
     if (!head.ok) return null;
