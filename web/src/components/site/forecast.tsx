@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { TeamCar } from "@/components/ui/team-car";
 import { CountUp } from "@/components/ui/count-up";
 import { D, SectionHead, V } from "@/components/ui/reveal";
 import circuits from "@/data/circuits.json";
@@ -110,9 +111,10 @@ export function Forecast() {
                 return (
                   <li
                     key={r.constructor_id}
-                    className="grid grid-cols-[minmax(0,1fr)_64px] items-center gap-4 border-t border-rule pt-2.5"
+                    className="grid grid-cols-[84px_minmax(0,1fr)_64px] items-center gap-4 border-t border-rule pt-2.5 max-sm:grid-cols-[64px_minmax(0,1fr)_56px]"
                     style={{ "--c": t.colour, "--i": i } as CSSProperties}
                   >
+                    <TeamCar id={r.constructor_id} className="w-full" />
                     <span className="grid gap-2">
                       <span className="flex justify-between text-[15px]">
                         {t.name}

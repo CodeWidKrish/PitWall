@@ -1,9 +1,10 @@
 "use client";
 
-import { type FormEvent, Fragment, useCallback, useEffect, useId, useRef, useState } from "react";
+import { type CSSProperties, type FormEvent, Fragment, useCallback, useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { CarMark } from "@/components/ui/car-mark";
-import { driver, shortRaceName, site } from "@/lib/data";
+import Image from "next/image";
+import { useFollow } from "@/components/follow";
+import { driver, shortRaceName, site, team } from "@/lib/data";
 
 interface Turn {
   role: "user" | "assistant";
@@ -66,6 +67,10 @@ export function AskPitWall() {
   const log = useRef<HTMLDivElement>(null);
   const launcher = useRef<HTMLButtonElement>(null);
   const title = useId();
+  const { followId } = useFollow();
+  const followed = driver(followId);
+  const teamId = followed.team_now ?? followed.team_next ?? "red_bull";
+  const teamColour = team(teamId).colour;
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- portal target and saved chat exist only after mount
@@ -162,25 +167,37 @@ export function AskPitWall() {
         aria-expanded={open}
         aria-label="Ask the pit wall"
         title="Ask the pit wall"
-        className={`pit-launch group fixed bottom-[max(20px,env(safe-area-inset-bottom))] right-5 z-[90] flex h-[60px] items-center rounded-full border border-white/12 bg-[rgb(14_15_18/0.9)] pl-2 pr-3 text-[#ecedef] shadow-[0_24px_60px_-22px_rgb(0_0_0/0.9),inset_0_1px_0_rgb(255_255_255/0.06)] backdrop-blur-xl transition-[transform,opacity,box-shadow] duration-500 ease-expo hover:-translate-y-0.5 hover:shadow-[0_28px_70px_-20px_color-mix(in_oklab,var(--you)_45%,transparent),inset_0_1px_0_rgb(255_255_255/0.08)] ${
+        style={{ "--tc": teamColour } as CSSProperties}
+        className={`pit-launch group fixed bottom-[max(20px,env(safe-area-inset-bottom))] right-5 z-[90] flex h-[62px] items-center rounded-full border border-white/12 bg-[linear-gradient(180deg,rgb(24_25_30/0.94),rgb(10_11_13/0.96))] pl-3 pr-2 text-[#ecedef] shadow-[0_24px_60px_-22px_rgb(0_0_0/0.95),inset_0_1px_0_rgb(255_255_255/0.07)] backdrop-blur-xl transition-[transform,opacity,box-shadow,border-color] duration-500 ease-expo hover:-translate-y-0.5 hover:border-white/25 ${
           open ? "pointer-events-none translate-y-4 opacity-0" : ""
         }`}
       >
         {/* label slides out on hover and focus */}
         <span
           aria-hidden="true"
-          className="grid max-w-0 overflow-hidden whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.14em] opacity-0 transition-[max-width,opacity,margin] duration-500 ease-expo group-hover:ml-3 group-hover:max-w-[180px] group-hover:opacity-100 group-focus-visible:ml-3 group-focus-visible:max-w-[180px] group-focus-visible:opacity-100"
+          className="grid max-w-0 overflow-hidden whitespace-nowrap font-mono text-[11px] uppercase tracking-[0.14em] opacity-0 transition-[max-width,opacity,margin] duration-500 ease-expo group-hover:mr-2 group-hover:max-w-[180px] group-hover:opacity-100 group-focus-visible:mr-2 group-focus-visible:max-w-[180px] group-focus-visible:opacity-100"
         >
           Ask the pit wall
         </span>
-        <span className="relative block h-[46px] w-[112px]" aria-hidden="true">
+        <span className="relative block h-[46px] w-[150px]" aria-hidden="true">
+          {/* the team colour glowing on the track under the car */}
+          <span className="pit-glow pointer-events-none absolute inset-x-1 bottom-0 h-5 rounded-[50%]" />
           {/* speed lines behind the car */}
-          <span className="pit-streaks pointer-events-none absolute inset-y-2 -left-3 w-10">
+          <span className="pit-streaks pointer-events-none absolute inset-y-2 -left-4 w-12">
             <i />
             <i />
             <i />
           </span>
-          <CarMark className="pit-car absolute inset-0 h-full w-full" />
+          <Image
+            key={teamId}
+            src={`/cars/${teamId}-side.webp`}
+            alt=""
+            width={640}
+            height={159}
+            unoptimized
+            priority
+            className="pit-car absolute inset-x-0 bottom-[5px] h-auto w-full drop-shadow-[0_6px_6px_rgb(0_0_0/0.7)]"
+          />
         </span>
       </button>
 
@@ -199,15 +216,28 @@ export function AskPitWall() {
                   open ? "translate-x-0" : "translate-x-full"
                 }`}
               >
-                <header className="flex items-start justify-between gap-4 border-b border-white/10 px-6 pb-5 pt-6">
+                <header
+                  style={{ "--tc": teamColour } as CSSProperties}
+                  className="relative flex items-start justify-between gap-4 overflow-hidden border-b border-white/10 px-6 pb-6 pt-[118px]"
+                >
+                  <span aria-hidden="true" className="pointer-events-none absolute -right-10 -top-16 size-72 rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--tc)_38%,transparent),transparent_68%)]" />
+                  <Image
+                    key={`${teamId}-hero`}
+                    src={`/cars/${teamId}-hero.webp`}
+                    alt=""
+                    aria-hidden="true"
+                    width={820}
+                    height={282}
+                    unoptimized
+                    className={`pointer-events-none absolute right-2 top-5 h-auto w-[300px] drop-shadow-[0_18px_18px_rgb(0_0_0/0.75)] ${open ? "[animation:carIn_1s_var(--ease-out-expo)_.15s_both]" : "opacity-0"}`}
+                  />
                   <div className="grid gap-1.5">
-                    <CarMark className="mb-1 h-9 w-[100px] [animation:carIn_.9s_var(--ease-out-expo)_both]" />
                     <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-[#8a9099]">Team radio · PitWall data only</span>
                     <h2 id={title} className="type-voice text-[30px] leading-none">
                       Ask the pit wall
                     </h2>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="absolute left-5 top-5 z-[1] flex gap-2">
                     {turns.length ? (
                       <button
                         type="button"

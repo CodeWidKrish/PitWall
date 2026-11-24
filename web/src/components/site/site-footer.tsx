@@ -3,6 +3,7 @@ import type { CSSProperties } from "react";
 import { Countdown } from "@/components/site/countdown";
 import { AddToCalendar } from "@/components/ui/add-to-calendar";
 import { DataFreshness } from "@/components/ui/data-freshness";
+import { FooterDrive } from "@/components/site/footer-drive";
 import { Logo, LogoMark } from "@/components/ui/logo";
 import { driver, pct, shortRaceName, site, team } from "@/lib/data";
 import { REPO_URL } from "@/lib/links";
@@ -183,8 +184,9 @@ export function SiteFooter() {
         ))}
       </div>
 
-      {/* Giant wordmark */}
+      {/* Giant wordmark, with your team's car crossing it */}
       <div className="wrap" aria-hidden="true">
+        <FooterDrive />
         <div className="flex items-end gap-[2vw] border-t border-rule pt-10">
           <LogoMark className="h-[clamp(60px,14vw,210px)] w-auto flex-none text-ink" />
           <p className="giant" style={{ fontSize: "clamp(84px, 19vw, 300px)" }} data-cursor="PitWall">
@@ -194,7 +196,7 @@ export function SiteFooter() {
       </div>
 
       {/* Bottom bar */}
-      <div className="wrap grid gap-4 py-8 font-mono text-[11px] uppercase leading-relaxed tracking-[0.1em] text-sub md:grid-cols-[1fr_auto_1fr] md:items-center">
+      <div className="wrap grid gap-4 pb-28 pt-8 font-mono text-[11px] uppercase leading-relaxed tracking-[0.1em] text-sub md:grid-cols-[1fr_auto_1fr] md:items-center md:pb-8 md:pr-[220px]">
         <span>
           © {year} PitWall · <DataFreshness builtAt={site.built_at} />
         </span>

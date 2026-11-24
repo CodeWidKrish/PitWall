@@ -2,6 +2,7 @@
 
 import { type CSSProperties, useId, useLayoutEffect, useRef, useState } from "react";
 import { RaceOdds } from "@/components/site/race-odds";
+import { TeamCar } from "@/components/ui/team-car";
 import { driver, type NextRace, type Odds, pct, type TeamOdds, team } from "@/lib/data";
 
 type Session = "race" | "sprint";
@@ -236,7 +237,7 @@ function TeamOddsBoard({ teams, session }: { teams: TeamOdds[]; session: Session
               >
                 <th scope="row" className="py-3 font-normal">
                   <span className="flex items-center gap-3">
-                    <i className="h-6 w-1 rounded-full bg-[var(--c)]" aria-hidden="true" />
+                    <TeamCar id={t.team} className="w-[84px] max-sm:w-[60px]" />
                     <span className="type-voice text-lg leading-none">{tm.name}</span>
                   </span>
                 </th>
