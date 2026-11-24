@@ -112,7 +112,25 @@
 | ⌨️ | **Command palette** | <kbd>Ctrl</kbd> <kbd>K</kbd>: jump anywhere, follow a driver, switch on alerts. |
 | ⚙️ | **Updates itself** | A GitHub Action picks up qualifying, sprints and results, re-simulates, commits and redeploys. |
 
-## 🆕 What's new in v1.3.0: the pit wall talks
+## 🆕 What's new in v1.4.0: real cars everywhere
+
+- 🏎 **Every team's car, rendered from the site's own 3D model** in its livery colours (side on and three-quarter), as small transparent WebP images.
+- 💬 The chat button is now the real car in the colours of the driver you follow: it drives in, rumbles and leaves speed lines on hover.
+- 🏭 Team odds and the 2027 constructors list show each team's car driving in as the rows appear, and your team's car crosses the footer.
+
+<div align="center">
+<img src="docs/assets/chat.gif" alt="Ask the pit wall: the car button opens the chat, a suggested question is asked, and the answer explains Verstappen's odds from his inputs, with the data it used listed" width="900">
+<br>
+<sub>Recorded on the site: the question is answered from Verstappen's real inputs, and the chip shows the data used.</sub>
+</div>
+
+<br>
+
+<div align="center">
+<img src="docs/screens/team-cars.jpg" alt="Team odds for the next race, each team shown with its own rendered car" width="900">
+</div>
+
+## 🆕 v1.3.0: the pit wall talks
 
 - 💬 **Ask the pit wall:** questions answered by `gpt-oss-120b` on Groq, but only through read-only tools over PitWall's own data. It ranks a driver's inputs against the field, runs what-ifs on the simulator, says when it doesn't have something, and refuses betting advice.
 - 🪪 **Driver pages** for the whole grid, each with a generated preview card for sharing.
@@ -408,7 +426,7 @@ A CC BY 4.0 model, cleaned of every logo and number and repainted per team in a 
 
 - **Results:** [Jolpica F1 API](https://github.com/jolpica/jolpica-f1). **Weather:** [Open-Meteo](https://open-meteo.com/).
 - **Driver photos, footage and engine recordings:** Wikimedia Commons, each under its own free licence; authors and licences are on the site's [credits page](https://pitwallgp.vercel.app/credits).
-- **3D car:** "2026 Mercedes W17" by Dave Love (Tyler_Dave) on Sketchfab, CC BY 4.0. Logos, number and tyre lettering removed and repainted per team; the model file is not in this repository.
+- **3D car:** "2026 Mercedes W17" by Dave Love (Tyler_Dave) on Sketchfab, CC BY 4.0. Logos, number and tyre lettering removed and repainted per team; the model file is not in this repository. The team car images in `web/public/cars` are renders of it.
 - **Circuit layouts:** [f1-circuits](https://github.com/bacinger/f1-circuits) by Tomislav Bacinger, MIT.
 - **Race highlights:** by FORMULA 1, linked on YouTube.
 
